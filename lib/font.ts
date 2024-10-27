@@ -1,13 +1,12 @@
-import { Inter, Space_Grotesk } from "next/font/google";
-
-export const interFont = Inter({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+import LocalFont from "next/font/local";
+export const interFont = LocalFont({
+  src: "../app/fonts/inter.ttf",
   variable: "--font-inter",
+  weight: "100 200 300 400 500 700 800 900",
 });
 
-export const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+export const spaceGrotesk = LocalFont({
+  src: "../app/fonts/space_grotestk.ttf",
   variable: "--font-space-grotesk",
+  weight: "300 400 500 700",
 });

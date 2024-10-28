@@ -10,14 +10,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
   const { setTheme, resolvedTheme: currentTheme } = useTheme();
-  console.log(currentTheme);
-
+  const [render, setRender] = useState(false);
+  useEffect(function () {
+    setRender(true);
+  }, []);
+  if (!render) return null;
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className="bg-transparent">
         <Button
           size="icon"
           variant={"outline"}
@@ -48,7 +52,7 @@ export function ThemeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="px-4 py-3">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           <Image
             src={"/icons/sun.svg"}

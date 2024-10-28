@@ -4,7 +4,6 @@ import { ROUTES } from "@/constants/routes";
 
 export default async function Home() {
   const session = await auth();
-  console.log(session);
   return (
     <main className="mr-0 flex min-h-screen w-full flex-col items-center justify-center px-1">
       <form

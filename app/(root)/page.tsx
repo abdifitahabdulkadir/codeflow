@@ -1,24 +1,10 @@
-import { auth, signOut } from "@/auth";
-import { Button } from "@/components/ui/button";
-import { ROUTES } from "@/constants/routes";
+import { auth } from "@/auth";
 
 export default async function Home() {
   const session = await auth();
   return (
-    <main className="mr-0 flex min-h-screen w-full flex-col items-center justify-center px-1">
-      <form
-        className="flex h-fit w-fit flex-col gap-4"
-        action={async () => {
-          "use server";
-          await signOut({
-            redirectTo: ROUTES.SIGN_IN,
-          });
-        }}
-      >
-        <Button type="submit" className="bg-black text-white">
-          Logout
-        </Button>
-      </form>
+    <main className="mr-0 flex min-h-screen w-full flex-col px-10">
+      <h5>Welcome to home screen</h5>
     </main>
   );
 }

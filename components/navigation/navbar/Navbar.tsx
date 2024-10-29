@@ -22,7 +22,7 @@ export default async function Navbar() {
           <span className="text-primary-400">Flow</span>
         </p>
       </Link>
-      <p className="">GloablSerach</p>
+      <p className="w-fit px-10">GloablSerach</p>
       <div className="flex-between items-center gap-5">
         <ThemeToggle />
         {session?.user && (

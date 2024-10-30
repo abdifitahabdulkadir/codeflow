@@ -1,9 +1,12 @@
 "use client";
 
-import { removeUrlQueryParams, updateUrlQueryParams } from "@/lib/url";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import { useEffect, useState } from "react";
+
+import { removeUrlQueryParams, updateUrlQueryParams } from "@/lib/url";
+
 import { Input } from "../ui/input";
 
 interface LocalSeachBarProps {
@@ -46,7 +49,7 @@ export default function LocalSeachBar({
       return () => clearTimeout(debounceDelayFn);
     },
 
-    [searchQuery, route, pathName],
+    [searchQuery, route, pathName,router,searchParams],
   );
 
   return (

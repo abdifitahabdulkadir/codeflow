@@ -6,33 +6,54 @@
     "plugin:tailwindcss/recommended",
     "prettier"
   ],
-  "plugins": ["import"],
+  "plugins": ["import", "tailwindcss"],
   "rules": {
-    "import/order": [
-      "error",
+"import/order": [
+  "error",
+  {
+    "groups": [
+      "builtin",
+      "external",
+      "internal",
+      ["parent", "sibling"],
+      "index",
+      "object"
+    ],
+    "newlines-between": "always",
+    "pathGroups": [
       {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          ["parent", "sibling"],
-          "index",
-          "object"
-        ],
-        "newlines-between": "always",
-        "pathGroups": [
-          {
-            "pattern": "@app/**",
-            "group": "external",
-            "position": "after"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": ["builtin"],
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
+        "pattern": "next-auth/**",
+        "group": "external",
+        "position": "before"
+      },
+      {
+        "pattern": "next/**",
+        "group": "external",
+        "position": "before"
+      },
+      {
+        "pattern": "@app/**",
+        "group": "internal",
+        "position": "after"
       }
-    ]
+    ],
+    "pathGroupsExcludedImportTypes": ["builtin"],
+    "alphabetize": {
+      "order": "asc",
+      "caseInsensitive": true
+    }
   }
+]
+,
+
+    "tailwindcss/classnames-order": "error"  
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ]
 }

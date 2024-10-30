@@ -1,12 +1,12 @@
-import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
-import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/constants/routes";
+
 import NavLinks from "./navbar/NavLinks";
 
-export default async function LeftSidebar() {
-  const session = await auth();
+export default  function LeftSidebar() {
   return (
     <section className="background-light900_dark200 light-border custom-scrollbar sticky left-0 top-0 flex h-screen flex-col justify-between overflow-y-auto border-r p-6 pt-36 shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[266px]">
       <NavLinks isMobile />

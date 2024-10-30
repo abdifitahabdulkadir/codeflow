@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 import { ROUTES } from "@/constants/routes";
 import { formatTimeAgo } from "@/lib/utils";
-import Link from "next/link";
+
 import Metric from "../Metric";
 import TagCard from "./TagCard";
 
@@ -26,7 +28,7 @@ export default function QuesionCard({
           {time}
         </span>
         <Link href={ROUTES.QUESION(_id)}>
-          <h3 className="sm:semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">
+          <h3 className="base-semibold text-dark200_light900 line-clamp-1 flex-1 sm:font-semibold">
             {title}
           </h3>
         </Link>

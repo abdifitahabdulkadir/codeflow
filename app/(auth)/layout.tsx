@@ -1,6 +1,8 @@
-import SocailAuthForm from "@/components/Forms/SocailAuthForm";
 import Image from "next/image";
+
 import { ReactNode } from "react";
+
+import SocailAuthForm from "@/components/Forms/SocailAuthForm";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (

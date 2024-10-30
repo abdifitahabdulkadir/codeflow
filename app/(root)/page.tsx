@@ -1,18 +1,18 @@
-import { auth } from "@/auth";
+import Link from "next/link";
+
 import QuesionCard from "@/components/cards/QuesionCard";
 import HomeFilters from "@/components/Filters/HomeFilters";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { Button } from "@/components/ui/button";
 import { questions } from "@/constants/quesions";
 import { ROUTES } from "@/constants/routes";
-import Link from "next/link";
 
 interface HomeProps {
   searchParams: Promise<{ [key: string]: string }>;
 }
+
 export default async function Home({ searchParams }: HomeProps) {
-  const session = await auth();
-  const { query = "" } = await searchParams;
+    const { query = "" } = await searchParams;
   const filterdQuestions = questions.filter((question) => {
     return question.title.toLowerCase().includes(query.toLocaleLowerCase());
   });

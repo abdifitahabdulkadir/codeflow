@@ -1,9 +1,13 @@
+import { SessionProvider } from "next-auth/react";
+
+import type { Metadata } from "next";
+import { ReactNode } from "react";
+
+
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/context/themeProvider";
 import { interFont, spaceGrotesk } from "@/lib/font";
-import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +18,7 @@ export const metadata: Metadata = {
 export default async function AppLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children:ReactNode;
 }>) {
   const session = await auth();
   return (
@@ -35,6 +39,7 @@ export default async function AppLayout({
             attribute="class"
             defaultTheme="system"
             enableSystem
+            themes={["dark", "light"]}
           >
             {children}
           </ThemeProvider>

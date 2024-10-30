@@ -1,8 +1,9 @@
 "use client";
 
+import { signOut } from "next-auth/react";
+
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
-import { signOut } from "next-auth/react";
 
 export default function SignoutButton() {
   return (
@@ -12,6 +13,7 @@ export default function SignoutButton() {
           redirectTo: ROUTES.SIGN_IN,
         });
       }}
+      // eslint-disable-next-line tailwindcss/no-custom-classname
       className="btn-secondary small-medium !text-dark400_light900 w-full rounded-lg px-4 py-3 text-center shadow-none"
     >
       {/* <Image

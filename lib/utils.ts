@@ -1,6 +1,7 @@
-import { icons } from "@/constants/techmap";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+
+import { icons } from "@/constants/techmap";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

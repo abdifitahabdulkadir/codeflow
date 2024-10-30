@@ -1,13 +1,15 @@
 "use client";
 
-import { toast } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
-import Error from "next/error";
+
 import Image from "next/image";
+
+import { toast } from "@/hooks/use-toast";
+
 import { Button } from "../ui/button";
 
 const buttonClass =
-  "text-dark200_light800 background-dark400_light900 body-meduium min-h-12 flex-1 rounded-2 px-4 py-3.5 text-dark200_light800 background-dark400_light900 body-meduium min-h-12  transition-colors duration-300 hover:opacity-80  flex-1 rounded-2 px-4 py-3.5";
+  "text-dark200_light800 background-dark400_light900 body-meduium min-h-12 flex-1 rounded-2 px-4 py-3.5 text-dark200_light800 background-dark400_light900 body-meduium min-h-12  transition-colors duration-300 hover:opacity-80    flex-1 rounded-2 px-4 py-3.5";
 
 export default function SocailAuthForm() {
   // hanlde form submit
@@ -29,7 +31,7 @@ export default function SocailAuthForm() {
     }
   };
   return (
-    <div className="mt-10 flex flex-wrap items-start gap-2.5">
+    <div className=" mt-10 flex flex-wrap items-start gap-2.5">
       <Button className={buttonClass} onClick={() => handleAuth("github")}>
         <Image
           src={"/icons/github.svg"}

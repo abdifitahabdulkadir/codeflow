@@ -1,7 +1,7 @@
 import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
-import TagCard from "./cards/TagCard";
+import TagCard from "../cards/TagCard";
 
 const hotQuesions = [
   {

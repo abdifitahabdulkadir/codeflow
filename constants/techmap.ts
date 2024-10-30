@@ -70,4 +70,14 @@ export const icons: { [key: string]: string } = {
   selenium: "devicon-selenium-plain",
   nextjs: "devicon-nextjs-plain",
   c: "devicon-c-plain",
+  bash: "devicon-bash-plain",
+  redux: "devicon-redux-original",
+  tailwindcss: "devicon-tailwindcss-plain",
+  bootstrap: "devicon-bootstrap-plain",
+  materialui: "devicon-materialui-plain",
+  bulma: "devicon-bulma-plain",
+  jquery: "devicon-jquery-plain",
+  electron: "devicon-electron-original",
+  swiftui: "devicon-swift-plain", // using swift for swiftui as no icon exists
+  nestjs: "devicon-nestjs-plain",
 };

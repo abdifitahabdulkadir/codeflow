@@ -6,4 +6,5 @@ export const ROUTES = {
   RESET_PASSWORD: "/reset-password",
   QUESION: (id: string) => `/question/${id}`,
   TAGS: (id: string) => `/tags/${id}`,
+  ASK_QUEISION: "/ask-question",
 };

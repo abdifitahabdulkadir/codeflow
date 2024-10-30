@@ -12,9 +12,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <div className="flex min-h-screen flex-1 px-6 pb-6 pt-36 max-md:px-14 sm:px-14">
           <div className="mx-auto w-full max-w-5xl">{children}</div>
         </div>
-        <div>
-          <RightSidebar />
-        </div>
+
+        <RightSidebar />
       </section>
     </main>
   );

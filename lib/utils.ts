@@ -7,5 +7,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getDevCLass(techName: string) {
-  return `${icons[techName.toLowerCase()]}  ` || "devicon-default-plain";
+  return `${icons[techName.toLowerCase()]} colored ` || "devicon-default-plain";
 }

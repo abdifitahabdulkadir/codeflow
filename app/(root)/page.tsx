@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import HomeFilters from "@/components/Filters/HomeFilters";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
@@ -91,7 +92,8 @@ export default async function Home({ searchParams }: HomeProps) {
         />
       </section>
 
-      <div>home filters</div>
+      <HomeFilters />
+
       <div className="mt-10 flex w-full flex-col gap-3">
         {filterdQuestions.map((question) => (
           <h2 key={question.id}>{question.title}</h2>

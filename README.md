@@ -1,7 +1,9 @@
 
-# EasyMart
+# CodeFlow
 
-<img src="https://github.com/abdifitahabdulkadir/easymart/blob/d9a3910052675b9b745ab0c1a8e1eab2bf905e8c/bg.png" alt="easymart image" style="width: 100%; height: 500px; margin: 20px auto; display: block;" />
+
+<img src="https://github.com/abdifitahabdulkadir/codeflow/blob/67123d8e6fd32ee695ded24b6cb69526ea1c2df4/logo.jpg" alt="Codeflow Logo" style="width: 100%; height: 500px; margin: 20px auto; display: block;" />
+
 
 ## 📝 Description
 Welcome to CodeFlow, A better and yet alternative platform for Stack Overflow, with an AI integrate for better functionality and user experience.

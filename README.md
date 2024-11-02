@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# CodeFlow
 
-First, run the development server:
+
+<img src="https://github.com/abdifitahabdulkadir/codeflow/blob/67123d8e6fd32ee695ded24b6cb69526ea1c2df4/logo.jpg" alt="Codeflow Logo" style="width: 100%; height: 500px; margin: 20px auto; display: block;" />
+
+
+## 📝 Description
+Welcome to CodeFlow, A better and yet alternative platform for Stack Overflow, with an AI integrate for better functionality and user experience.
+
+## 🚀 Technogies
+
+Here are Technogies used for building this project.
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+  <img src="https://img.shields.io/npm/v/next?style=for-the-badge&logoColor=blue&logoSize=100&label=Nextjs&labelColor=%224A4947%22&color=black" alt="Nextjs Version" />
+  <img src="https://img.shields.io/npm/v/react?style=for-the-badge&logoColor=blue&logoSize=100&label=Reactjs&labelColor=227B94&color=black" alt="Reactjs Version" />
+  <img src="https://img.shields.io/npm/v/typescript?style=for-the-badge&logoColor=blue&logoSize=100&label=Typescript&labelColor=08C2FF&color=black" alt="Typescript Version" />
+  <img src="https://img.shields.io/npm/v/tailwindcss?style=for-the-badge&logoColor=blue&logoSize=100&label=Tailwind.css&labelColor=0a83c9&color=black" alt="Tailwind CSS Version" />
+  <img src="https://img.shields.io/npm/v/openai?style=for-the-badge&logoSize=100&label=Open%20AI&labelColor=000B58" alt="Open AI Version" />
+  <img src="https://img.shields.io/npm/v/next-auth?style=for-the-badge&logoSize=100&label=Authjs&labelColor=7E60BF" alt="Authjs Version" />
+  <img src="https://img.shields.io/npm/v/shadcn?style=for-the-badge&logoSize=100&label=ShadCN&labelColor=000000" alt="ShadCN Version" />
+  <img src="https://img.shields.io/npm/v/mongodb?style=for-the-badge&logoSize=100&label=Mongodb&labelColor=347928" alt="Mongodb Version" />
+  <img src="https://img.shields.io/npm/v/zod?style=for-the-badge&logoSize=100&label=ZOD&labelColor=1A3636" alt="ZOD Version" />
+</div>
+
+
+## 🌐 Demo
+Here is a working live demo: Caming...
+
+## 💼 Assets
+He is the figma design link so head 👉 [figma design](https://www.figma.com/design/45XfZD6skb6G24EFvDqNkB/JSM-Pro---DevOverflow---mine?t=EC7Wq8RLk7dbDpjh-0)
+
+## 🛠️ Setup Project
+### 🍴 Prerequisites
+
+We need to install or make sure that these tools are pre-installed on your machine:
+
+- [NodeJS](https://nodejs.org/en/download/): It is a JavaScript runtime build. 
+- [Git](https://git-scm.com/downloads): It is an open source version control system. 
+
+
+Clone the project
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  https://github.com/abdifitahabdulkadir/codeflow.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Go to the project directory
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+  cd codeflow
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Install dependencies
 
-## Learn More
+```bash
+  npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+Start the server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+  npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## 🤔 FAQ
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Is this proejct open source?
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Yes, It is open source proejct, feel free to contribute, clone and even learn by your own self.
+
+#### Is this project finished or still in process?
+
+It is still in development, lacking a lot of features which will be soon in caming weeks and months.
+
+#### Can I use this project for my own?
+
+No, you cannot use this project entirely for your own purposes. However, feel free to contribute, and if you use it, please provide proper credit and respect the copyright.
+
+
+## 📋 License
+MIT -license

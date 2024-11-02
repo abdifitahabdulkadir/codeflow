@@ -1,16 +1,28 @@
 "use client";
 
 
+import dynamic from "next/dynamic";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+import { MDXEditorMethods } from "@mdxeditor/editor";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 
 import { AskQuestionSchema } from "@/lib/validations";
+
 
 import { Button } from "../ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 
+
+// This is the only place InitializedMDXEditor is imported directly.
+const Editor = dynamic(() => import("@/components/Editor/Editor"), {
+  // Make sure we turn SSR off
+  ssr: false
+})
 export default function QuesionForm() {
+  const editorRef = useRef<MDXEditorMethods>(null);
     const form=useForm({
         resolver:zodResolver(AskQuestionSchema),
         defaultValues:{
@@ -53,15 +65,14 @@ export default function QuesionForm() {
             <FormField
             control={form.control}
               name={"content"}
-              render={() => (
+              render={(item) => (
                 <FormItem>
                   <FormLabel className="paragraph-semibold text-dark400_light800">
-                 Detailed Explaination of your problem <span className="text-primary-400">*</span>
+                 Detailed Explaination of your problem 
+                 <span className="text-primary-400">*</span>
                   </FormLabel>
                   <FormControl>
-                   <div>
-                    edtor
-                   </div>
+                  <Editor value={item.field.value} fieldChange={item.field.onChange} editorRef={editorRef}/>
                   </FormControl>
                   <FormDescription className="body-regular mt-2.5 text-light-500">
                    Introduce your problem and expand what you have put in the title.

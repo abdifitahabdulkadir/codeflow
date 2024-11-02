@@ -1,7 +1,12 @@
+import QuesionForm from "@/components/Forms/QuesionForm";
+
 export default function AskQuesionPage() {
   return (
-    <div className="flex min-h-screen w-full items-center justify-center">
-      <h6>Ask quesion page will be here</h6>
-    </div>
+    <>
+      <h1 className="h1-bold text-dark100_light900 ">Ask a Quesion To the Public</h1>
+      <div className="mt-10">
+      <QuesionForm />
+      </div>
+    </>
   );
 }

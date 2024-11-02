@@ -21,7 +21,7 @@ export default function LocalSeachBar({
   placeholder,
   otherClasses,
   route,
-}: LocalSeachBarProps) {
+}:LocalSeachBarProps){
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathName = usePathname();

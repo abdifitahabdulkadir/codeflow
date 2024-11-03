@@ -1,121 +1,202 @@
 "use client";
 
-
 import dynamic from "next/dynamic";
 
+import { AskQuestionSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { AskQuestionSchema } from "@/lib/validations";
-
-
+import { AnimatePresence, motion } from "framer-motion";
+import TagCard from "../cards/TagCard";
 import { Button } from "../ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
-
-
+import {
+  FormFieldItem,
+  FormLabel,
+  FromDescription,
+  FromErrorElement,
+} from "./FormElements";
 // This is the only place InitializedMDXEditor is imported directly.
 const Editor = dynamic(() => import("@/components/Editor/Editor"), {
   // Make sure we turn SSR off
-  ssr: false
-})
+  ssr: false,
+});
+
 export default function QuesionForm() {
   const editorRef = useRef<MDXEditorMethods>(null);
-    const form=useForm({
-        resolver:zodResolver(AskQuestionSchema),
-        defaultValues:{
-            title:"",
-            content:""  ,
-            tags:[]
-        }
-    })
 
-    const handleAskQuesion=()=>{
+  const {
+    register,
+    handleSubmit,
+    clearErrors,
+    setValue,
+    setError,
+    getValues,
+    formState: { errors },
+  } = useForm<z.infer<typeof AskQuestionSchema>>({
+    resolver: zodResolver(AskQuestionSchema),
+    defaultValues: {
+      title: "",
+      content: "",
+      tags: [],
+    },
+  });
 
+  const handleInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    field: string[],
+  ) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const tagInput = e.currentTarget.value.trim();
+
+      if (field.length >= 3) {
+        setError("tags", {
+          type: "manual",
+          message: "You can only add upto 3 tags",
+        });
+      } else if (
+        tagInput &&
+        tagInput.length < 15 &&
+        !field.includes(tagInput)
+      ) {
+        setValue("tags", [...field, tagInput]);
+        e.currentTarget.value = "";
+        clearErrors("tags");
+      } else if (tagInput.length > 15) {
+        setError("tags", {
+          type: "manual",
+          message: "Tag should be less than 15 characters",
+        });
+      } else if (field.includes(tagInput)) {
+        setError(
+          "tags",
+          {
+            type: "manual",
+            message: "Tag already exists",
+          },
+          { shouldFocus: true },
+        );
+      }
     }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    const newTags = getValues("tags").filter((tag) => tag !== tagToRemove);
+    setValue("tags", newTags, { shouldValidate: true, shouldDirty: true });
+  };
+
+  const handleAskQuesion = (data: z.infer<typeof AskQuestionSchema>) => {
+    console.log("data ", data);
+  };
+
   return (
-    <Form {...form} >
-       <form onSubmit={form.handleSubmit(handleAskQuesion)} className="flex w-full flex-col gap-10">
-       <FormField
-            control={form.control}
-              name={"title"}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="paragraph-semibold text-dark400_light800">
-                  Question Title <span className="text-primary-400">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                    {...field}
-                     type="text"
-                      className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px]  border"
-                    />
-                  </FormControl>
-                  <FormDescription className="body-regular mt-2.5 text-light-500">
-                    Be specific and Imagine Your are asking question to another person.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <form
+      onSubmit={handleSubmit(handleAskQuesion)}
+      className="flex w-full flex-col gap-10"
+    >
+      {/* title */}
+      <FormFieldItem>
+        <FormLabel>
+          Question Title
+          <span className="text-primary-400">*</span>
+        </FormLabel>
+        <Input
+          {...register("title")}
+          type="text"
+          className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
+        />
+        {errors?.title && (
+          <FromErrorElement>{errors.title.message}</FromErrorElement>
+        )}
+      </FormFieldItem>
 
-            {/* content input fiedl */}
-            <FormField
-            control={form.control}
-              name={"content"}
-              render={(item) => (
-                <FormItem>
-                  <FormLabel className="paragraph-semibold text-dark400_light800">
-                 Detailed Explaination of your problem 
-                 <span className="text-primary-400">*</span>
-                  </FormLabel>
-                  <FormControl>
-                  <Editor value={item.field.value} fieldChange={item.field.onChange} editorRef={editorRef}/>
-                  </FormControl>
-                  <FormDescription className="body-regular mt-2.5 text-light-500">
-                   Introduce your problem and expand what you have put in the title.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      {/* content input field */}
+      <FormFieldItem>
+        <FormLabel>
+          Describe your problem
+          <span className="text-primary-400">*</span>
+        </FormLabel>
+        <Editor
+          value={getValues("content")}
+          fieldChange={(value: string) => {
+            if (value.length > 1) {
+              clearErrors("content");
+            }
+            setValue("content", value);
+          }}
+          editorRef={editorRef}
+        />
+        <FromDescription>
+          Introduce your problem and expand what you have put in the title. be
+          specific and clear.
+        </FromDescription>
+        {errors?.content && (
+          <FromErrorElement>{errors.content.message}</FromErrorElement>
+        )}
+      </FormFieldItem>
 
-            {/* tags */}
-            <FormField
-            control={form.control}
-              name={"tags"}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="paragraph-semibold text-dark400_light800">
-                  Tags <span className="text-primary-400">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <div className="flex w-full flex-col gap-3">
-                    <Input
-                    {...field}
-                     type="text"
-                     placeholder="Tags..."
-                      className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px]  border"
-                    />
-                    <div className="mt-2 flex items-center gap-3">
-                      tags
-                    </div>
-                    </div>
-                   
-                  </FormControl>
-                  <FormDescription className="body-regular mt-2.5 text-light-500">
-                  Add upto 3 tags to descripe what your problem is about. you need to hit Enter to add tag.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          <div className="flex w-full items-center justify-end">
-            <Button type="submit" className="primary-gradient !text-light-900">Ask Quesion</Button>
-          </div>
-       </form>
-    </Form>
-  )
+      {/* tags */}
+      <FormFieldItem>
+        <FormLabel>
+          Tags
+          <span className="text-primary-400">*</span>
+        </FormLabel>
+        <Input
+          onKeyDown={(e) => handleInputKeyDown(e, getValues("tags"))}
+          type="text"
+          className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
+        />
+        <div className="flex items-center gap-2">
+          <AnimatePresence>
+            {getValues("tags").map((eachTag, index) => {
+              return (
+                <motion.div
+                  key={index}
+                  initial={{
+                    opacity: 0,
+                    y: 10,
+                  }}
+                  transition={{ duration: 0.4 }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: index % 2 === 0 ? 10 : -10,
+                  }}
+                >
+                  <TagCard
+                    isButton
+                    _id={eachTag}
+                    name={eachTag}
+                    hasRemoveIcon
+                    onClick={() => removeTag(eachTag)}
+                  />
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </div>
+
+        <FromDescription>
+          Add upto 3 tags to descripe what your problem is about. you need to
+          hit Enter to add tag.
+        </FromDescription>
+        {errors.tags && (
+          <FromErrorElement>{errors.tags.message}</FromErrorElement>
+        )}
+      </FormFieldItem>
+
+      <div className="flex w-full items-center justify-end">
+        <Button type="submit" className="primary-gradient !text-light-900">
+          Ask Quesion
+        </Button>
+      </div>
+    </form>
+  );
 }

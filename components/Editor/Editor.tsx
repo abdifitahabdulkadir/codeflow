@@ -1,36 +1,37 @@
 "use client";
 
+import { Ref } from "react";
+
 import {
-    BoldItalicUnderlineToggles,
-    ChangeCodeMirrorLanguage,
-    CodeToggle,
-    ConditionalContents,
-    CreateLink,
-    InsertCodeBlock,
-    InsertImage,
-    InsertTable,
-    InsertThematicBreak,
-    ListsToggle,
-    MDXEditor,
-    MDXEditorMethods,
-    Separator,
-    UndoRedo,
-    codeBlockPlugin,
-    codeMirrorPlugin,
-    diffSourcePlugin,
-    headingsPlugin,
-    imagePlugin,
-    linkDialogPlugin,
-    linkPlugin,
-    listsPlugin,
-    markdownShortcutPlugin,
-    quotePlugin,
-    tablePlugin,
-    toolbarPlugin,
+  BoldItalicUnderlineToggles,
+  ChangeCodeMirrorLanguage,
+  CodeToggle,
+  ConditionalContents,
+  CreateLink,
+  InsertCodeBlock,
+  InsertImage,
+  InsertTable,
+  InsertThematicBreak,
+  ListsToggle,
+  MDXEditor,
+  MDXEditorMethods,
+  Separator,
+  UndoRedo,
+  codeBlockPlugin,
+  codeMirrorPlugin,
+  diffSourcePlugin,
+  headingsPlugin,
+  imagePlugin,
+  linkDialogPlugin,
+  linkPlugin,
+  listsPlugin,
+  markdownShortcutPlugin,
+  quotePlugin,
+  tablePlugin,
+  toolbarPlugin,
 } from "@mdxeditor/editor";
 import { basicDark } from "cm6-theme-basic-dark";
 import { useTheme } from "next-themes";
-import { Ref } from "react";
 
 import "@mdxeditor/editor/style.css";
 import "./dark-editor.css";
@@ -53,7 +54,7 @@ const Editor = ({ value, editorRef, fieldChange }: Props) => {
       ref={editorRef}
       placeholder="Write the content here.."
       onChange={fieldChange}
-      className="background-light800_dark200 light-border-2 markdown-editor dark-editor  custom-scrollbar grid w-full border"
+      className="background-light800_dark200 light-border-2 markdown-editor dark-editor custom-scrollbar grid w-full border"
       plugins={[
         headingsPlugin(),
         listsPlugin(),

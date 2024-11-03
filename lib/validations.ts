@@ -21,14 +21,6 @@ export const SignUpSchema = z.object({
       message: "Username can only contain letters, numbers, and underscores.",
     }),
 
-  name: z
-    .string()
-    .min(1, { message: "Name is required." })
-    .max(50, { message: "Name cannot exceed 50 characters." })
-    .regex(/^[a-zA-Z\s]+$/, {
-      message: "Name can only contain letters and spaces.",
-    }),
-
   email: z
     .string()
     .min(1, { message: "Email is required." })
@@ -56,12 +48,14 @@ export const AskQuestionSchema = z.object({
     .min(1, { message: "Title is required." })
     .max(100, { message: "Title cannot exceed 100 characters." }),
 
-  content: z
-    .string()
-    .min(1, { message: "Content is required." }),
-
-    tags:z.array(z.string().min(1, { message: "Tag is required." }).max(30, { message: "Tag cannot exceed 30 characters." })    
-  ).min(1, { message: "Tags is required." })
-  .max(5, { message: "You can only add up to 5 tags." }), 
-    
-})
+  content: z.string().min(1, { message: "Content is required." }),
+  tags: z
+    .array(
+      z
+        .string()
+        .min(1, { message: "Tag is required." })
+        .max(30, { message: "Tag cannot exceed 30 characters." }),
+    )
+    .min(1, { message: "Tags is required." })
+    .max(5, { message: "You can only add up to 5 tags." }),
+});

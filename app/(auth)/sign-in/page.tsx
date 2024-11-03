@@ -1,12 +1,6 @@
 "use client";
-import { AuthFrom } from "@/components/Forms/AuthForm";
+import { SignInForm } from "@/components/Forms/SignInForm";
 
 export default function SignIn() {
-  return (
-    <AuthFrom
-      formType="SIGN_IN"
-      onSubmit={() => new Promise((resolve) => resolve({ success: true }))}
-      defualtValues={{ email: "", password: "" }}
-    />
-  );
+  return <SignInForm />;
 }

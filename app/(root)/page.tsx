@@ -12,10 +12,11 @@ interface HomeProps {
 }
 
 export default async function Home({ searchParams }: HomeProps) {
-    const { query = "" } = await searchParams;
+  const { query = "" } = await searchParams;
   const filterdQuestions = questions.filter((question) => {
     return question.title.toLowerCase().includes(query.toLocaleLowerCase());
   });
+
   return (
     <>
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">

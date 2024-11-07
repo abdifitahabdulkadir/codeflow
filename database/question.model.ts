@@ -1,6 +1,6 @@
 import { model, models, Schema, Types } from "mongoose";
 
-export interface IQuesion {
+export interface IQuestion {
   title: string;
   content: string;
   authorId: Types.ObjectId;
@@ -10,7 +10,7 @@ export interface IQuesion {
   downVotes: number;
   answers: number;
 }
-const QuesionSchema = new Schema<IQuesion>(
+const QuestionSchema = new Schema<IQuestion>(
   {
     title: { type: String },
     content: { type: String },
@@ -24,6 +24,7 @@ const QuesionSchema = new Schema<IQuesion>(
   { timestamps: true },
 );
 
-const Quesion = models?.Quesion || model<IQuesion>("Quesion", QuesionSchema);
+const Question =
+  models?.Quesion || model<IQuestion>("Question", QuestionSchema);
 
-export default Quesion;
+export default Question;

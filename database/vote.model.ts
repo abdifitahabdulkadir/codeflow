@@ -32,6 +32,6 @@ const VoteSchema = new Schema<IVote>(
   },
 );
 
-const Vote = models?.Vote || model("Vote", VoteSchema);
+const Vote = models?.Vote || model<IVote>("Vote", VoteSchema);
 
 export default Vote;

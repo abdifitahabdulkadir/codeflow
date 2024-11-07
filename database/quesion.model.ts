@@ -1,9 +1,9 @@
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema, Types } from "mongoose";
 
 export interface IQuesion {
   title: string;
   content: string;
-  authorId: Schema.Types.ObjectId;
+  authorId: Types.ObjectId;
   tags: string[];
   views: number;
   upVotes: number;

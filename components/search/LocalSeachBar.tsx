@@ -21,7 +21,7 @@ export default function LocalSeachBar({
   placeholder,
   otherClasses,
   route,
-}:LocalSeachBarProps){
+}: LocalSeachBarProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathName = usePathname();
@@ -49,7 +49,7 @@ export default function LocalSeachBar({
       return () => clearTimeout(debounceDelayFn);
     },
 
-    [searchQuery, route, pathName,router,searchParams],
+    [searchQuery, route, pathName, router, searchParams],
   );
 
   return (

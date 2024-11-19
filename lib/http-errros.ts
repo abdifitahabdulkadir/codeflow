@@ -30,6 +30,7 @@ export class ValidationError extends RequestError {
       if (message.includes("Required")) return `${fieldName} is required`;
       else return message.join("and  ");
     });
+    console.log("format message: ", formattedMessage);
     return formattedMessage.join(", ");
   }
 }

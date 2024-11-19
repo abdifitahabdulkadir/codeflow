@@ -1,7 +1,7 @@
 import mongoose, { Mongoose } from "mongoose";
 
 // get mongodb connection string from env
-const MONGODB_URI = process.env.MONGODB_URI as string;
+const MONGODB_URI = process.env.MONOGDB_URI as string;
 
 // if there is not mondob url then throw an error
 if (!MONGODB_URI) {
@@ -24,7 +24,7 @@ if (!cached) {
   cached = global.mongoose = { connection: null, promise: null };
 }
 
-export default async function connect(): Promise<Mongoose> {
+export default async function dbConnect(): Promise<Mongoose> {
   if (cached.connection) {
     return cached.connection;
   }

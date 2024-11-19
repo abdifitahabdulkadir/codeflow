@@ -52,7 +52,6 @@ export default function handleError(
 
   //  if it is general error .
   if (erros instanceof Error) {
-    console.log("genral error");
     return formatResponse(responseType, 500, erros.message);
   }
 

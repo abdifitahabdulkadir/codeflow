@@ -11,7 +11,7 @@ export class RequestError extends Error {
     this.statusCode = statusCode;
     this.errors = errors;
 
-    // this exits inthe error name
+    // this exits in the error name
     this.name = "Request Error";
   }
 }

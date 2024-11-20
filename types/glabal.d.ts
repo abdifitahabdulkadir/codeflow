@@ -39,6 +39,6 @@ type SuccessResponse<T = null> = ActionResponse<T> & {
 };
 type ErrorResponse = ActionResponse<undefined> & { success: false };
 
-type ApiErrorResponse = NextResponse<ErrorResponse>;
+type ApiErroResponse = NextResponse<ErrorResponse>;
 
 type ApiResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;

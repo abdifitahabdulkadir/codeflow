@@ -1,10 +1,10 @@
+import { IAccount } from "@/database/account.model";
 import User from "@/database/user.model";
 import dbConnect from "@/lib/dbconnection";
 import handleError from "@/lib/handlers/error";
-import { ValidationError } from "@/lib/http-errros";
-import { UserSchema } from "@/lib/validations";
-import { ApiErrorResponse } from "@/types/glabal";
-import { Error } from "mongoose";
+import { ForbiddenError } from "@/lib/http-errros";
+import { AccountSchema } from "@/lib/validations";
+import { ApiErroResponse } from "@/types/glabal";
 import { NextResponse } from "next/server";
 
 // get all users
@@ -14,7 +14,7 @@ export async function GET() {
     const users = await User.find();
     return NextResponse.json({ success: true, data: users }, { status: 200 });
   } catch (error) {
-    return handleError("api", error) as ApiErrorResponse;
+    return handleError("api", error) as ApiErroResponse;
   }
 }
 
@@ -22,36 +22,26 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     await dbConnect();
-    const user = await req.json();
+    const acount = await req.json();
 
     // validate
-    const validate = UserSchema.safeParse({
-      ...user,
-      reputation: parseInt(user.reputation),
-    });
-
-    if (!validate.success) {
-      throw new ValidationError(validate.error.flatten().fieldErrors);
-    }
-
-    const { email, username } = validate.data;
-
+    const validateAccount = AccountSchema.parse(acount);
     // check if it is existed as email
-    const existedUser = await User.findOne({ email });
-    if (existedUser) {
-      throw new Error("User with provided Email is already existed");
+    const existedAccount = await User.findOne<IAccount>({
+      provoderAccountId: validateAccount.providerAccountId,
+      provider: validateAccount.provider,
+    });
+    if (existedAccount) {
+      throw new ForbiddenError("User with given Provider is already existed");
     }
 
-    // check it is existed as username
-    const existedUsername = await User.findOne({ username });
-    if (existedUsername) {
-      throw new Error("user with provided username is already existed");
-    }
-
-    // create new user
-    const newUser = await User.create(validate.data);
-    return NextResponse.json({ success: true, data: newUser }, { status: 201 });
+    // create new account
+    const newAccount = await User.create(validateAccount);
+    return NextResponse.json(
+      { success: true, data: newAccount },
+      { status: 201 },
+    );
   } catch (error) {
-    return handleError("api", error) as ApiErrorResponse;
+    return handleError("api", error) as ApiErroResponse;
   }
 }

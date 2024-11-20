@@ -3,7 +3,7 @@ import dbConnect from "@/lib/dbconnection";
 import handleError from "@/lib/handlers/error";
 import { NotFoundError } from "@/lib/http-errros";
 import { UserSchema } from "@/lib/validations";
-import { ApiErrorResponse } from "@/types/glabal";
+import { ApiErroResponse } from "@/types/glabal";
 import { NextRequest, NextResponse } from "next/server";
 
 // get user by id -> api/users/[id]/route.ts
@@ -27,7 +27,7 @@ export async function GET(
       { status: 200 },
     );
   } catch (error) {
-    return handleError("api", error) as ApiErrorResponse;
+    return handleError("api", error) as ApiErroResponse;
   }
 }
 
@@ -52,7 +52,7 @@ export async function DELETE(
       { status: 204 },
     );
   } catch (error) {
-    return handleError("api", error) as ApiErrorResponse;
+    return handleError("api", error) as ApiErroResponse;
   }
 }
 // update user -> api/users/[id]/route.ts
@@ -74,6 +74,6 @@ export async function PUT(
 
     return NextResponse.json({ success: true, data: user }, { status: 200 });
   } catch (error) {
-    return handleError("api", error) as ApiErrorResponse;
+    return handleError("api", error) as ApiErroResponse;
   }
 }

@@ -1,10 +1,10 @@
 "use client";
 import CredentialAuthForm from "@/components/Forms/CredentialAuthForm";
 import { SignInSchema } from "@/lib/validations";
-
+import { z } from "zod";
 export default function SignIn() {
   return (
-    <CredentialAuthForm
+    <CredentialAuthForm<z.infer<typeof SignInSchema>>
       schema={SignInSchema}
       defaultValues={{
         password: "",

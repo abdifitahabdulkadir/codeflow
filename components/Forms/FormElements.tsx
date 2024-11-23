@@ -27,7 +27,7 @@ export function FromErrorElement({
 }: {
   children?: ReactNode | string;
 }) {
-  return <p className="body-regular mt-2.5 text-primary-400">{children}</p>;
+  return <p className="body-regular mt-1 text-primary-400">{children}</p>;
 }
 
 export function FormFieldItem({ children }: { children?: ReactNode }) {

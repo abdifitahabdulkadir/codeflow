@@ -2,13 +2,19 @@ import { ROUTES } from "@/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
-import { DefaultValues, FieldValues, Path, useForm } from "react-hook-form";
+import {
+  DefaultValues,
+  FieldValues,
+  Path,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import { z, ZodType } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { FormFieldItem, FormLabel, FromErrorElement } from "./FormElements";
 
-interface CredentialAuthFormProps<T> {
+interface CredentialAuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
   defaultValues: T;
   formType: "SIGN_UP" | "SIGN_IN";
@@ -29,7 +35,7 @@ export default function CredentialAuthForm<T extends FieldValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<T>,
   });
-  const handleOnFormSubmit = async () => {
+  const handleOnFormSubmit: SubmitHandler<T> = async () => {
     // TODO:ATUTHENTICATE USER
     if (formType === "SIGN_UP") {
       await onSubmit(defaultValues);
@@ -55,7 +61,7 @@ export default function CredentialAuthForm<T extends FieldValues>({
             />
             {errors[item] && (
               <FromErrorElement>
-                {errors[item].message?.toString()}
+                {errors[item]?.message?.toString()}
               </FromErrorElement>
             )}
           </FormFieldItem>

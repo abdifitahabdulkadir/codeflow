@@ -22,7 +22,11 @@ export function FromDescription({ children }: { children?: ReactNode }) {
   return <p className="body-regular mt-2.5 text-light-500">{children}</p>;
 }
 
-export function FromErrorElement({ children }: { children?: ReactNode }) {
+export function FromErrorElement({
+  children,
+}: {
+  children?: ReactNode | string;
+}) {
   return <p className="body-regular mt-2.5 text-primary-400">{children}</p>;
 }
 

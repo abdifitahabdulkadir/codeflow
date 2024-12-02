@@ -1,5 +1,5 @@
 import Account from "@/database/account.model";
-import dbConnect from "@/lib/dbconnection";
+import database from "@/lib/dbconnection";
 import handleError from "@/lib/handlers/error";
 import { NotFoundError, ValidationError } from "@/lib/http-errros";
 import { AccountSchema } from "@/lib/validations";
@@ -15,8 +15,8 @@ export async function GET(
 
   try {
     if (!id) throw new NotFoundError("Account");
+    await database.connect();
 
-    await dbConnect();
     const account = await Account.findById(id);
     if (!account) throw new NotFoundError("Account");
     return NextResponse.json(
@@ -40,8 +40,8 @@ export async function DELETE(
 
   try {
     if (!id) throw new NotFoundError("Account");
+    await database.connect();
 
-    await dbConnect();
     const deletedAccount = await Account.findByIdAndDelete(id);
     if (!deletedAccount) throw new NotFoundError("Account");
     return NextResponse.json(
@@ -65,7 +65,7 @@ export async function PUT(
   const { id } = await params;
 
   try {
-    await dbConnect();
+    await database.connect();
 
     // instead of safeParse , parital only
     // validates the fields that are present in the data

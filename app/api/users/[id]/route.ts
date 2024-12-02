@@ -1,5 +1,6 @@
 import User from "@/database/user.model";
-import dbConnect from "@/lib/dbconnection";
+import database from "@/lib/dbconnection";
+
 import handleError from "@/lib/handlers/error";
 import { NotFoundError } from "@/lib/http-errros";
 import { UserSchema } from "@/lib/validations";
@@ -16,7 +17,8 @@ export async function GET(
   try {
     if (!id) throw new NotFoundError("user");
 
-    await dbConnect();
+    await database.connect();
+
     const user = await User.findById(id);
     if (!user) throw new NotFoundError("user");
     return NextResponse.json(
@@ -41,7 +43,8 @@ export async function DELETE(
   try {
     if (!id) throw new NotFoundError("user");
 
-    await dbConnect();
+    await database.connect();
+
     const user = await User.findByIdAndDelete(id);
     if (!user) throw new NotFoundError("user");
     return NextResponse.json(
@@ -64,7 +67,8 @@ export async function PUT(
   const { id } = await params;
 
   try {
-    await dbConnect();
+    await database.connect();
+
     // instead of safeParse , parital only
     // validates the fields that are present in the data
     const validatedData = UserSchema.partial().parse(data);

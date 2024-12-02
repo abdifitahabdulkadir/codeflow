@@ -8,7 +8,9 @@
   ],
   "plugins": ["import", "tailwindcss"],
   "rules": {
-    "tailwindcss/classnames-order": "error"
+    "tailwindcss/classnames-order": "error",
+    "no-use-before-define": "off",
+    "no-useless-constructor": "off"
   },
   "overrides": [
     {

@@ -1,5 +1,5 @@
 import User from "@/database/user.model";
-import dbConnect from "@/lib/dbconnection";
+import database from "@/lib/dbconnection";
 import handleError from "@/lib/handlers/error";
 import { NotFoundError, ValidationError } from "@/lib/http-errros";
 import { AccountSchema } from "@/lib/validations";
@@ -15,7 +15,8 @@ export async function POST(req: Request) {
       throw new ValidationError(validate.error.flatten().fieldErrors);
     }
 
-    dbConnect();
+    await database.connect();
+
     // check if there is an user with the providerAccountId in DB
     const userExisted = await User.findOne({ providerAccountId });
     if (!userExisted) {

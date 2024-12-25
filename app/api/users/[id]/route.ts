@@ -1,8 +1,8 @@
 import User from "@/database/user.model";
-import database from "@/lib/dbconnection";
 
 import handleError from "@/lib/handlers/error";
 import { NotFoundError } from "@/lib/http-errros";
+import dbConnect from "@/lib/mongoose";
 import { UserSchema } from "@/lib/validations";
 import { ApiErroResponse } from "@/types/glabal";
 import { NextRequest, NextResponse } from "next/server";
@@ -17,7 +17,7 @@ export async function GET(
   try {
     if (!id) throw new NotFoundError("user");
 
-    await database.connect();
+    await dbConnect();
 
     const user = await User.findById(id);
     if (!user) throw new NotFoundError("user");
@@ -43,7 +43,7 @@ export async function DELETE(
   try {
     if (!id) throw new NotFoundError("user");
 
-    await database.connect();
+    await dbConnect();
 
     const user = await User.findByIdAndDelete(id);
     if (!user) throw new NotFoundError("user");
@@ -67,7 +67,7 @@ export async function PUT(
   const { id } = await params;
 
   try {
-    await database.connect();
+    await dbConnect();
 
     // instead of safeParse , parital only
     // validates the fields that are present in the data

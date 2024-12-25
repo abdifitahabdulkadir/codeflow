@@ -1,8 +1,8 @@
 import Account from "@/database/account.model";
 import User from "@/database/user.model";
-import database from "@/lib/dbconnection";
 import handleError from "@/lib/handlers/error";
 import { ValidationError } from "@/lib/http-errros";
+import dbConnect from "@/lib/mongoose";
 import { UserSchema } from "@/lib/validations";
 import { ApiErroResponse } from "@/types/glabal";
 import { Error } from "mongoose";
@@ -11,7 +11,7 @@ import { NextResponse } from "next/server";
 // get all accounts
 export async function GET() {
   try {
-    await database.connect();
+    await dbConnect();
     const accounts = await Account.find();
     return NextResponse.json(
       { success: true, data: accounts },
@@ -25,7 +25,7 @@ export async function GET() {
 // create a account
 export async function POST(req: Request) {
   try {
-    await database.connect();
+    await dbConnect();
     const user = await req.json();
 
     // validate

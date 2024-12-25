@@ -1,9 +1,9 @@
 import { IAccount } from "@/database/account.model";
 import User from "@/database/user.model";
-import database from "@/lib/dbconnection";
 
 import handleError from "@/lib/handlers/error";
 import { ForbiddenError } from "@/lib/http-errros";
+import dbConnect from "@/lib/mongoose";
 import { AccountSchema } from "@/lib/validations";
 import { ApiErroResponse } from "@/types/glabal";
 import { NextResponse } from "next/server";
@@ -11,7 +11,8 @@ import { NextResponse } from "next/server";
 // get all users
 export async function GET() {
   try {
-    await database.connect();
+    await dbConnect();
+    console.log(global.mongoose);
     const users = await User.find();
     return NextResponse.json({ success: true, data: users }, { status: 200 });
   } catch (error) {
@@ -22,7 +23,8 @@ export async function GET() {
 // create a user
 export async function POST(req: Request) {
   try {
-    await database.connect();
+    await dbConnect();
+
     const acount = await req.json();
 
     // validate

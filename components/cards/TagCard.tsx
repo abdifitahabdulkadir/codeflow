@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
-
 import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
 import { getDevCLass } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
+
 interface ProsType {
   _id: string;
   name: string;
@@ -27,7 +27,6 @@ export default function TagCard({
   showCount,
 }: ProsType) {
   const className = getDevCLass(name);
-
   const contnet = (
     <>
       <Badge className="subtle-medium background-light800_dark300 rounded-md border-none px-4 py-2 uppercase">

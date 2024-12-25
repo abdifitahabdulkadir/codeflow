@@ -1,7 +1,7 @@
-import { model, models, Schema, Types } from "mongoose";
+import { model, models, Schema } from "mongoose";
 
 export interface IAccount {
-  userId: Types.ObjectId;
+  userId: Schema.Types.ObjectId;
   name: string;
   image?: string;
   provider: "Google" | "Github" | "Credentials"[];
@@ -15,7 +15,7 @@ const AccountSchema = new Schema<IAccount>({
   password: String,
   provider: {
     type: String,
-    enum: ["Google", "Github", "Credentials"],
+    enum: ["google", "github", "credentials"],
     required: true,
   },
   providerAccountId: { type: String, required: true },

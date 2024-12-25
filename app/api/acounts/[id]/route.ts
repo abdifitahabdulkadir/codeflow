@@ -2,6 +2,7 @@ import Account from "@/database/account.model";
 import database from "@/lib/dbconnection";
 import handleError from "@/lib/handlers/error";
 import { NotFoundError, ValidationError } from "@/lib/http-errros";
+import dbConnect from "@/lib/mongoose";
 import { AccountSchema } from "@/lib/validations";
 import { ApiErroResponse } from "@/types/glabal";
 import { NextRequest, NextResponse } from "next/server";
@@ -15,7 +16,7 @@ export async function GET(
 
   try {
     if (!id) throw new NotFoundError("Account");
-    await database.connect();
+    await dbConnect();
 
     const account = await Account.findById(id);
     if (!account) throw new NotFoundError("Account");

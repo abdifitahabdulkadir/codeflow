@@ -51,9 +51,11 @@ export default function CredentialAuthForm<T extends FieldValues>({
       className="mt-6 space-y-5"
     >
       {Object.keys(defaultValues).map((item, index) => {
+        const formatItem =
+          item.slice(0, 1).toUpperCase() + item.slice(1).toLocaleLowerCase();
         return (
           <FormFieldItem key={index}>
-            <FormLabel>{item}</FormLabel>
+            <FormLabel>{formatItem}</FormLabel>
             <Input
               type={"text"}
               {...register(item as Path<T>)}

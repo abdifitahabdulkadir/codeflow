@@ -3,7 +3,6 @@ import { SessionProvider } from "next-auth/react";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 
-
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/context/themeProvider";
@@ -18,8 +17,10 @@ export const metadata: Metadata = {
 export default async function AppLayout({
   children,
 }: Readonly<{
-  children:ReactNode;
+  children: ReactNode;
 }>) {
+  console.log("processId: ", process.pid);
+  console.log("how long node js has running : ", process.uptime());
   const session = await auth();
   return (
     <html lang="en" suppressHydrationWarning>

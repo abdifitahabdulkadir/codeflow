@@ -37,7 +37,7 @@ export const SignUpSchema = z.object({
       message: "Password must contain at least one lowercase letter.",
     })
     .regex(/[0-9]/, { message: "Password must contain at least one number." })
-    .regex(/[^a-zA-Z0-9]/, {
+    .regex(/[^0-9a-zA-Z]/, {
       message: "Password must contain at least one special character.",
     }),
 });
@@ -94,4 +94,22 @@ export const AccountSchema = z.object({
   providerAccountId: z
     .string()
     .min(1, { message: "Provider Account ID is required." }),
+});
+
+export const SignInWithOAuthSchema = z.object({
+  provider: z.enum(["google", "github", "credentials"]),
+  providerAccountId: z
+    .string()
+    .min(1, { message: "Provider Account Id is required" }),
+  user: z.object({
+    name: z.string().min(1, { message: "Name is required" }),
+    email: z
+      .string()
+      .email({ message: "Please provide a valid email address." }),
+    username: z.string().min(1, { message: "username is required" }),
+    image: z
+      .string()
+      .url({ message: "Please provide a valid URL." })
+      .optional(),
+  }),
 });

@@ -6,7 +6,7 @@ export function FormLabel({
   children,
   className,
 }: {
-  children: ReactNode;
+  children: ReactNode | string;
   className?: string;
 }) {
   return (

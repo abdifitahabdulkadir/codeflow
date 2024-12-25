@@ -1,7 +1,7 @@
 import User from "@/database/user.model";
-import database from "@/lib/dbconnection";
 import handleError from "@/lib/handlers/error";
 import { NotFoundError, ValidationError } from "@/lib/http-errros";
+import dbConnect from "@/lib/mongoose";
 import { AccountSchema } from "@/lib/validations";
 import { ApiErroResponse } from "@/types/glabal";
 import { NextResponse } from "next/server";
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       throw new ValidationError(validate.error.flatten().fieldErrors);
     }
 
-    await database.connect();
+    await dbConnect();
 
     // check if there is an user with the providerAccountId in DB
     const userExisted = await User.findOne({ providerAccountId });

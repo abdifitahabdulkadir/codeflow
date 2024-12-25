@@ -24,7 +24,7 @@ class DatabaseConnector {
 
     try {
       this.connection = await mongoose.connect(MONGODB_URI, {
-        dbName: "codeflow",
+        dbName: "database",
       });
       return this.connection;
     } catch (error) {

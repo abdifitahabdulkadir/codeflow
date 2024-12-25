@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { removeUrlQueryParams, updateUrlQueryParams } from "@/lib/url";
 import { cn } from "@/lib/utils";
@@ -32,7 +32,15 @@ export default function HomeFilters() {
   const searchParams = useSearchParams();
   const filter = searchParams.get("filter") || "";
   const router = useRouter();
+
   const [activeFilter, setActiveFilter] = useState(filter);
+
+  useEffect(() => {
+    if (filter && filter !== activeFilter) {
+      setActiveFilter(filter);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter]);
 
   const handleOnClick = (filterValue: string) => {
     if (filterValue && filterValue !== activeFilter) {

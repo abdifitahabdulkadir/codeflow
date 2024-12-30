@@ -4,6 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { api } from "./lib/api";
+import { NotFoundError } from "./lib/http-errros";
 import { SignInSchema } from "./lib/validations";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -25,27 +26,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const validatedData = SignInSchema.safeParse(credentials);
         if (validatedData.success) {
           const { email, password } = validatedData.data;
-          const { data: existedUserAccount } =
+
+          const { data: existedUserAccount, success: accountSuccess } =
             await api.accounts.getByProvider(email);
+          console.log(existedUserAccount);
 
-          if (!existedUserAccount?.data?.userId) return null;
+          if (!accountSuccess)
+            throw new NotFoundError("Account linked with this email");
+          const { data: existedUser, success: userSuccess } =
+            await api.users.getById(String(existedUserAccount?.userId));
+          // console.log(userSuccess, existedUser);
+          if (!userSuccess)
+            throw new NotFoundError("User linked with this email");
 
-          const { data: existedUser } = await api.users.getById(
-            String(existedUserAccount.data.userId),
-          );
-
-          if (!existedUser) return null;
           const verifyPassword = await bycrpt.compare(
             password,
-            existedUserAccount.data.password ?? "",
+            existedUserAccount?.password ?? "",
           );
 
-          if (!verifyPassword) return null;
+          if (!verifyPassword) throw new Error("Password is not correct");
+
+          console.log("after password");
           return {
-            id: String(existedUserAccount.data.userId),
-            name: existedUser.data?.name ?? "",
+            id: String(existedUserAccount?.userId),
+            name: existedUser?.name ?? "",
             email,
-            image: existedUser.data?.image ?? null,
+            image: existedUser?.image ?? null,
           };
         }
         return null;
@@ -86,7 +92,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           await api.accounts.getByProviderId(account.providerAccountId);
 
         if (!success) return token;
-        token.sub = String(accountHolderData?.data?.userId);
+        token.sub = String(accountHolderData?.userId);
       }
       return token;
     },

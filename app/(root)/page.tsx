@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { auth } from "@/auth";
 import QuesionCard from "@/components/cards/QuesionCard";
 import HomeFilters from "@/components/Filters/HomeFilters";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
@@ -17,8 +16,7 @@ export default async function Home({ searchParams }: HomeProps) {
   const filterdQuestions = questions.filter((question) => {
     return question.title.toLowerCase().includes(query.toLocaleLowerCase());
   });
-  const session = await auth();
-  console.log(session);
+
   return (
     <>
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">

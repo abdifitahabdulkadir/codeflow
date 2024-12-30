@@ -1,5 +1,6 @@
 "use client";
 import CredentialAuthForm from "@/components/Forms/CredentialAuthForm";
+import { signInWithCredentials } from "@/lib/actions/action.credentials";
 import { SignInSchema } from "@/lib/validations";
 import { z } from "zod";
 export default function SignIn() {
@@ -11,10 +12,7 @@ export default function SignIn() {
         email: "",
       }}
       formType="SIGN_IN"
-      onSubmit={async (data) => {
-        console.log(data);
-        return { success: true };
-      }}
+      onSubmit={signInWithCredentials}
     />
   );
 }

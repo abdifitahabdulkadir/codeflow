@@ -12,6 +12,7 @@ import handleError from "../handlers/error";
 import { NotFoundError } from "../http-errros";
 import { SignInSchema, SignUpSchema } from "../validations";
 
+// signup action
 export async function signUpWithCrendentials(
   params: Pick<z.infer<typeof SignUpSchema>, "email" | "password" | "username">,
 ): Promise<ActionResponse> {
@@ -29,6 +30,7 @@ export async function signUpWithCrendentials(
   const session = await mongoose.startSession();
   session.startTransaction();
 
+  let transactionCommited = false;
   try {
     const existedUer = await User.findOne({ email }).session(session);
 
@@ -66,17 +68,19 @@ export async function signUpWithCrendentials(
       { session },
     );
     await session.commitTransaction();
+    transactionCommited = true;
     await signIn("credentials", { email, password, redirect: false });
 
     return { success: true };
   } catch (error) {
-    await session.abortTransaction();
+    if (!transactionCommited) await session.abortTransaction();
     return handleError("server", error) as ErrorResponse;
   } finally {
     await session.endSession();
   }
 }
 
+// signin action
 export async function signInWithCredentials(
   params: Pick<z.infer<typeof SignUpSchema>, "email" | "password">,
 ): Promise<ActionResponse> {
@@ -97,7 +101,6 @@ export async function signInWithCredentials(
     if (!existedUer) throw new NotFoundError("User");
 
     const existedAccount = await Account.findOne({
-      providder: "credentials",
       providerAccountId: email,
     });
     if (!existedAccount) throw new NotFoundError("Account");
@@ -107,8 +110,7 @@ export async function signInWithCredentials(
       password,
       existedAccount.password,
     );
-    if (!matchedPassword)
-      return handleError("server", new NotFoundError("User")) as ErrorResponse;
+    if (!matchedPassword) throw new Error("passwrod did not match");
 
     await signIn("credentials", { email, password, redirect: false });
 

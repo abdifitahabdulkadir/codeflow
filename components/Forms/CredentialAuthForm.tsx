@@ -51,8 +51,6 @@ export default function CredentialAuthForm<T extends FieldValues>({
       });
       router.push(ROUTES.HOME);
     } else {
-      console.log("errros");
-      console.log(result);
       toast({
         title: `Error ${result.statusCode}`,
         description: result.errors?.message,

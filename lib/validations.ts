@@ -13,6 +13,7 @@ export const SignInSchema = z.object({
 });
 
 export const SignUpSchema = z.object({
+  name: z.string().min(1, { message: "Name is required." }).optional(),
   username: z
     .string()
     .min(3, { message: "Username must be at least 3 characters long." })

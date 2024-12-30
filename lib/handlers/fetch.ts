@@ -48,10 +48,8 @@ export async function fetchHandler<T>(
         `HTTP error : ${response.statusText}`,
       );
     }
-
     return response.json();
   } catch (error) {
-    console.log("---------------------------------------------------");
     return handleError("server", error) as ErrorResponse;
   }
 }

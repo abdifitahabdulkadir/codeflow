@@ -22,7 +22,6 @@ export default function Metric({
   alt,
   href,
 }: MetricProps) {
-  console.log(imageUrl);
   const metricContnet = (
     <>
       <Image

@@ -1,7 +1,7 @@
 "use client";
 
 import CredentialAuthForm from "@/components/Forms/CredentialAuthForm";
-import { signUpWithCrendentials } from "@/lib/actions/action.signup";
+import { signUpWithCrendentials } from "@/lib/actions/action.credentials";
 import { SignUpSchema } from "@/lib/validations";
 import { z } from "zod";
 export default function SignUp() {

@@ -94,12 +94,3 @@ export async function POST(request: Request) {
     session.endSession();
   }
 }
-
-export async function GET() {
-  return NextResponse.json({
-    success: true,
-    data: {
-      name: "guuled",
-    },
-  });
-}

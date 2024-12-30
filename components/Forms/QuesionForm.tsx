@@ -90,7 +90,9 @@ export default function QuesionForm() {
   };
 
   const handleAskQuesion = (data: z.infer<typeof AskQuestionSchema>) => {
-    console.log("data ", data);
+    //
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    const du = data;
   };
 
   return (

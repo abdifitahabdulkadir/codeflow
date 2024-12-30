@@ -28,7 +28,6 @@ const dbConnect = async (): Promise<Mongoose> => {
   }
 
   if (!cached.promise) {
-    console.log("new connection is made");
     cached.promise = mongoose
       .connect(MONGDODB_URI, {
         dbName: "codeflow",

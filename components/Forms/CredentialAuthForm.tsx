@@ -2,6 +2,9 @@ import { ROUTES } from "@/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
+import { toast } from "@/hooks/use-toast";
+import { ActionResponse } from "@/types/glabal";
+import { useRouter } from "next/navigation";
 import {
   DefaultValues,
   FieldValues,
@@ -18,7 +21,7 @@ interface CredentialAuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
   defaultValues: T;
   formType: "SIGN_UP" | "SIGN_IN";
-  onSubmit: (data: T) => Promise<{ success: boolean }>;
+  onSubmit: (data: T) => Promise<ActionResponse>;
 }
 
 export default function CredentialAuthForm<T extends FieldValues>({
@@ -35,14 +38,26 @@ export default function CredentialAuthForm<T extends FieldValues>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<T>,
   });
-  const handleOnFormSubmit: SubmitHandler<T> = async () => {
-    // TODO:ATUTHENTICATE USER
-    if (formType === "SIGN_UP") {
-      await onSubmit(defaultValues);
-      //   onSubmit(defaultValues)
-      console.log(defaultValues);
-    } else if (formType === "SIGN_IN") {
-      console.log(defaultValues);
+  const router = useRouter();
+  const handleOnFormSubmit: SubmitHandler<T> = async (data) => {
+    const result = await onSubmit(data);
+    if (result.success) {
+      toast({
+        title: "Success",
+        description:
+          formType === "SIGN_UP"
+            ? "Signed up successfully"
+            : "Signed In successfully",
+      });
+      router.push(ROUTES.HOME);
+    } else {
+      console.log("errros");
+      console.log(result);
+      toast({
+        title: `Error ${result.statusCode}`,
+        description: result.errors?.message,
+        variant: "destructive",
+      });
     }
   };
   return (

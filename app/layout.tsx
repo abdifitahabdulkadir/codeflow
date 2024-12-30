@@ -19,8 +19,6 @@ export default async function AppLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  console.log("processId: ", process.pid);
-  console.log("how long node js has running : ", process.uptime());
   const session = await auth();
   return (
     <html lang="en" suppressHydrationWarning>

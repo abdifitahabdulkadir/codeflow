@@ -11,7 +11,7 @@ export async function fetchHandler<T>(
   options: FetchOptions = {},
 ): Promise<ActionResponse<T>> {
   const {
-    timeout = 5000,
+    timeout = 10000,
     headers: customHeaders = {},
     ...restOptions
   } = options;
@@ -35,7 +35,6 @@ export async function fetchHandler<T>(
     headers: headersConfig,
     signal: controller.signal,
   };
-
   try {
     const response = await fetch(url, config);
 
@@ -52,7 +51,7 @@ export async function fetchHandler<T>(
 
     return response.json();
   } catch (error) {
-    console.log(error);
+    console.log("---------------------------------------------------");
     return handleError("server", error) as ErrorResponse;
   }
 }

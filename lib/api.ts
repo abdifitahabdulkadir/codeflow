@@ -1,23 +1,25 @@
 import { IAccount } from "@/database/account.model";
 import { IUser } from "@/database/user.model";
-import { ActionResponse } from "@/types/glabal";
+import { ActionResponse, SigninWithOAuthProps } from "@/types/glabal";
 import { fetchHandler } from "./handlers/fetch";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 export const api = {
   oauth: {
-    signinWithOAuth(
-      user: Partial<IUser>,
-      provider: string,
-      providerAccountId: string,
-    ) {
-      return fetchHandler<ActionResponse<IUser>>(
-        `${BASE_URL}/api/signin-with-oauth`,
+    async signinWithOAuth({
+      user,
+      provider,
+      providerAccountId,
+    }: SigninWithOAuthProps) {
+      const data = await fetchHandler<ActionResponse<IUser>>(
+        `${BASE_URL}/auth/social-media`,
         {
           method: "POST",
           body: JSON.stringify({ user, provider, providerAccountId }),
         },
       );
+      console.log("data--> ", data);
+      return data;
     },
   },
   users: {
@@ -61,14 +63,17 @@ export const api = {
         body: JSON.stringify(account),
       });
     },
-    getByProvider(providerAccountId: string) {
-      return fetchHandler<ActionResponse<IAccount>>(
+    async getByProvider(providerAccountId: string) {
+      const data = await fetchHandler<ActionResponse<IAccount>>(
         `${BASE_URL}/accounts/provider`,
         {
           method: "POST",
           body: JSON.stringify({ providerAccountId }),
         },
       );
+      console.log(data);
+
+      return data;
     },
     getByProviderId(id: string) {
       return fetchHandler<ActionResponse<IAccount>>(

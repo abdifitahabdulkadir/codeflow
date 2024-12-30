@@ -6,17 +6,17 @@ import dbConnect from "@/lib/mongoose";
 import { SignInWithOAuthSchema } from "@/lib/validations";
 import { ApiErroResponse } from "@/types/glabal";
 import mongoose from "mongoose";
+import { NextResponse } from "next/server";
 import slugify from "slugify";
 import { string } from "zod";
+
 export async function POST(request: Request) {
   const { user, provider, providerAccountId } = await request.json();
-
   await dbConnect();
 
   // sessions -- for atomic transactions
   const session = await mongoose.startSession();
   session.startTransaction();
-
   try {
     // validate data
     const validateData = SignInWithOAuthSchema.safeParse({
@@ -24,7 +24,6 @@ export async function POST(request: Request) {
       provider,
       providerAccountId,
     });
-
     if (!validateData.success)
       throw new ValidationError(validateData.error.flatten().fieldErrors);
 
@@ -38,7 +37,7 @@ export async function POST(request: Request) {
 
     // check if user exsts -- and this operation fails entire transaction
     // should also fail
-    let isUserExisted = await User.findOne({ email }, {}, { session });
+    let isUserExisted = await User.findOne({ email }).session(session);
 
     // create if it is new user
     if (!isUserExisted) {
@@ -57,15 +56,17 @@ export async function POST(request: Request) {
       if (isUserExisted.image !== image) updatedUserData.image = image;
 
       if (Object.keys(updatedUserData).length > 0)
-        await User.updateOne({ email }, { $set: updatedUserData }, { session });
+        await User.updateOne({ email }, { $set: updatedUserData }).session(
+          session,
+        );
     }
 
     // find account that asssociat with user (if any)
-    const userAccount = await Account.findOne<IAccount>(
-      { userId: isUserExisted._id, provider, providerAccountId },
-      {},
-      { session },
-    );
+    const userAccount = await Account.findOne<IAccount>({
+      userId: isUserExisted._id,
+      provider,
+      providerAccountId,
+    }).session(session);
 
     // if account didnot exists
     if (!userAccount) {
@@ -85,11 +86,20 @@ export async function POST(request: Request) {
 
     await session.commitTransaction();
 
-    return isUserExisted;
+    return NextResponse.json({ success: true });
   } catch (error: unknown) {
     session.abortTransaction();
     return handleError("server", error) as ApiErroResponse;
   } finally {
     session.endSession();
   }
+}
+
+export async function GET() {
+  return NextResponse.json({
+    success: true,
+    data: {
+      name: "guuled",
+    },
+  });
 }

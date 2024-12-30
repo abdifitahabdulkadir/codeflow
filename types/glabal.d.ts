@@ -24,6 +24,16 @@ interface Question {
   views: number;
 }
 
+interface SigninWithOAuthProps {
+  user: {
+    name?: string;
+    email?: string;
+    username?: string;
+  };
+  provider: string;
+  providerAccountId: string;
+}
+
 type ActionResponse<T = null> = {
   success: boolean;
   data?: T;

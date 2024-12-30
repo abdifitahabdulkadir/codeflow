@@ -1,4 +1,4 @@
-import User from "@/database/user.model";
+import Account from "@/database/account.model";
 import handleError from "@/lib/handlers/error";
 import { NotFoundError, ValidationError } from "@/lib/http-errros";
 import dbConnect from "@/lib/mongoose";
@@ -8,7 +8,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const { providerAccountId } = await req.json();
-
   try {
     const validate = AccountSchema.partial().safeParse({ providerAccountId });
     if (!validate.success) {
@@ -18,13 +17,13 @@ export async function POST(req: Request) {
     await dbConnect();
 
     // check if there is an user with the providerAccountId in DB
-    const userExisted = await User.findOne({ providerAccountId });
-    if (!userExisted) {
+    const accountExisted = await Account.findOne({ providerAccountId });
+    if (!accountExisted) {
       throw new NotFoundError("User not found");
     }
 
     return NextResponse.json(
-      { success: true, data: userExisted },
+      { success: true, data: accountExisted },
       { status: 200 },
     );
   } catch (error) {

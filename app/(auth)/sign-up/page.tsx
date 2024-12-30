@@ -1,9 +1,9 @@
 "use client";
 
 import CredentialAuthForm from "@/components/Forms/CredentialAuthForm";
+import { signUpWithCrendentials } from "@/lib/actions/action.signup";
 import { SignUpSchema } from "@/lib/validations";
 import { z } from "zod";
-
 export default function SignUp() {
   return (
     <CredentialAuthForm<z.infer<typeof SignUpSchema>>
@@ -14,10 +14,7 @@ export default function SignUp() {
         username: "",
       }}
       formType="SIGN_UP"
-      onSubmit={async (data) => {
-        console.log(data);
-        return { success: true };
-      }}
+      onSubmit={signUpWithCrendentials}
     />
   );
 }

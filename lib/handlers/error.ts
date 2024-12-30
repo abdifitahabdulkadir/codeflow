@@ -23,7 +23,7 @@ const formatResponse = (
 };
 
 export default function handleError(
-  responseType: ResponseType = "server",
+  responseType: ResponseType,
   erros: unknown,
 ) {
   // if it is one of them defiend error.

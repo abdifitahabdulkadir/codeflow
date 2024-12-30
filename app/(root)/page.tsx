@@ -17,9 +17,8 @@ export default async function Home({ searchParams }: HomeProps) {
   const filterdQuestions = questions.filter((question) => {
     return question.title.toLowerCase().includes(query.toLocaleLowerCase());
   });
-
   const session = await auth();
-  console.log("session: ", session);
+  console.log(session);
   return (
     <>
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -39,9 +38,7 @@ export default async function Home({ searchParams }: HomeProps) {
           placeholder="Search quesions.."
         />
       </section>
-
       <HomeFilters />
-
       <div className="mt-10 flex w-full flex-col gap-3">
         {filterdQuestions.map((question) => (
           <QuesionCard key={question._id} question={question} />

@@ -27,7 +27,7 @@ export default function LeftSidebar() {
         </Button>
 
         <Button className="btn-tertiary light-border-2 text-dark400_light900 min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none">
-          <Link href={ROUTES.SIGN_IN} className="flex items-center gap-2">
+          <Link href={ROUTES.SIGN_UP} className="flex items-center gap-2">
             <Image
               src={"/icons/sign-up.svg"}
               alt="accont logo"

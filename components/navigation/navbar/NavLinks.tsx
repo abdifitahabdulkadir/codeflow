@@ -5,19 +5,30 @@ import { usePathname } from "next/navigation";
 
 import { SheetClose } from "@/components/ui/sheet";
 import { sidebarLinks } from "@/constants";
+import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 
-export default function NavLinks({ isMobile = false }: { isMobile?: boolean }) {
+export default function NavLinks({
+  isMobile = false,
+  userId,
+}: {
+  isMobile?: boolean;
+  userId: string | undefined;
+}) {
   const pathName = usePathname();
   return (
     <>
       <div className="flex flex-col gap-y-4">
         {sidebarLinks.map(({ route, imgURL, label }) => {
-          const isActive = pathName === route;
+          const isActive =
+            (pathName.includes(route) && route.length > 1) ||
+            pathName === route;
           const linkComponent = (
             <Link
               key={label}
-              href={route}
+              href={
+                route === "/profile" ? ROUTES.PROFILE(userId || "1") : route
+              }
               className={`flex items-center justify-start gap-3 rounded-lg p-2 ${
                 isActive
                   ? "primary-gradient text-light-900"
@@ -38,9 +49,7 @@ export default function NavLinks({ isMobile = false }: { isMobile?: boolean }) {
               <span
                 className={cn(
                   isMobile && "max-md:hidden",
-                  !isActive
-                    ? "base-medium dtext-dark300_light900"
-                    : "base-bold text-light-900",
+                  !isActive ? "text-dark300_light900" : "text-light-900",
                   "",
                 )}
               >

@@ -29,13 +29,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           const { data: existedUserAccount, success: accountSuccess } =
             await api.accounts.getByProvider(email);
-          console.log(existedUserAccount);
 
           if (!accountSuccess)
             throw new NotFoundError("Account linked with this email");
+
           const { data: existedUser, success: userSuccess } =
             await api.users.getById(String(existedUserAccount?.userId));
-          // console.log(userSuccess, existedUser);
+
           if (!userSuccess)
             throw new NotFoundError("User linked with this email");
 
@@ -46,7 +46,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           if (!verifyPassword) throw new Error("Password is not correct");
 
-          console.log("after password");
           return {
             id: String(existedUserAccount?.userId),
             name: existedUser?.name ?? "",

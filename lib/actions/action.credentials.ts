@@ -87,13 +87,11 @@ export async function signInWithCredentials(
   const validatedResult = await actionHandler({
     params,
     schema: SignInSchema,
-    authorize: true,
+    authorize: false,
   });
-
   if (validatedResult instanceof Error) {
     throw new Error(validatedResult.message);
   }
-
   const { email, password } = validatedResult.params!;
 
   try {

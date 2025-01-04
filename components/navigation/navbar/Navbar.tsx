@@ -1,12 +1,11 @@
-import { auth } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 
+import CustomAvator from "@/components/customAvator";
 import MobileNavigation from "./MobileNavigation";
 import { ThemeToggle } from "./ThemeToggle";
 
-export default async function Navbar() {
-  const session = await auth();
+export default function Navbar() {
   return (
     <nav className="flex-between background-light900_dark200 fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12">
       <Link href={"/"} className="flex items-center gap-1">
@@ -26,25 +25,7 @@ export default async function Navbar() {
       <p className="w-fit px-10 max-lg:hidden">GloablSerach</p>
       <div className="flex-between items-center gap-5">
         <ThemeToggle />
-        {session?.user?.image ? (
-          <Image
-            src={session?.user?.image ?? ""}
-            height={50}
-            width={50}
-            alt="user profile"
-            className="rounded-full"
-            title="user profile"
-          />
-        ) : (
-          <Image
-            src={"/user-holder.png"}
-            height={50}
-            width={50}
-            alt="user profile"
-            className="rounded-full"
-            title="user profile"
-          />
-        )}
+        <CustomAvator />
 
         <MobileNavigation />
       </div>

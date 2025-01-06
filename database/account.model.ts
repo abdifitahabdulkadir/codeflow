@@ -1,14 +1,15 @@
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema, Types } from "mongoose"
 
-export interface IAccount {
-  userId: Schema.Types.ObjectId;
-  name: string;
-  image?: string;
-  provider: "Google" | "Github" | "Credentials"[];
-  password?: string;
-  providerAccountId: string;
+export interface AccountDoc {
+  _id?: Types.ObjectId
+  userId: Types.ObjectId
+  name: string
+  image?: string
+  provider: "Google" | "Github" | "Credentials"[]
+  password?: string
+  providerAccountId: string
 }
-const AccountSchema = new Schema<IAccount>({
+const AccountSchema = new Schema<AccountDoc>({
   userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
   name: { type: String, required: true },
   image: { type: String },
@@ -19,8 +20,9 @@ const AccountSchema = new Schema<IAccount>({
     required: true,
   },
   providerAccountId: { type: String, required: true },
-});
+})
 
-const Account = models?.Account || model<IAccount>("Account", AccountSchema);
+const AccountModel =
+  models?.AccountModel || model<AccountDoc>("AccountModel", AccountSchema)
 
-export default Account;
+export default AccountModel

@@ -1,12 +1,13 @@
-import { model, models, Schema, Types } from "mongoose";
+import { model, models, Schema, Types } from "mongoose"
 
-export interface IInteraction {
-  user: Types.ObjectId;
-  actionId: Types.ObjectId;
-  action: string;
-  actionType: "question" | "answer";
+export interface InteractionDoc {
+  _id?: Types.ObjectId
+  user: Types.ObjectId
+  actionId: Types.ObjectId
+  action: string
+  actionType: "question" | "answer"
 }
-const InteractionSchema = new Schema<IInteraction>(
+const InteractionSchema = new Schema<InteractionDoc>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -30,9 +31,10 @@ const InteractionSchema = new Schema<IInteraction>(
   {
     timestamps: true,
   },
-);
+)
 
-const Interaction =
-  models?.Interaction || model("Interaction", InteractionSchema);
+const InteractionModel =
+  models?.InteractionModel ||
+  model<InteractionDoc>("InteractionModel", InteractionSchema)
 
-export default Interaction;
+export default InteractionModel

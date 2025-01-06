@@ -1,13 +1,14 @@
-import { model, models, Schema, Types } from "mongoose";
+import { model, models, Schema, Types } from "mongoose"
 
-export interface IAnswer {
-  authorId: Types.ObjectId;
-  questionId: Types.ObjectId;
-  content: string;
-  upVotes: number;
-  downVotes: number;
+export interface AnswerDoc {
+  _id?: Types.ObjectId
+  authorId: Types.ObjectId
+  questionId: Types.ObjectId
+  content: string
+  upVotes: number
+  downVotes: number
 }
-const AnswerSchmea = new Schema<IAnswer>(
+const AnswerSchmea = new Schema<AnswerDoc>(
   {
     authorId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     questionId: {
@@ -29,7 +30,8 @@ const AnswerSchmea = new Schema<IAnswer>(
     },
   },
   { timestamps: true },
-);
+)
 
-const Answer = models.Answer || model<IAnswer>("Answer", AnswerSchmea);
-export default Answer;
+const AnswerModel =
+  models.AnswerModel || model<AnswerDoc>("AnswerModel", AnswerSchmea)
+export default AnswerModel

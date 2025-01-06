@@ -1,4 +1,4 @@
-import { RouteParams } from '@/types/glabal'
+import { RouteParams } from "@/types/glabal"
 
 export default async function QuestionDetailPage({ params }: RouteParams) {
   const { id } = await params

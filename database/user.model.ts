@@ -1,16 +1,18 @@
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema, Types } from "mongoose"
 
-export interface IUser {
-  name: string;
-  username: string;
-  email: string;
-  bio?: string;
-  image?: string;
-  location?: string;
-  portfolio?: string;
-  reputation?: number;
+export interface UserDoc {
+  _id?: Types.ObjectId
+  name: string
+  username: string
+  email: string
+  bio?: string
+  image?: string
+  location?: string
+  portfolio?: string
+  reputation?: number
 }
-const UserSchema = new Schema<IUser>(
+
+const UserSchema = new Schema<UserDoc>(
   {
     name: { type: String },
     username: { type: String, required: true },
@@ -22,8 +24,8 @@ const UserSchema = new Schema<IUser>(
     reputation: { type: Number },
   },
   { timestamps: true },
-);
+)
 
-const User = models?.User || model<IUser>("User", UserSchema);
+const UserModel = models?.UserModel || model<UserDoc>("UserModel", UserSchema)
 
-export default User;
+export default UserModel

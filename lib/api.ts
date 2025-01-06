@@ -1,9 +1,8 @@
-import { IAccount } from "@/database/account.model";
-import { IUser } from "@/database/user.model";
-import { SigninWithOAuthProps } from "@/types/glabal";
-import { fetchHandler } from "./handlers/fetch";
+import { AccountDoc } from "@/database/account.model"
+import { UserDoc } from "@/database/user.model"
+import { fetchHandler } from "./handlers/fetch"
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 export const api = {
   oauth: {
     async signinWithOAuth({
@@ -11,73 +10,73 @@ export const api = {
       provider,
       providerAccountId,
     }: SigninWithOAuthProps) {
-      return fetchHandler<IUser>(`${BASE_URL}/auth/social-media`, {
+      return fetchHandler<UserDoc>(`${BASE_URL}/auth/social-media`, {
         method: "POST",
         body: JSON.stringify({ user, provider, providerAccountId }),
-      });
+      })
     },
   },
   users: {
     getAll() {
-      return fetchHandler<IUser>(`${BASE_URL}/users`);
+      return fetchHandler<UserDoc>(`${BASE_URL}/users`)
     },
     getById(id: string) {
-      return fetchHandler<IUser>(`${BASE_URL}/users/${id}`);
+      return fetchHandler<UserDoc>(`${BASE_URL}/users/${id}`)
     },
     getByEmail(email: string) {
-      return fetchHandler<IUser>(`${BASE_URL}/users/email`, {
+      return fetchHandler<UserDoc>(`${BASE_URL}/users/email`, {
         method: "POST",
         body: JSON.stringify({ email }),
-      });
+      })
     },
-    create(user: Partial<IUser>) {
-      return fetchHandler<IUser>(`${BASE_URL}/users`, {
+    create(user: Partial<UserDoc>) {
+      return fetchHandler<UserDoc>(`${BASE_URL}/users`, {
         method: "POST",
         body: JSON.stringify(user),
-      });
+      })
     },
     deleteById(id: string) {
-      return fetchHandler<IUser>(`${BASE_URL}/users/${id}`, {
+      return fetchHandler<UserDoc>(`${BASE_URL}/users/${id}`, {
         method: "DELETE",
-      });
+      })
     },
-    updateById(id: string, user: Partial<IUser>) {
-      return fetchHandler<IUser>(`${BASE_URL}/users/${id}`, {
+    updateById(id: string, user: Partial<UserDoc>) {
+      return fetchHandler<UserDoc>(`${BASE_URL}/users/${id}`, {
         method: "PUT",
         body: JSON.stringify(user),
-      });
+      })
     },
   },
   accounts: {
     getAll() {
-      return fetchHandler<IAccount>(`${BASE_URL}/accounts`);
+      return fetchHandler<AccountDoc>(`${BASE_URL}/accounts`)
     },
-    create(account: Partial<IAccount>) {
-      return fetchHandler<IAccount>(`${BASE_URL}/accounts`, {
+    create(account: Partial<AccountDoc>) {
+      return fetchHandler<AccountDoc>(`${BASE_URL}/accounts`, {
         method: "POST",
         body: JSON.stringify(account),
-      });
+      })
     },
     async getByProvider(providerAccountId: string) {
-      return await fetchHandler<IAccount>(`${BASE_URL}/accounts/provider`, {
+      return await fetchHandler<AccountDoc>(`${BASE_URL}/accounts/provider`, {
         method: "POST",
         body: JSON.stringify({ providerAccountId }),
-      });
+      })
     },
-    getByProviderId(id: string) {
-      return fetchHandler<IAccount>(`${BASE_URL}/accounts/${id}`);
+    async getByProviderId(id: string) {
+      return await fetchHandler<AccountDoc>(`${BASE_URL}/accounts/${id}`)
     },
 
     deleteById(id: string) {
-      return fetchHandler<IAccount>(`${BASE_URL}/accounts/${id}`, {
+      return fetchHandler<AccountDoc>(`${BASE_URL}/accounts/${id}`, {
         method: "DELETE",
-      });
+      })
     },
-    updateById(id: string, account: Partial<IAccount>) {
-      return fetchHandler<IAccount>(`${BASE_URL}/accounts/${id}`, {
+    updateById(id: string, account: Partial<AccountDoc>) {
+      return fetchHandler<AccountDoc>(`${BASE_URL}/accounts/${id}`, {
         method: "PUT",
         body: JSON.stringify(account),
-      });
+      })
     },
   },
-};
+}

@@ -1,49 +1,46 @@
-'use server'
+"use server"
 
-import Question, { IQuestion } from '@/database/question.model'
-import TagQuestion from '@/database/tag-quesition.model'
-import Tag from '@/database/tags.model'
-import { ActionResponse, ErrorResponse } from '@/types/glabal'
-import mongoose from 'mongoose'
-import { actionHandler } from '../handlers/action'
-import handleError from '../handlers/error'
-import { AskQuestionSchema } from '../validations'
+import QuestionModel, { QuestionDoc } from "@/database/question.model"
+import TagQuestionModel from "@/database/tag-quesition.model"
+import TagModel from "@/database/tags.model"
+import { ActionResponse, ErrorResponse } from "@/types/glabal"
+import mongoose from "mongoose"
+import { actionHandler } from "../handlers/action"
+import handleError from "../handlers/error"
+import { AskQuestionSchema } from "../validations"
 
 export async function createQuestion(
   params: CreateQuestionProps,
-): Promise<ActionResponse<IQuestion>> {
+): Promise<ActionResponse<QuestionDoc>> {
   const validateParams = await actionHandler({
     params,
     schema: AskQuestionSchema,
     authorize: true,
   })
-  console.log(validateParams)
   if (validateParams instanceof Error)
-    return handleError('server', validateParams) as ErrorResponse
+    return handleError("server", validateParams) as ErrorResponse
 
   const session = await mongoose.startSession()
   session.startTransaction()
 
   const { content, tags, title } = validateParams.params!
   const userId = validateParams.session?.user?.id
+  let transactionComplelete = false
   try {
-    // if (userId && !mongoose.Types.ObjectId.isValid(userId)) {
-    //   throw new Error('Invalid ObjectId format')
-    // }
     // create question
-    const [question] = await Question.create(
+    const [question] = await QuestionModel.create(
       [
         {
           title,
           content,
-          authorId: new mongoose.Types.ObjectId(userId),
+          authorId: userId,
         },
       ],
       {
         session,
       },
     )
-    if (!question) throw new Error('Failed to create question')
+    if (!question) throw new Error("Failed to create question")
 
     const tagIds: mongoose.Types.ObjectId[] = []
     const TagQuestionDoc = []
@@ -53,16 +50,9 @@ export async function createQuestion(
       // becuaseo f upsert to true then it create new docs by combining
       // both filter and update object. -- sets tag name to the givne one
       // and increment usage by 1
-      const existingTag = await Tag.findOneAndUpdate(
-        {
-          name: {
-            $regex: new RegExp(`^${tag}$`, 'i'),
-          },
-        },
-        {
-          $setOnInsert: { name: tag },
-          $inc: { usage: 1 },
-        },
+      const existingTag = await TagModel.findOneAndUpdate(
+        { name: { $regex: `^${tag}$`, $options: "i" } },
+        { $setOnInsert: { name: tag }, $inc: { questions: 1 } },
         { upsert: true, new: true, session },
       )
 
@@ -75,11 +65,11 @@ export async function createQuestion(
 
     // update question by adding new tag so it will be tag associated with this quesition.
     // also create tag question document to associate tag with question.
-    await TagQuestion.insertMany(TagQuestionDoc, { session })
+    await TagQuestionModel.insertMany(TagQuestionDoc, { session })
     //  $push: { tags: { $each: tagIds } }, adds all given tagId to the
     // array obejct [tags] in the question document.
     // each means iterativing.
-    await Question.findOneAndUpdate(
+    await QuestionModel.findOneAndUpdate(
       question._id,
       {
         $push: { tags: { $each: tagIds } },
@@ -88,11 +78,12 @@ export async function createQuestion(
     )
 
     await session.commitTransaction()
-    return { success: true, data: JSON.parse(JSON.parse(question)) }
+    transactionComplelete = true
+    return { success: true, data: JSON.parse(JSON.stringify(question)) }
   } catch (error) {
     console.log(error)
-    session.abortTransaction()
-    return handleError('server', error) as ErrorResponse
+    if (transactionComplelete === false) session.abortTransaction()
+    return handleError("server", error) as ErrorResponse
   } finally {
     session.endSession()
   }

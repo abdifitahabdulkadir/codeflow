@@ -1,4 +1,4 @@
-export const questions: Question[] = [
+export const questions = [
   {
     _id: "1",
     title: "What is TypeScript?",
@@ -169,4 +169,4 @@ export const questions: Question[] = [
     answerscount: 11,
     views: 550,
   },
-];
+]

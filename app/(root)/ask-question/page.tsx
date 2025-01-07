@@ -1,19 +1,19 @@
-import { auth } from '@/auth'
-import QuesionForm from '@/components/Forms/QuesionForm'
-import { ROUTES } from '@/constants/routes'
-import { redirect } from 'next/navigation'
+import { auth } from "@/auth";
+import QuesionForm from "@/components/Forms/QuesionForm";
+import { ROUTES } from "@/constants/routes";
+import { redirect } from "next/navigation";
 
 export default async function AskQuesionPage() {
-  const session = await auth()
-  if (!session) return redirect(ROUTES.SIGN_IN)
+  const session = await auth();
+  if (!session) return redirect(ROUTES.SIGN_IN);
   return (
     <>
-      <h1 className='h1-bold text-dark100_light900'>
+      <h1 className="h1-bold text-dark100_light900">
         Ask a Quesion To the Public
       </h1>
-      <div className='mt-10'>
+      <div className="mt-10">
         <QuesionForm />
       </div>
     </>
-  )
+  );
 }

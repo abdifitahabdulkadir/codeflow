@@ -1,20 +1,20 @@
-import { model, models, Schema, Types } from "mongoose"
+import { model, models, Schema, Types } from "mongoose";
 
 export interface AnswerDoc {
-  _id?: Types.ObjectId
-  authorId: Types.ObjectId
-  questionId: Types.ObjectId
-  content: string
-  upVotes: number
-  downVotes: number
+  _id?: Types.ObjectId;
+  authorId: Types.ObjectId;
+  questionId: Types.ObjectId;
+  content: string;
+  upVotes: number;
+  downVotes: number;
 }
 const AnswerSchmea = new Schema<AnswerDoc>(
   {
-    authorId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+    authorId: { type: Schema.Types.ObjectId, required: true, ref: "UserModel" },
     questionId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: "Question",
+      ref: "QuestionModel",
     },
     content: {
       type: String,
@@ -30,8 +30,8 @@ const AnswerSchmea = new Schema<AnswerDoc>(
     },
   },
   { timestamps: true },
-)
+);
 
 const AnswerModel =
-  models.AnswerModel || model<AnswerDoc>("AnswerModel", AnswerSchmea)
-export default AnswerModel
+  models.AnswerModel || model<AnswerDoc>("AnswerModel", AnswerSchmea);
+export default AnswerModel;

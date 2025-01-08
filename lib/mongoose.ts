@@ -1,5 +1,5 @@
+import "@/database";
 import mongoose, { Mongoose } from "mongoose";
-
 const MONGDODB_URI = process.env.MONGDODB_URI as string;
 
 if (!MONGDODB_URI) {

@@ -7,11 +7,12 @@ export interface QuestionDoc {
   title?: string;
   content?: string;
   authorId: Types.ObjectId;
-  tags?: Types.ObjectId[] | string[];
+  tags?: Types.ObjectId[];
   views: number;
   upVotes: number;
   downVotes: number;
   answers: number;
+  createdAt: Date;
 }
 const QuestionSchema = new Schema<QuestionDoc>(
   {

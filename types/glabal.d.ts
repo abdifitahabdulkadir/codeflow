@@ -1,26 +1,34 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
 
 type ActionResponse<T = null> = {
-  success: boolean
-  data?: T
+  success: boolean;
+  data?: T;
   errors?: {
-    message: string
-    details: Record<string, string[]>
-  }
-  statusCode?: number
-}
+    message: string;
+    details: Record<string, string[]>;
+  };
+  statusCode?: number;
+};
 
 type SuccessResponse<T = null> = ActionResponse<T> & {
-  success: true
-}
+  success: true;
+};
 
-type ErrorResponse = ActionResponse<undefined> & { success: false }
+type ErrorResponse = ActionResponse<undefined> & { success: false };
 
-type ApiErroResponse = NextResponse<ErrorResponse>
+type ApiErroResponse = NextResponse<ErrorResponse>;
 
-type ApiResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>
+type ApiResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;
 
 interface RouteParams {
-  params: Promise<Record<string, string>>
-  searchParams: Promise<Record<string, string>>
+  params: Promise<Record<string, string>>;
+  searchParams: Promise<Record<string, string>>;
+}
+
+interface PaginatedSearchParams {
+  page?: number;
+  pageSize?: number;
+  query?: string;
+  filter?: string;
+  sort?: string;
 }

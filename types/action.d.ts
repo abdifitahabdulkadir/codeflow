@@ -1,3 +1,33 @@
+interface TagI {
+  _id?: Types.ObjectId | string;
+  name: string;
+  usage?: string;
+}
+interface AuthorI {
+  _id?: Types.ObjectId;
+  name?: string;
+  username?: string;
+  email?: string;
+  bio?: string;
+  image?: string;
+  location?: string;
+  portfolio?: string;
+  reputation?: number;
+}
+
+interface QuestionI {
+  _id?: Types.ObjectId | string;
+  title?: string;
+  content?: string;
+  authorId: AuthorI;
+  tags?: TagI[];
+  views: number;
+  upVotes: number;
+  downVotes: number;
+  answers: number;
+  createdAt: Date;
+}
+
 interface SigninWithOAuthProps {
   user: {
     name?: string;

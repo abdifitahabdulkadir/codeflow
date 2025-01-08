@@ -4,7 +4,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface MetricProps {
-  imageUrl: string;
+  imageUrl: string | null;
   alt: string;
   value: string | number;
   title: string;
@@ -24,15 +24,18 @@ export default function Metric({
 }: MetricProps) {
   const metricContnet = (
     <>
-      <Image
-        src={imageUrl}
-        alt={alt}
-        width={20}
-        height={20}
-        priority
-        loading="eager"
-        className={cn("rounded-full object-contain")}
-      />
+      {imageUrl && (
+        <Image
+          src={imageUrl}
+          alt={alt}
+          width={20}
+          height={20}
+          priority
+          loading="eager"
+          className={cn("rounded-full object-contain")}
+        />
+      )}
+
       <p className={`${textStyles} flex items-center gap-1.5`}>
         {title}
         {isAuthor && (

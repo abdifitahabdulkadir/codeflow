@@ -109,15 +109,14 @@ export default function QuesionForm({
     const newTags = getValues("tags").filter((tag) => tag !== tagToRemove);
     setValue("tags", newTags, { shouldValidate: true, shouldDirty: true });
   };
-
   const handleAskQuesion = async (data: z.infer<typeof AskQuestionSchema>) => {
     startTransition(async () => {
-      if (isEdit && content && title && tags && questionId) {
+      if (isEdit && (title || content || tags)) {
         const editedResult = await editQuestion({
           content: data.content,
           tags: data.tags,
           title: data.title,
-          questionId,
+          questionId: questionId!,
         });
 
         if (editedResult.success) {
@@ -139,7 +138,7 @@ export default function QuesionForm({
       }
 
       const result = await createQuestion(data);
-
+      console.log("-----------------outside limit");
       if (result.success) {
         toast({
           title: "Question Created",

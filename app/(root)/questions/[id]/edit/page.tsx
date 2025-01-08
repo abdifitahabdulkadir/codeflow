@@ -27,6 +27,7 @@ export default async function EditQuestionPage({ params }: RouteParams) {
         <QuesionForm
           content={content}
           tags={currentTags}
+          questionId={id}
           title={title}
           isEdit={true}
         />

@@ -27,6 +27,7 @@ export default function TagCard({
   showCount,
 }: ProsType) {
   const className = getDevCLass(name);
+
   const contnet = (
     <>
       <Badge className="subtle-medium background-light800_dark300 rounded-md border-none px-4 py-2 uppercase">

@@ -3,15 +3,19 @@
 import QuestionModel, { QuestionDoc } from "@/database/question.model";
 import TagQuestionModel from "@/database/tag-quesition.model";
 import TagModel, { TagDoc } from "@/database/tags.model";
-import { ActionResponse, ErrorResponse } from "@/types/glabal";
-import console from "console";
-import mongoose from "mongoose";
+import {
+  ActionResponse,
+  ErrorResponse,
+  PaginatedSearchParams,
+} from "@/types/glabal";
+import mongoose, { FilterQuery } from "mongoose";
 import { actionHandler } from "../handlers/action";
 import handleError from "../handlers/error";
 import {
   AskQuestionSchema,
   EditQuestionSchema,
   GetQuestionDetailSchema,
+  PaginatedSearchParamsSchema,
 } from "../validations";
 
 // create question server action
@@ -58,7 +62,7 @@ export async function createQuestion(
       // and increment usage by 1
       const existingTag = await TagModel.findOneAndUpdate(
         { name: { $regex: `^${tag}$`, $options: "i" } },
-        { $setOnInsert: { name: tag }, $inc: { questions: 1 } },
+        { $setOnInsert: { name: tag }, $inc: { usage: 1 } },
         { upsert: true, new: true, session },
       );
 
@@ -113,9 +117,7 @@ export async function editQuestion(
   try {
     const { content, tags, title, questionId } = validateParams.params!;
     const userId = validateParams.session?.user?.id;
-
     const question = await QuestionModel.findById(questionId).populate("tags");
-    console.log(question);
     if (!question) throw new Error("Question not found");
 
     if (question.authorId.toString() !== userId)
@@ -126,13 +128,20 @@ export async function editQuestion(
       question.content = content;
       await question.save({ session });
     }
-
-    // find  added or removed tags
+    // find  added tags
     const addedTags = tags.filter(
-      (tag) => !question.tags.includes(tag.toLocaleLowerCase()),
+      (tag: string) =>
+        !question.tags.some((eachTage: TagDoc) =>
+          eachTage.name.toLowerCase().includes(tag.toLowerCase()),
+        ),
     );
+
+    // find removed tags
     const removedTags = question.tags.filter(
-      (tag: TagDoc) => !tags.includes(tag.name.toLocaleLowerCase()),
+      (tag: TagDoc) =>
+        !tags.some((eachTag: string) =>
+          eachTag.toLowerCase().includes(tag.name.toLowerCase()),
+        ),
     );
 
     const TagQuestionDoc = [];
@@ -141,7 +150,7 @@ export async function editQuestion(
       for (const tag of addedTags) {
         const existingTag = await TagModel.findOneAndUpdate(
           { name: { $regex: `^${tag}$`, $options: "i" } },
-          { $setOnInsert: { name: tag }, $inc: { questions: 1 } },
+          { $setOnInsert: { name: tag }, $inc: { usage: 1 } },
           { upsert: true, new: true, session },
         );
 
@@ -156,25 +165,49 @@ export async function editQuestion(
 
     // if auther removed tags
     if (removedTags.length > 0) {
-      const tagsToRemoveIds = removedTags.map((tag: TagDoc) => tag._id);
+      const tagsToRemoveIds: mongoose.Types.ObjectId[] = removedTags.map(
+        (tag: TagDoc) => tag._id,
+      );
+      const tagsHasMoreUsage: mongoose.Types.ObjectId[] = [];
 
+      // delete tags that has 0 questions related or negative
+      // as we decrementing so then value can be be negative
+      for (const eachToRemoveId of tagsToRemoveIds) {
+        const eachTag = await TagModel.findById(eachToRemoveId);
+        if (eachTag.usage === 0 || eachTag.usage < 0)
+          await TagModel.deleteOne(
+            {
+              _id: eachTag,
+            },
+            { session },
+          );
+        else {
+          tagsHasMoreUsage.push(eachTag);
+        }
+      }
       // update thier docs by decrementing usage by 1 -
       // because they might have been asscoaited with other questions.
-      await TagModel.updateMany(
-        { _id: { $in: tagsToRemoveIds } },
-        { $inc: { questions: -1 } },
-        { session },
-      );
+      if (tagsHasMoreUsage.length > 0)
+        await TagModel.updateMany(
+          { _id: { $in: tagsHasMoreUsage } },
+          { $inc: { usage: -1 } },
+          { session },
+        );
 
       // remove connection between those removed tags and current question
+      // because we have just decremented now so we have to cut the
+      // conneciton between those tags and current connection
       await TagQuestionModel.deleteMany(
-        { tagId: { $in: tagsToRemoveIds }, questionId },
+        { tagId: { $in: tagsHasMoreUsage }, questionId },
         { session },
       );
 
       // filter out current tags if any one of removed tag's id is included
       question.tags = question.tags.filter(
-        (tag: mongoose.Types.ObjectId) => !tagsToRemoveIds.includes(tag),
+        (tag: mongoose.Types.ObjectId) =>
+          !tagsHasMoreUsage.some((eachTag) =>
+            String(eachTag).toLowerCase().includes(String(tag).toLowerCase()),
+          ),
       );
     }
 
@@ -200,7 +233,7 @@ export async function editQuestion(
   }
 }
 
-// get question detail server action
+// get  single question detail server action
 export async function getQuestionDetail(params: GetQuestionParams) {
   const validateParams = await actionHandler({
     schema: GetQuestionDetailSchema,
@@ -222,6 +255,95 @@ export async function getQuestionDetail(params: GetQuestionParams) {
     return {
       success: true,
       data: JSON.parse(JSON.stringify(question)),
+    };
+  } catch (error) {
+    return handleError("server", error) as ErrorResponse;
+  }
+}
+
+// get all questions server action -filtered and paginated
+export async function getQuestions(params: PaginatedSearchParams): Promise<
+  ActionResponse<{
+    questions: QuestionI[];
+    isNext: boolean;
+  }>
+> {
+  const validatedResult = await actionHandler({
+    schema: PaginatedSearchParamsSchema,
+    params,
+    authorize: true,
+  });
+
+  if (validatedResult instanceof Error)
+    return handleError("server", validatedResult) as ErrorResponse;
+
+  const { page = 1, pageSize = 10, query, filter } = params;
+
+  const skip = (page - 1) * pageSize;
+
+  const filterQuery: FilterQuery<QuestionDoc> = {};
+
+  if (filter === "recommended")
+    return {
+      success: true,
+      data: {
+        isNext: false,
+        questions: [],
+      },
+    };
+
+  if (query) {
+    filterQuery.$or = [
+      {
+        title: {
+          $regex: new RegExp(query, "i"),
+        },
+      },
+      {
+        content: {
+          $regex: new RegExp(query, "i"),
+        },
+      },
+    ];
+  }
+
+  let sortCriteria = {};
+  switch (filter) {
+    case "newest":
+      sortCriteria = { createdAt: -1 };
+      break;
+    case "unanswered":
+      filterQuery.answers = 0;
+      sortCriteria = { createdAt: -1 };
+      break;
+
+    case "Popular":
+      sortCriteria = { upVotes: -1 };
+      break;
+
+    default:
+      sortCriteria = { createdAt: -1 };
+      break;
+  }
+
+  try {
+    const totalQuestions = await QuestionModel.countDocuments(filterQuery);
+    const questions = await QuestionModel.find(filterQuery)
+      .populate("tags", "name")
+      .populate("authorId", "name image")
+      .lean()
+      .sort(sortCriteria)
+      .skip(skip)
+      .limit(pageSize);
+
+    const isNext = totalQuestions > skip + questions.length;
+
+    return {
+      success: true,
+      data: {
+        questions: JSON.parse(JSON.stringify(questions)),
+        isNext,
+      },
     };
   } catch (error) {
     return handleError("server", error) as ErrorResponse;

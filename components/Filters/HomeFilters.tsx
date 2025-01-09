@@ -46,7 +46,6 @@ export default function HomeFilters() {
     if (filterValue && filterValue !== activeFilter) {
       setActiveFilter(filterValue);
       const newUrl = updateUrlQueryParams({
-        params: searchParams.toString(),
         key: "filter",
         value: filterValue,
       });
@@ -54,14 +53,13 @@ export default function HomeFilters() {
     } else {
       setActiveFilter("");
       const newUrl = removeUrlQueryParams({
-        params: searchParams.toString(),
         keysToRemove: ["filter"],
       });
       router.push(newUrl, { scroll: false });
     }
   };
   return (
-    <div className="mt-6 flex w-full flex-wrap gap-3">
+    <div className="mt-6 flex w-full flex-wrap gap-3 ">
       {filters.map((filter) => (
         <Button
           key={filter.name}

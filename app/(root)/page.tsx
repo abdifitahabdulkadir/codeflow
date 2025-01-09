@@ -1,10 +1,12 @@
 import Link from "next/link";
 
 import QuesionCard from "@/components/cards/QuesionCard";
+import DataRenderer from "@/components/DataRenderer";
 import HomeFilters from "@/components/Filters/HomeFilters";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
+import { EMPTY_QUESTION } from "@/constants/states";
 import { getQuestions } from "@/lib/actions/action.question";
 
 interface HomeProps {
@@ -20,7 +22,7 @@ export default async function Home({ searchParams }: HomeProps) {
     sort: "",
     filter,
   });
-  const { questions } = data!;
+
   return (
     <>
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -41,25 +43,19 @@ export default async function Home({ searchParams }: HomeProps) {
         />
       </section>
       <HomeFilters />
-      {success ? (
-        <div className="mt-10 flex w-full flex-col gap-3">
-          {questions && questions.length > 0 ? (
-            questions?.map((question: QuestionI) => (
+      <div className="mt-10 flex w-full flex-col gap-3">
+        <DataRenderer
+          success={success}
+          error={errors}
+          data={data?.questions}
+          stateType={EMPTY_QUESTION}
+          render={(questions) => {
+            return questions?.map((question: QuestionI) => (
               <QuesionCard key={String(question._id)} question={question} />
-            ))
-          ) : (
-            <div className="mt-10 flex items-center justify-center">
-              <p className="text-dark400_light700">Not Questions Found</p>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="mt-10 flex items-center justify-center">
-          <p className="text-dark400_light700">
-            {errors?.message || "Failed to fetch data"}
-          </p>
-        </div>
-      )}
+            ));
+          }}
+        />
+      </div>
     </>
   );
 }

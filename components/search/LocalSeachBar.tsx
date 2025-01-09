@@ -27,20 +27,17 @@ export default function LocalSeachBar({
   const pathName = usePathname();
   const queryString = searchParams.get("query") || "";
   const [searchQuery, setSearchQuery] = useState(queryString);
-
   useEffect(
     function () {
       const debounceDelayFn = setTimeout(() => {
         if (searchQuery) {
           const newUrl = updateUrlQueryParams({
-            params: searchParams.toString(),
             key: "query",
             value: searchQuery,
           });
           router.push(newUrl, { scroll: false });
         } else if (pathName === route) {
           const newUrl = removeUrlQueryParams({
-            params: searchParams.toString(),
             keysToRemove: ["query"],
           });
           router.push(newUrl, { scroll: false });

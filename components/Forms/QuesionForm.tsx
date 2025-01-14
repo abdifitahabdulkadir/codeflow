@@ -11,7 +11,7 @@ import { z } from "zod";
 
 import { ROUTES } from "@/constants/routes";
 import { toast } from "@/hooks/use-toast";
-import { createQuestion, editQuestion } from "@/lib/actions/action.question";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import TagCard from "../cards/TagCard";
@@ -234,6 +234,7 @@ export default function QuesionForm({
                   }}
                 >
                   <TagCard
+                    compact
                     isButton
                     _id={eachTag}
                     name={eachTag}

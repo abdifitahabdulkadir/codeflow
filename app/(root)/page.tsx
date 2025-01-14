@@ -7,7 +7,7 @@ import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
-import { getQuestions } from "@/lib/actions/action.question";
+import { getQuestions } from "@/lib/actions/question.action";
 
 interface HomeProps {
   searchParams: Promise<{ [key: string]: string }>;

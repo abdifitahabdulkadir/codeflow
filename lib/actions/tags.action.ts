@@ -1,15 +1,14 @@
 "use server";
 
-import { TagModel } from "@/database";
-import {
-  ActionResponse,
-  ErrorResponse,
-  PaginatedSearchParams,
-} from "@/types/glabal";
-import { FilterQuery } from "mongoose";
+import { QuestionModel, TagModel } from "@/database";
+import { ActionResponse, ErrorResponse } from "@/types/glabal";
+import { Error, FilterQuery } from "mongoose";
 import { actionHandler } from "../handlers/action";
 import handleError from "../handlers/error";
-import { PaginatedSearchParamsSchema } from "../validations";
+import {
+  GetTagQuestionsSchema,
+  PaginatedSearchParamsSchema,
+} from "../validations";
 
 export async function getTags(
   params: PaginatedSearchParams,
@@ -66,6 +65,59 @@ export async function getTags(
       data: {
         tags: JSON.parse(JSON.stringify(tags)),
         isNext: totalTags > skip + tags.length,
+      },
+    };
+  } catch (error) {
+    return handleError("server", error) as ErrorResponse;
+  }
+}
+
+export async function getTagQuestions(
+  params: GetTagQuestionParams,
+): Promise<
+  ActionResponse<{ tag: TagI; questions: QuestionI[]; isNext: boolean }>
+> {
+  const validatedParams = await actionHandler({
+    params,
+    schema: GetTagQuestionsSchema,
+    authorize: true,
+  });
+
+  if (validatedParams instanceof Error)
+    return handleError("server", validatedParams) as ErrorResponse;
+
+  try {
+    const { page = 0, query, pageSize = 10, tagId } = params;
+    const tag = await TagModel.findById(tagId);
+
+    if (!tag) throw new Error("Tag not found");
+    const skip = (page - 1) * pageSize;
+
+    const filterQuery: FilterQuery<QuestionI> = {
+      tags: { $in: [tagId] },
+    };
+    if (query) filterQuery.title = { $regex: query, $options: "i" };
+
+    const totalTagQuestions = await QuestionModel.countDocuments(filterQuery);
+    const tagQuestions = await QuestionModel.find(filterQuery)
+      .select("_id title views upVotes downVotes answers createdAt authorId ")
+      .populate([
+        {
+          path: "authorId",
+          select: "name image",
+        },
+        { path: "tags", select: "name" },
+      ])
+      .lean()
+      .skip(skip)
+      .limit(pageSize);
+
+    return {
+      success: true,
+      data: {
+        tag: JSON.parse(JSON.stringify(tag)),
+        questions: JSON.parse(JSON.stringify(tagQuestions)),
+        isNext: totalTagQuestions > skip + tagQuestions.length,
       },
     };
   } catch (error) {

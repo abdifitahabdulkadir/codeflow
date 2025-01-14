@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import QuesionForm from "@/components/Forms/QuesionForm";
 import { ROUTES } from "@/constants/routes";
 import { TagDoc } from "@/database/tags.model";
-import { getQuestionDetail } from "@/lib/actions/action.question";
+import { getQuestionDetail } from "@/lib/actions/question.action";
 import { RouteParams } from "@/types/glabal";
 import { notFound, redirect } from "next/navigation";
 

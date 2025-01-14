@@ -3,11 +3,7 @@
 import QuestionModel, { QuestionDoc } from "@/database/question.model";
 import TagQuestionModel from "@/database/tag-quesition.model";
 import TagModel, { TagDoc } from "@/database/tags.model";
-import {
-  ActionResponse,
-  ErrorResponse,
-  PaginatedSearchParams,
-} from "@/types/glabal";
+import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import mongoose, { FilterQuery } from "mongoose";
 import { actionHandler } from "../handlers/action";
 import handleError from "../handlers/error";

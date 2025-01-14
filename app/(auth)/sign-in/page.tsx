@@ -1,6 +1,6 @@
 "use client";
 import CredentialAuthForm from "@/components/Forms/CredentialAuthForm";
-import { signInWithCredentials } from "@/lib/actions/action.credentials";
+import { signInWithCredentials } from "@/lib/actions/credentials.action";
 import { SignInSchema } from "@/lib/validations";
 import { z } from "zod";
 export default function SignIn() {

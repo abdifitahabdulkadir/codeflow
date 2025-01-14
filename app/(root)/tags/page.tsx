@@ -1,6 +1,8 @@
 import TagCard from "@/components/cards/TagCard";
 import DataRenderer from "@/components/DataRenderer";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
+import { ROUTES } from "@/constants/routes";
+import { EMPTY_TAGS } from "@/constants/states";
 import { getTags } from "@/lib/actions/tags.action";
 import { RouteParams } from "@/types/glabal";
 
@@ -19,13 +21,14 @@ export default async function TagsPage({ searchParams }: RouteParams) {
       <h1 className="h1-bold text-dark100_light900 text-3xl">Tags</h1>
       <section className="mt-11">
         <LocalSeachBar
-          route="/"
+          route={ROUTES.TAGS}
           imageSrc="/icons/search.svg"
           placeholder="Search Tags.."
         />
         <DataRenderer
           success={success}
           data={tags}
+          stateType={EMPTY_TAGS}
           error={errors}
           render={(tags: TagI[]) => {
             return (

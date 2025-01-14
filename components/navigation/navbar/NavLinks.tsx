@@ -21,7 +21,7 @@ export default function NavLinks({
       <div className="flex flex-col gap-y-4">
         {sidebarLinks.map(({ route, imgURL, label }) => {
           const isActive =
-            (pathName.includes(route) && route.length > 1) ||
+            (pathName.includes(route.toLowerCase()) && route.length > 1) ||
             pathName === route;
           const linkComponent = (
             <Link

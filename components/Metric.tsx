@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import { CircleUser } from "lucide-react";
 
 interface MetricProps {
   imageUrl: string | null;
@@ -24,7 +25,7 @@ export default function Metric({
 }: MetricProps) {
   const metricContnet = (
     <>
-      {imageUrl && (
+      {imageUrl ? (
         <Image
           src={imageUrl}
           alt={alt}
@@ -34,9 +35,11 @@ export default function Metric({
           loading="eager"
           className={cn("rounded-full object-contain")}
         />
+      ) : (
+        <CircleUser className="size-5" />
       )}
 
-      <p className={`${textStyles} flex items-center gap-1.5`}>
+      <p className={`${textStyles} flex items-center gap-1`}>
         {title}
         {isAuthor && (
           <span className="text-dark400_light700 max-sm:hidden">•</span>

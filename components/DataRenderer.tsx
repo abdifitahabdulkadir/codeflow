@@ -2,6 +2,7 @@ import { DEFAULT_EMPTY, DEFAULT_ERROR } from "@/constants/states";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
+import { FadeInWithSlideAnimation } from "./animations";
 import { Button } from "./ui/button";
 
 interface DataRenderProps<T> {
@@ -82,34 +83,38 @@ export default function DataRenderer<T>({
 }: DataRenderProps<T>) {
   if (!success)
     return (
-      <StateSkelton
-        title={error?.message || DEFAULT_ERROR.title}
-        button={DEFAULT_ERROR.button}
-        message={
-          error?.details
-            ? JSON.stringify(error.details, null, 2)
-            : DEFAULT_ERROR.message
-        }
-        image={{
-          light: "/images/light-error.png",
-          dark: "/images/dark-error.png",
-          alt: "State Illustration image",
-        }}
-      />
+      <FadeInWithSlideAnimation>
+        <StateSkelton
+          title={error?.message || DEFAULT_ERROR.title}
+          button={DEFAULT_ERROR.button}
+          message={
+            error?.details
+              ? JSON.stringify(error.details, null, 2)
+              : DEFAULT_ERROR.message
+          }
+          image={{
+            light: "/images/light-error.png",
+            dark: "/images/dark-error.png",
+            alt: "State Illustration image",
+          }}
+        />
+      </FadeInWithSlideAnimation>
     );
 
   if (data === null || !data || data?.length === 0)
     return (
-      <StateSkelton
-        title={stateType.title}
-        button={stateType.button}
-        message={stateType.message}
-        image={{
-          light: "/images/light-illustration.png",
-          dark: "/images/dark-illustration.png",
-          alt: "State Illustration image",
-        }}
-      />
+      <FadeInWithSlideAnimation>
+        <StateSkelton
+          title={stateType.title}
+          button={stateType.button}
+          message={stateType.message}
+          image={{
+            light: "/images/light-illustration.png",
+            dark: "/images/dark-illustration.png",
+            alt: "State Illustration image",
+          }}
+        />
+      </FadeInWithSlideAnimation>
     );
   return render(data);
 }

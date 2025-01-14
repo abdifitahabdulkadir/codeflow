@@ -12,7 +12,6 @@ export default function QuesionCard({
   question: QuestionI;
 }) {
   const time = formatTimeAgo(new Date(createdAt));
-
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col items-start justify-between gap-5 sm:flex-row">
@@ -45,7 +44,7 @@ export default function QuesionCard({
         <Metric
           imageUrl={author?.image || null}
           alt={author.name + " image "}
-          title={author.name || "author name"}
+          title={author.name!}
           value={`asked ${time}`}
           href={ROUTES.PROFILE(author._id)}
           textStyles="text-dark400_light700 body-medium"
@@ -57,21 +56,21 @@ export default function QuesionCard({
             alt={"like icon"}
             value={`${upVotes}`}
             title={" Votes"}
-            textStyles="text-dark400_light700 small-medium"
+            textStyles="text-dark400_light700 small-regular"
           />
           <Metric
             imageUrl={"/icons/message.svg"}
             alt={"message icon"}
             value={0}
             title={" Answers"}
-            textStyles="text-dark400_light700 small-medium"
+            textStyles="text-dark400_light700 small-regular"
           />
           <Metric
             imageUrl={"/icons/eye.svg"}
             alt={"views icon"}
             value={`${views}`}
             title={" Views"}
-            textStyles="text-dark400_light700 small-medium"
+            textStyles="text-dark400_light700 small-regular"
           />
         </div>
       </div>

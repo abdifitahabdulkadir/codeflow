@@ -150,10 +150,6 @@ export async function editQuestion(
           { upsert: true, new: true, session },
         );
 
-        // if tag has usage 0 then delete it
-        await TagModel.findOneAndDelete({
-          usage: 0,
-        });
         // this will be used to create tag question model doc
         TagQuestionDoc.push({
           tagId: existingTag._id,

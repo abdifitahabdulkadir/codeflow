@@ -1,3 +1,4 @@
+import { FadeInWithSlideAnimation } from "@/components/animations";
 import TagCard from "@/components/cards/TagCard";
 import DataRenderer from "@/components/DataRenderer";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
@@ -32,16 +33,18 @@ export default async function TagsPage({ searchParams }: RouteParams) {
           error={errors}
           render={(tags: TagI[]) => {
             return (
-              <div className="mt-6 flex w-full flex-wrap items-center justify-center gap-6 ">
+              <div className="mt-6 flex w-full flex-wrap items-center gap-6 ">
                 {tags.map(({ _id, name, usage }: TagI) => {
                   return (
-                    <TagCard
-                      usage={usage}
-                      quesionsCount={2}
-                      name={name}
-                      _id={String(_id!)}
-                      key={String(_id!)}
-                    />
+                    <FadeInWithSlideAnimation key={String(_id!)}>
+                      <TagCard
+                        usage={usage}
+                        quesionsCount={2}
+                        name={name}
+                        _id={String(_id!)}
+                        key={String(_id!)}
+                      />
+                    </FadeInWithSlideAnimation>
                   );
                 })}
               </div>

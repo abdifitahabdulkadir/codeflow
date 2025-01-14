@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { FadeInWithSlideAnimation } from "@/components/animations";
 import QuesionCard from "@/components/cards/QuesionCard";
 import DataRenderer from "@/components/DataRenderer";
 import HomeFilters from "@/components/Filters/HomeFilters";
@@ -51,7 +52,9 @@ export default async function Home({ searchParams }: HomeProps) {
           stateType={EMPTY_QUESTION}
           render={(questions) => {
             return questions?.map((question: QuestionI) => (
-              <QuesionCard key={String(question._id)} question={question} />
+              <FadeInWithSlideAnimation key={String(question._id)}>
+                <QuesionCard key={String(question._id)} question={question} />
+              </FadeInWithSlideAnimation>
             ));
           }}
         />

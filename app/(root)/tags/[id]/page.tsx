@@ -2,7 +2,7 @@ import QuesionCard from "@/components/cards/QuesionCard";
 import DataRenderer from "@/components/DataRenderer";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { ROUTES } from "@/constants/routes";
-import { EMPTY_TAGS } from "@/constants/states";
+import { EMPTY_QUESTION } from "@/constants/states";
 import { getTagQuestions } from "@/lib/actions/tags.action";
 import { RouteParams } from "@/types/glabal";
 
@@ -17,7 +17,6 @@ export default async function TagPage({ searchParams, params }: RouteParams) {
     query,
   });
   const { questions, tag } = data || {};
-  console.log(questions);
   return (
     <>
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -36,7 +35,7 @@ export default async function TagPage({ searchParams, params }: RouteParams) {
           success={success}
           error={errors}
           data={questions}
-          stateType={EMPTY_TAGS}
+          stateType={EMPTY_QUESTION}
           render={(questions) => {
             return questions?.map((question: QuestionI) => (
               <QuesionCard key={String(question._id)} question={question} />

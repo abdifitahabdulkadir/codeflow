@@ -138,7 +138,6 @@ export default function QuesionForm({
       }
 
       const result = await createQuestion(data);
-      console.log("-----------------outside limit");
       if (result.success) {
         toast({
           title: "Question Created",

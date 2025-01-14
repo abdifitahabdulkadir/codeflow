@@ -1,4 +1,6 @@
 import { model, models, Schema, Types } from "mongoose";
+import QuestionModel from "./question.model";
+import UserModel from "./user.model";
 
 export interface AnswerDoc {
   _id?: Types.ObjectId;
@@ -10,11 +12,11 @@ export interface AnswerDoc {
 }
 const AnswerSchmea = new Schema<AnswerDoc>(
   {
-    authorId: { type: Schema.Types.ObjectId, required: true, ref: "UserModel" },
+    authorId: { type: Schema.Types.ObjectId, required: true, ref: UserModel },
     questionId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: "QuestionModel",
+      ref: QuestionModel,
     },
     content: {
       type: String,

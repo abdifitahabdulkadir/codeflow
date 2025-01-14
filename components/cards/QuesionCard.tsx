@@ -31,7 +31,7 @@ export default function QuesionCard({
           tags.map(({ _id, name }: TagI) => {
             return (
               <TagCard
-                isButton
+                compact
                 quesionsCount={2}
                 name={name}
                 _id={String(_id!)}

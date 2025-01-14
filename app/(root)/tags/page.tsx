@@ -1,17 +1,51 @@
+import TagCard from "@/components/cards/TagCard";
+import DataRenderer from "@/components/DataRenderer";
+import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { getTags } from "@/lib/actions/tags.action";
+import { RouteParams } from "@/types/glabal";
 
-export default async function TagsPage() {
-  const { data } = await getTags({
-    page: 1,
-    pageSize: 10,
-    filter: "recent",
-    query: "nodejs",
+export default async function TagsPage({ searchParams }: RouteParams) {
+  const { query, page, pageSize, filter } = await searchParams;
+  const { data, success, errors } = await getTags({
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
+    filter,
+    query,
   });
   const { tags } = data || {};
-  console.log(tags);
+
   return (
-    <div className="flex min-h-screen w-full items-center justify-center">
-      <h6>tags page will be here</h6>
-    </div>
+    <>
+      <h1 className="h1-bold text-dark100_light900 text-3xl">Tags</h1>
+      <section className="mt-11">
+        <LocalSeachBar
+          route="/"
+          imageSrc="/icons/search.svg"
+          placeholder="Search Tags.."
+        />
+        <DataRenderer
+          success={success}
+          data={tags}
+          error={errors}
+          render={(tags: TagI[]) => {
+            return (
+              <div className="mt-6 flex w-full flex-wrap items-center justify-center gap-6 ">
+                {tags.map(({ _id, name, usage }: TagI) => {
+                  return (
+                    <TagCard
+                      usage={usage}
+                      quesionsCount={2}
+                      name={name}
+                      _id={String(_id!)}
+                      key={String(_id!)}
+                    />
+                  );
+                })}
+              </div>
+            );
+          }}
+        />
+      </section>
+    </>
   );
 }

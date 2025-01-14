@@ -14,6 +14,7 @@ interface LocalSeachBarProps {
   placeholder: string;
   otherClasses?: string;
   route: string;
+  iconPositon?: "left" | "right";
 }
 
 export default function LocalSeachBar({
@@ -21,6 +22,7 @@ export default function LocalSeachBar({
   placeholder,
   otherClasses,
   route,
+  iconPositon = "left",
 }: LocalSeachBarProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -53,15 +55,17 @@ export default function LocalSeachBar({
     <div
       className={`background-light800_darkgradient flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
     >
-      <label htmlFor="search">
-        <Image
-          src={imageSrc}
-          width={24}
-          height={24}
-          alt="search icon"
-          className="invert-colors cursor-pointer"
-        />
-      </label>
+      {iconPositon === "left" && (
+        <label htmlFor="search">
+          <Image
+            src={imageSrc}
+            width={24}
+            height={24}
+            alt="search icon"
+            className="invert-colors cursor-pointer"
+          />
+        </label>
+      )}
 
       <Input
         id="search"
@@ -70,6 +74,17 @@ export default function LocalSeachBar({
         onChange={(e) => setSearchQuery(e.target.value)}
         className="no-focus paragraph-regular text-dark400_light700 border-none bg-transparent shadow-none outline-none"
       />
+      {iconPositon === "right" && (
+        <label htmlFor="search">
+          <Image
+            src={imageSrc}
+            width={15}
+            height={15}
+            alt="search icon"
+            className="invert-colors cursor-pointer"
+          />
+        </label>
+      )}
     </div>
   );
 }

@@ -1,6 +1,4 @@
 import { model, models, Schema, Types } from "mongoose";
-import TagModel from "./tags.model";
-import UserModel from "./user.model";
 
 export interface QuestionDoc {
   _id?: Types.ObjectId | string;
@@ -21,9 +19,9 @@ const QuestionSchema = new Schema<QuestionDoc>(
     authorId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: UserModel,
+      ref: "UserModel",
     },
-    tags: [{ type: Schema.Types.ObjectId, ref: TagModel }],
+    tags: [{ type: Schema.Types.ObjectId, ref: "TagModel" }],
     views: { type: Number, default: 0 },
     upVotes: { type: Number, default: 0 },
     downVotes: { type: Number, default: 0 },

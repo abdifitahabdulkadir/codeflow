@@ -23,7 +23,6 @@ export default async function Home({ searchParams }: HomeProps) {
     sort: "",
     filter,
   });
-
   return (
     <>
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -35,7 +34,6 @@ export default async function Home({ searchParams }: HomeProps) {
           <Link href={ROUTES.ASK_QUEISION}>Ask a question</Link>
         </Button>
       </section>
-
       <section className="mt-10">
         <LocalSeachBar
           route="/"

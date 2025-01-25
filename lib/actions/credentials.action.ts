@@ -1,16 +1,16 @@
-"use server"
+"use server";
 
-import { signIn } from "@/auth"
-import AccountModel from "@/database/account.model"
-import UserModel, { UserDoc } from "@/database/user.model"
-import { ActionResponse, ErrorResponse } from "@/types/glabal"
-import bcrpt from "bcryptjs"
-import mongoose from "mongoose"
-import { z } from "zod"
-import { actionHandler } from "../handlers/action"
-import handleError from "../handlers/error"
-import { NotFoundError } from "../http-errros"
-import { SignInSchema, SignUpSchema } from "../validations"
+import { signIn } from "@/auth";
+import AccountModel from "@/database/account.model";
+import UserModel, { UserDoc } from "@/database/user.model";
+import { ActionResponse, ErrorResponse } from "@/types/glabal";
+import bcrpt from "bcryptjs";
+import mongoose from "mongoose";
+import { z } from "zod";
+import { actionHandler } from "../handlers/action";
+import handleError from "../handlers/error";
+import { NotFoundError } from "../http-errros";
+import { SignInSchema, SignUpSchema } from "../validations";
 
 // signup action
 export async function signUpWithCrendentials(
@@ -20,30 +20,30 @@ export async function signUpWithCrendentials(
     params,
     schema: SignUpSchema,
     authorize: true,
-  })
+  });
 
   if (validatedResult instanceof Error) {
-    return handleError("server", validatedResult) as ErrorResponse
+    return handleError("server", validatedResult) as ErrorResponse;
   }
 
-  const { email, password, username } = validatedResult.params!
-  const session = await mongoose.startSession()
-  session.startTransaction()
+  const { email, password, username } = validatedResult.params!;
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  let transactionCommited = false
+  let transactionCommited = false;
   try {
-    const existedUer = await UserModel.findOne({ email }).session(session)
+    const existedUer = await UserModel.findOne({ email }).session(session);
 
-    if (existedUer) throw new Error("User is already existed")
+    if (existedUer) throw new Error("User is already existed");
 
     const usernameExisted = await UserModel.findOne({ username }).session(
       session,
-    )
+    );
 
-    if (usernameExisted) throw new Error("Username is existed before.")
+    if (usernameExisted) throw new Error("Username is existed before.");
 
     // hash the password
-    const hashedPassword = await bcrpt.hash(password, 10)
+    const hashedPassword = await bcrpt.hash(password, 10);
 
     const [newUser] = await UserModel.create<UserDoc>(
       [
@@ -54,7 +54,7 @@ export async function signUpWithCrendentials(
         },
       ],
       { session },
-    )
+    );
     // create account that associates with that user.
     await AccountModel.create(
       [
@@ -67,17 +67,17 @@ export async function signUpWithCrendentials(
         },
       ],
       { session },
-    )
-    await session.commitTransaction()
-    transactionCommited = true
-    await signIn("credentials", { email, password, redirect: false })
+    );
+    await session.commitTransaction();
+    transactionCommited = true;
+    await signIn("credentials", { email, password, redirect: false });
 
-    return { success: true }
+    return { success: true };
   } catch (error) {
-    if (!transactionCommited) await session.abortTransaction()
-    return handleError("server", error) as ErrorResponse
+    if (!transactionCommited) await session.abortTransaction();
+    return handleError("server", error) as ErrorResponse;
   } finally {
-    await session.endSession()
+    await session.endSession();
   }
 }
 
@@ -89,32 +89,32 @@ export async function signInWithCredentials(
     params,
     schema: SignInSchema,
     authorize: false,
-  })
+  });
   if (validatedResult instanceof Error) {
-    throw new Error(validatedResult.message)
+    throw new Error(validatedResult.message);
   }
-  const { email, password } = validatedResult.params!
+  const { email, password } = validatedResult.params!;
 
   try {
-    const existedUer = await UserModel.findOne({ email })
-    if (!existedUer) throw new NotFoundError("User")
+    const existedUer = await UserModel.findOne({ email });
+    if (!existedUer) throw new NotFoundError("User");
 
     const existedAccount = await AccountModel.findOne({
       providerAccountId: email,
-    })
-    if (!existedAccount) throw new NotFoundError("Account")
+    });
+    if (!existedAccount) throw new NotFoundError("Account");
 
     // check if the current passwrod matches the hashed password
     const matchedPassword = await bcrpt.compare(
       password,
       existedAccount.password,
-    )
-    if (!matchedPassword) throw new Error("passwrod did not match")
+    );
+    if (!matchedPassword) throw new Error("passwrod did not match");
 
-    await signIn("credentials", { email, password, redirect: false })
+    await signIn("credentials", { email, password, redirect: false });
 
-    return { success: true }
+    return { success: true };
   } catch (error) {
-    return handleError("server", error) as ErrorResponse
+    return handleError("server", error) as ErrorResponse;
   }
 }

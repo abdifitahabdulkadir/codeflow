@@ -8,8 +8,8 @@ export default function SignIn() {
     <CredentialAuthForm<z.infer<typeof SignInSchema>>
       schema={SignInSchema}
       defaultValues={{
-        password: "",
         email: "",
+        password: "",
       }}
       formType="SIGN_IN"
       onSubmit={signInWithCredentials}

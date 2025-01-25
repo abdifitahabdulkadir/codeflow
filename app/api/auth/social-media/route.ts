@@ -8,7 +8,6 @@ import { ApiErroResponse } from "@/types/glabal";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import slugify from "slugify";
-import { string } from "zod";
 
 export async function POST(request: Request) {
   const { user, provider, providerAccountId } = await request.json();
@@ -50,15 +49,23 @@ export async function POST(request: Request) {
     }
     // updating some user information like image and username if he existed
     else {
-      const updatedUserData = { name: string, image: string };
+      let { newImage, newName }: { newName: string; newImage: string } = {
+        newName: "",
+        newImage: "",
+      };
+      if (isUserExisted.name !== newName) newName = name;
+      if (isUserExisted.image !== newImage) newImage = image;
 
-      if (isUserExisted.name !== name) updatedUserData.name = name;
-      if (isUserExisted.image !== image) updatedUserData.image = image;
-
-      if (Object.keys(updatedUserData).length > 0)
-        await UserModel.updateOne({ email }, { $set: updatedUserData }).session(
-          session,
-        );
+      if (newName || newImage)
+        await UserModel.updateOne(
+          { email },
+          {
+            $set: {
+              name: newName,
+              image: newImage,
+            },
+          },
+        ).session(session);
     }
 
     // find account that asssociat with user (if any)
@@ -87,7 +94,7 @@ export async function POST(request: Request) {
     await session.commitTransaction();
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
-    session.abortTransaction();
+    if (!session.transaction.isCommitted) session.abortTransaction();
     return handleError("server", error) as ApiErroResponse;
   } finally {
     session.endSession();

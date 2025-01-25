@@ -9,8 +9,8 @@ export default function SignUp() {
     <CredentialAuthForm<z.infer<typeof SignUpSchema>>
       schema={SignUpSchema}
       defaultValues={{
-        password: "",
         email: "",
+        password: "",
         username: "",
       }}
       formType="SIGN_UP"

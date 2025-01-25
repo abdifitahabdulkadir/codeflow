@@ -1,8 +1,8 @@
 import "@/database";
 import mongoose, { Mongoose } from "mongoose";
-const MONGDODB_URI = process.env.MONGDODB_URI as string;
+const MONGODB_URI = process.env.MONGODB_URI as string;
 
-if (!MONGDODB_URI) {
+if (!MONGODB_URI) {
   throw new Error("MONGODB_URI is not defined");
 }
 
@@ -29,7 +29,7 @@ const dbConnect = async (): Promise<Mongoose> => {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(MONGDODB_URI, {
+      .connect(MONGODB_URI, {
         dbName: "codeflow",
       })
       .then((result) => {

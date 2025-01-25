@@ -1,9 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-
 import { useEffect, useState } from "react";
-
+import { useRouter, useSearchParams } from "next/navigation";
 import { removeUrlQueryParams, updateUrlQueryParams } from "@/lib/url";
 import { cn } from "@/lib/utils";
 

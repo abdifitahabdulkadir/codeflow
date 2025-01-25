@@ -274,8 +274,9 @@ export async function getQuestions(params: PaginatedSearchParams): Promise<
     authorize: true,
   });
 
-  if (validatedResult instanceof Error)
+  if (validatedResult instanceof Error) {
     return handleError("server", validatedResult) as ErrorResponse;
+  }
 
   const { page = 1, pageSize = 10, query, filter } = params;
 

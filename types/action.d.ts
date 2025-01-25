@@ -33,6 +33,7 @@ interface SigninWithOAuthProps {
     name?: string;
     email?: string;
     username?: string;
+    image?: string;
   };
   provider: string;
   providerAccountId: string;

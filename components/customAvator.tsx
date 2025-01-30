@@ -34,7 +34,7 @@ export default async function CustomAvator({
         />
       ) : (
         <AvatarFallback>
-          <div className="primary-gradient flex size-full items-center justify-center rounded-full font-space-grotesk font-bold tracking-wider !text-white">
+          <div className="primary-gradient flex size-full items-center justify-center rounded-full font-space-grotesk font-bold tracking-wider text-white!">
             {alteredName}
           </div>
         </AvatarFallback>

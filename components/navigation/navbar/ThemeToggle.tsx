@@ -26,7 +26,7 @@ export function ThemeToggle() {
         <Button
           size="icon"
           variant={"outline"}
-          className="cursor-pointer outline-none focus:bg-light-900 data-[state=open]:bg-light-900 dark:focus:bg-dark-200 dark:data-[state=open]:bg-dark-200"
+          className="cursor-pointer outline-hidden focus:bg-light-900 data-[state=open]:bg-light-900 dark:focus:bg-dark-200 dark:data-[state=open]:bg-dark-200"
         >
           {currentTheme === "light" && (
             <Image

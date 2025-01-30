@@ -93,7 +93,7 @@ export default function CredentialAuthForm<T extends FieldValues>({
       )}
       <Button
         disabled={isSubmitting}
-        className="primary-gradient paragraph-medium min-h-12 w-full rounded-2 px-4 py-3 text-center !text-light-900"
+        className="primary-gradient paragraph-medium min-h-12 w-full rounded-2 px-4 py-3 text-center text-light-900!"
       >
         {isSubmitting
           ? formType === "SIGN_IN"

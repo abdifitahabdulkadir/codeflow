@@ -72,7 +72,7 @@ export default function LocalSeachBar({
         placeholder={placeholder}
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="no-focus paragraph-regular text-dark400_light700 border-none bg-transparent shadow-none outline-none"
+        className="no-focus paragraph-regular text-dark400_light700 border-none bg-transparent shadow-none outline-hidden"
       />
       {iconPositon === "right" && (
         <label htmlFor="search">

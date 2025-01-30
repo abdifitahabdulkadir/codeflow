@@ -259,7 +259,7 @@ export default function QuesionForm({
         <Button
           disabled={isPending}
           type="submit"
-          className="primary-gradient !text-light-900"
+          className="primary-gradient text-light-900!"
         >
           {isPending
             ? isEdit

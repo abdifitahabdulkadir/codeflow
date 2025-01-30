@@ -65,7 +65,7 @@ function StateSkelton({ image, title, message, button }: StateSkeltonPros) {
       </p>
       {button && (
         <Link href={button.href}>
-          <Button className="paragraph-medium mt-5 min-h-[46px] rounded-lg  bg-primary-400 px-4 py-3 text-light-900 hover:!bg-primary-100">
+          <Button className="paragraph-medium mt-5 min-h-[46px] rounded-lg  bg-primary-400 px-4 py-3 text-light-900 hover:bg-primary-100!">
             {button.text}
           </Button>
         </Link>

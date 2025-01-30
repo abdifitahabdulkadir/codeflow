@@ -28,7 +28,7 @@ export default async function Home({ searchParams }: HomeProps) {
       <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="h1-bold text-dark100_light900">All Quesions</h1>
         <Button
-          className="primary-gradient min-h-[46px] w-fit self-end px-4 py-3 text-light-900!"
+          className="primary-gradient min-h-[46px] w-fit self-end px-4 py-3 !text-light-900"
           asChild
         >
           <Link href={ROUTES.ASK_QUEISION}>Ask a question</Link>

@@ -9,7 +9,6 @@ import mongoose from "mongoose";
 import { z } from "zod";
 import { actionHandler } from "../handlers/action";
 import handleError from "../handlers/error";
-import { NotFoundError } from "../http-errros";
 import { SignInSchema, SignUpSchema } from "../validations";
 
 // signup action
@@ -19,7 +18,7 @@ export async function signUpWithCrendentials(
   const validatedResult = await actionHandler({
     params,
     schema: SignUpSchema,
-    authorize: true,
+    authorize: false,
   });
 
   if (validatedResult instanceof Error) {
@@ -30,8 +29,8 @@ export async function signUpWithCrendentials(
   const session = await mongoose.startSession();
   session.startTransaction();
 
-  let transactionCommited = false;
   try {
+    console.log("I am inside here1");
     const existedUer = await UserModel.findOne({ email }).session(session);
 
     if (existedUer) throw new Error("User is already existed");
@@ -68,13 +67,14 @@ export async function signUpWithCrendentials(
       ],
       { session },
     );
+
+    console.log("I am inside here2");
     await session.commitTransaction();
-    transactionCommited = true;
     await signIn("credentials", { email, password, redirect: false });
 
     return { success: true };
   } catch (error) {
-    if (!transactionCommited) await session.abortTransaction();
+    if (!session.transaction.isCommitted) await session.abortTransaction();
     return handleError("server", error) as ErrorResponse;
   } finally {
     await session.endSession();
@@ -96,23 +96,7 @@ export async function signInWithCredentials(
   const { email, password } = validatedResult.params!;
 
   try {
-    const existedUer = await UserModel.findOne({ email });
-    if (!existedUer) throw new NotFoundError("User");
-
-    const existedAccount = await AccountModel.findOne({
-      providerAccountId: email,
-    });
-    if (!existedAccount) throw new NotFoundError("Account");
-
-    // check if the current passwrod matches the hashed password
-    const matchedPassword = await bcrpt.compare(
-      password,
-      existedAccount.password,
-    );
-    if (!matchedPassword) throw new Error("passwrod did not match");
-
     await signIn("credentials", { email, password, redirect: false });
-
     return { success: true };
   } catch (error) {
     return handleError("server", error) as ErrorResponse;

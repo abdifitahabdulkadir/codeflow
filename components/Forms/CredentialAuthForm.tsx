@@ -53,7 +53,7 @@ export default function CredentialAuthForm<T extends FieldValues>({
     } else {
       toast({
         title: `Error ${result.statusCode}`,
-        description: result.errors?.message,
+        description: result.errors?.message.split(".")[0] + "!",
         variant: "destructive",
       });
     }
@@ -72,7 +72,7 @@ export default function CredentialAuthForm<T extends FieldValues>({
             <Input
               type={"text"}
               {...register(item as Path<T>)}
-              className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-12 rounded-1.5 border"
+              className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 outline-none no-focus min-h-12 rounded-1.5 border"
             />
             {errors[item] && (
               <FromErrorElement>
@@ -93,7 +93,7 @@ export default function CredentialAuthForm<T extends FieldValues>({
       )}
       <Button
         disabled={isSubmitting}
-        className="primary-gradient paragraph-medium min-h-12 w-full rounded-2 px-4 py-3 text-center text-light-900!"
+        className="primary-gradient paragraph-medium min-h-12 w-full rounded-2 px-4 py-3 text-center !text-light-900"
       >
         {isSubmitting
           ? formType === "SIGN_IN"

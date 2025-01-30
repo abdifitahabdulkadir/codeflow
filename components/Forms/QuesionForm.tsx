@@ -23,9 +23,8 @@ import {
   FromDescription,
   FromErrorElement,
 } from "./FormElements";
-// This is the only place InitializedMDXEditor is imported directly.
+
 const Editor = dynamic(() => import("@/components/Editor/Editor"), {
-  // Make sure we turn SSR off
   ssr: false,
 });
 
@@ -169,7 +168,7 @@ export default function QuesionForm({
         <Input
           {...register("title")}
           type="text"
-          className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
+          className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 outline-none no-focus min-h-[56px] border"
         />
         {errors?.title && (
           <FromErrorElement>{errors.title.message}</FromErrorElement>
@@ -210,7 +209,7 @@ export default function QuesionForm({
         <Input
           onKeyDown={(e) => handleInputKeyDown(e, getValues("tags"))}
           type="text"
-          className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-[56px] border"
+          className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 outline-none no-focus min-h-[56px] border"
         />
         <div className="flex items-center gap-2">
           <AnimatePresence>
@@ -259,7 +258,7 @@ export default function QuesionForm({
         <Button
           disabled={isPending}
           type="submit"
-          className="primary-gradient text-light-900!"
+          className="primary-gradient !text-light-900"
         >
           {isPending
             ? isEdit

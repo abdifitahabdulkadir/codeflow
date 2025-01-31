@@ -42,7 +42,9 @@ export default function Metric({
       <p className={`${textStyles} flex items-center gap-1`}>
         {title}
         {isAuthor && (
-          <span className="text-dark400_light700 max-sm:hidden">•</span>
+          <span className="text-dark-400 dark:text-light-700 max-sm:hidden">
+            •
+          </span>
         )}
         <span
           className={cn(
@@ -56,10 +58,12 @@ export default function Metric({
     </>
   );
   return href ? (
-    <Link href={href} className="flex-center gap-1">
+    <Link href={href} className="flex items-center justify-center gap-1">
       {metricContnet}
     </Link>
   ) : (
-    <div className="flex-center gap-1">{metricContnet}</div>
+    <div className="flex items-center justify-center gap-1">
+      {metricContnet}
+    </div>
   );
 }

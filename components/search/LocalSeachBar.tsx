@@ -53,7 +53,7 @@ export default function LocalSeachBar({
 
   return (
     <div
-      className={`background-light800_darkgradient flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
+      className={`dark:dark-gradient bg-light-800 flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
     >
       {iconPositon === "left" && (
         <label htmlFor="search">
@@ -62,7 +62,7 @@ export default function LocalSeachBar({
             width={24}
             height={24}
             alt="search icon"
-            className="invert-colors cursor-pointer"
+            className=" invert dark:invert-0  cursor-pointer"
           />
         </label>
       )}
@@ -72,7 +72,7 @@ export default function LocalSeachBar({
         placeholder={placeholder}
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="no-focus paragraph-regular text-dark400_light700 border-none bg-transparent shadow-none outline-none"
+        className="focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 paragraph-regular text-dark-400 dark:text-light-700  border-none bg-transparent shadow-none outline-hidden"
       />
       {iconPositon === "right" && (
         <label htmlFor="search">
@@ -81,7 +81,7 @@ export default function LocalSeachBar({
             width={15}
             height={15}
             alt="search icon"
-            className="invert-colors cursor-pointer"
+            className=" invert dark:invert-0  cursor-pointer"
           />
         </label>
       )}

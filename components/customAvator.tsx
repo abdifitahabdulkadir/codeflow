@@ -9,7 +9,7 @@ interface CustomAvatorProps {
   userImage: string | undefined;
 }
 
-export default async function CustomAvator({
+export default function CustomAvator({
   userId,
   userImage,
   name,

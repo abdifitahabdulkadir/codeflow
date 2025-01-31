@@ -13,13 +13,13 @@ export default function QuesionCard({
 }) {
   const time = formatTimeAgo(new Date(createdAt));
   return (
-    <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
+    <div className="dark:dark-gradient bg-light-900 shadow-light-100 dark:shadow-dark-100 rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col items-start justify-between gap-5 sm:flex-row">
-        <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
+        <span className="subtle-regular text-dark-400 dark:text-light-700  line-clamp-1 flex sm:hidden">
           {time}
         </span>
         <Link href={ROUTES.QUESIONS(String(_id!))}>
-          <h3 className="base-semibold text-dark200_light900 line-clamp-1 flex-1 sm:font-semibold">
+          <h3 className="base-semibold text-dark-200 dark:text-light-900  line-clamp-1 flex-1 sm:font-semibold">
             {title}
           </h3>
         </Link>
@@ -40,14 +40,14 @@ export default function QuesionCard({
           })}
       </div>
 
-      <div className="flex-between mt-6 w-full flex-wrap gap-3">
+      <div className="flex items-center justify-between mt-6 w-full flex-wrap gap-3">
         <Metric
           imageUrl={author?.image || null}
           alt={author.name + " image "}
           title={author.name!}
           value={`asked ${time}`}
           href={ROUTES.PROFILE(author._id)}
-          textStyles="text-dark400_light700 body-medium"
+          textStyles="text-dark-400 dark:text-light-700  body-medium"
           isAuthor
         />
         <div className="flex items-center gap-3 max-sm:flex-wrap max-sm:justify-start">
@@ -56,21 +56,21 @@ export default function QuesionCard({
             alt={"like icon"}
             value={`${upVotes}`}
             title={" Votes"}
-            textStyles="text-dark400_light700 small-regular"
+            textStyles="text-dark-400 dark:text-light-700  small-regular"
           />
           <Metric
             imageUrl={"/icons/message.svg"}
             alt={"message icon"}
             value={0}
             title={" Answers"}
-            textStyles="text-dark400_light700 small-regular"
+            textStyles="text-dark-400 dark:text-light-700  small-regular"
           />
           <Metric
             imageUrl={"/icons/eye.svg"}
             alt={"views icon"}
             value={`${views}`}
             title={" Views"}
-            textStyles="text-dark400_light700 small-regular"
+            textStyles="text-dark-400 dark:text-light-700  small-regular"
           />
         </div>
       </div>

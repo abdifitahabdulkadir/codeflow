@@ -32,7 +32,7 @@ export default function NavLinks({
               className={`flex items-center justify-start gap-3 rounded-lg p-2 ${
                 isActive
                   ? "primary-gradient text-light-900"
-                  : "text-dark300_light900 bg-transparent"
+                  : "!text-dark-300 dark:!text-light-900  bg-transparent"
               } max-lg:w-fit lg:w-full`}
             >
               <Image
@@ -43,7 +43,7 @@ export default function NavLinks({
                 loading="eager"
                 priority
                 className={cn({
-                  "invert-colors": !isActive,
+                  " invert dark:invert-0 ": !isActive,
                 })}
               />
               <span

@@ -14,7 +14,7 @@ export default function SignoutButton() {
         });
       }}
       // eslint-disable-next-line tailwindcss/no-custom-classname
-      className="btn-secondary small-medium text-dark400_light900! w-full rounded-lg px-4 py-3 text-center shadow-none"
+      className="!bg-light-800 dark:!bg-dark-400 small-medium !text-dark-400! dark:!text-light-900 w-full rounded-lg px-4 py-3 text-center shadow-none"
     >
       {/* <Image
     src={"/images/logout-icon.svg"}

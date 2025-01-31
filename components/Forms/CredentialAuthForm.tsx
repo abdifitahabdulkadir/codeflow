@@ -72,7 +72,7 @@ export default function CredentialAuthForm<T extends FieldValues>({
             <Input
               type={"text"}
               {...register(item as Path<T>)}
-              className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 outline-none no-focus min-h-12 rounded-1.5 border"
+              className="paragraph-regular bg-light-900 dark:bg-dark-300 border-light-800 dark:border-dark-300-2 text-dark-300 dark:text-light-700 outline-hidden focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 min-h-12 rounded-1.5 border"
             />
             {errors[item] && (
               <FromErrorElement>
@@ -93,7 +93,7 @@ export default function CredentialAuthForm<T extends FieldValues>({
       )}
       <Button
         disabled={isSubmitting}
-        className="primary-gradient paragraph-medium min-h-12 w-full rounded-2 px-4 py-3 text-center !text-light-900"
+        className="primary-gradient paragraph-medium min-h-12 w-full rounded-2 px-4 py-3 text-center text-light-900!"
       >
         {isSubmitting
           ? formType === "SIGN_IN"
@@ -103,7 +103,7 @@ export default function CredentialAuthForm<T extends FieldValues>({
             ? "Sign In"
             : "Sign up"}
       </Button>
-      <p className="text-dark300_light700 body-regular flex w-full items-center justify-center text-sm">
+      <p className="text-dark-300 dark:text-light-700 body-regular flex w-full items-center justify-center text-sm">
         {formType === "SIGN_UP"
           ? "Already have an account?"
           : "Don't have an account?"}

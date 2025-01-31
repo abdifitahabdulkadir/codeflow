@@ -20,6 +20,8 @@ export function ThemeToggle() {
     setRender(true);
   }, []);
   if (!render) return null;
+
+  console.log(currentTheme);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="bg-transparent">
@@ -62,7 +64,7 @@ export function ThemeToggle() {
             alt="light mode logo"
             priority
             loading="eager"
-            className="invert-colors"
+            className=" invert dark:invert-0 "
           />
           Light
         </DropdownMenuItem>

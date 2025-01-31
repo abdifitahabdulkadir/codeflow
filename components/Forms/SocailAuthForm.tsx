@@ -9,7 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "../ui/button";
 
 const buttonClass =
-  "text-dark200_light800 background-dark400_light900 body-meduium min-h-12 flex-1 rounded-2 px-4 py-3.5 text-dark200_light800 background-dark400_light900 body-meduium min-h-12  transition-colors duration-300 hover:opacity-80    flex-1 rounded-2 px-4 py-3.5";
+  "body-meduium min-h-12 flex-1 rounded-2 px-4 py-3.5 !text-dark-200 dark:!text-light-800 !bg-light-900 dark:!bg-dark-400 body-meduium min-h-12  transition-colors duration-300 hover:opacity-80    flex-1 rounded-2 px-4 py-3.5";
 
 export default function SocailAuthForm() {
   // hanlde form submit
@@ -40,7 +40,7 @@ export default function SocailAuthForm() {
           height={30}
           width={30}
           priority
-          className="invert-colors object-contain"
+          className=" invert dark:invert-0  object-contain"
         />
         <span>Log in with GitHub</span>
       </Button>

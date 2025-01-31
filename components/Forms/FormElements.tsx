@@ -11,7 +11,10 @@ export function FormLabel({
 }) {
   return (
     <label
-      className={cn("paragraph-semibold text-dark400_light800", className)}
+      className={cn(
+        "paragraph-semibold text-dark-400 dark:text-light-800",
+        className,
+      )}
     >
       {children}
     </label>

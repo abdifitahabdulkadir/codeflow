@@ -19,7 +19,9 @@ export default async function TagsPage({ searchParams }: RouteParams) {
 
   return (
     <>
-      <h1 className="h1-bold text-dark100_light900 text-3xl">Tags</h1>
+      <h1 className="h1-bold !text-dark-100 dark:!text-light-900 text-3xl">
+        Tags
+      </h1>
       <section className="mt-11">
         <LocalSeachBar
           route={ROUTES.TAGS}

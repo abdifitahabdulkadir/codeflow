@@ -29,23 +29,24 @@ export default async function AppLayout({
           href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
         />
       </head>
-      <SessionProvider session={session}>
-        <body
-          className={`antialiased ${interFont.className} ${spaceGrotesk.variable}`}
+      <body
+        className={`antialiased ${interFont.className} ${spaceGrotesk.variable}`}
+      >
+        <ThemeProvider
+          disableTransitionOnChange
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          enableColorScheme
+          themes={["dark", "light"]}
         >
-          <ThemeProvider
-            disableTransitionOnChange
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            themes={["dark", "light"]}
-          >
+          <SessionProvider session={session}>
             {children}
-          </ThemeProvider>
 
-          <Toaster />
-        </body>
-      </SessionProvider>
+            <Toaster />
+          </SessionProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

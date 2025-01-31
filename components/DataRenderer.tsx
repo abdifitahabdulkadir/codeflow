@@ -59,8 +59,10 @@ function StateSkelton({ image, title, message, button }: StateSkeltonPros) {
           className="block object-contain dark:hidden"
         />
       </>
-      <h2 className="h2-bold text-dark200_light900 mt-8">{title}</h2>
-      <p className="body-regular text-dark500_light700 mt-1.5 max-w-md text-center">
+      <h2 className="h2-bold text-dark-200 dark:text-light-900 mt-8">
+        {title}
+      </h2>
+      <p className="body-regular !text-dark-500 dark:!text-light-700  mt-1.5 max-w-md text-center">
         {message}
       </p>
       {button && (

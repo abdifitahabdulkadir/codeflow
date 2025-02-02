@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { removeUrlQueryParams, updateUrlQueryParams } from "@/lib/url";
 import { cn } from "@/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { Button } from "../../components/ui/button";
 
@@ -56,6 +56,7 @@ export default function HomeFilters() {
       router.push(newUrl, { scroll: false });
     }
   };
+  // background-light800_dark300;
   return (
     <div className="mt-6 flex w-full flex-wrap gap-3 ">
       {filters.map((filter) => (
@@ -64,8 +65,8 @@ export default function HomeFilters() {
           className={cn(
             `body-medium shadow-none" rounded-lg px-6 py-3 capitalize`,
             activeFilter === filter.value
-              ? "bg-primary-100 text-primary-400 hover:bg-primary-100 dark:bg-dark-300 dark:text-primary-400 dark:hover:bg-dark-400"
-              : "text-light-200 bg-light-800 hover:bg-light-800 dark:bg-dark-300 dark:text-light-500 dark:hover:bg-dark-400",
+              ? "bg-100 text-400 hover:bg-primary-100 dark:!bg-dark-200 dark:text-primary-400 dark:hover:bg-dark-400"
+              : "text-light-200  hover:bg-light-800  !background-light800_dark300  dark:text-light-500 dark:hover:bg-dark-400",
           )}
           onClick={() => handleOnClick(filter.value)}
         >

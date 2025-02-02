@@ -168,7 +168,7 @@ export default function QuesionForm({
         <Input
           {...register("title")}
           type="text"
-          className="paragraph-regular bg-light-900 dark:bg-dark-300 border-light-800 dark:border-dark-300-2 text-dark-300 dark:text-light-700 outline-hidden focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 min-h-[56px] border"
+          className="paragraph-regular background-light900_dark300  dark:border-dark-300 text-dark300_light700 outline-hidden focus-visible:!ring focus-visible:ring-light-800 rounded min-h-[56px] border"
         />
         {errors?.title && (
           <FromErrorElement>{errors.title.message}</FromErrorElement>
@@ -209,7 +209,7 @@ export default function QuesionForm({
         <Input
           onKeyDown={(e) => handleInputKeyDown(e, getValues("tags"))}
           type="text"
-          className="paragraph-regular bg-light-900 dark:bg-dark-300 border-light-800 dark:border-dark-300-2 text-dark-300 dark:text-light-700 outline-hidden focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 min-h-[56px] border"
+          className="paragraph-regular background-light900_dark300  dark:!border-dark-300 text-dark300_light700 outline-hidden focus-visible:!ring focus-visible:ring-light-800 rounded min-h-[56px] border"
         />
         <div className="flex items-center gap-2">
           <AnimatePresence>

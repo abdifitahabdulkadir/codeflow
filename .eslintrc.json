@@ -1,4 +1,11 @@
 {
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js"],
+      "parser": "@typescript-eslint/parser"
+    }
+  ],
+  "root": true,
   "extends": [
     "next/core-web-vitals",
     "next/typescript",
@@ -11,13 +18,5 @@
     "tailwindcss/classnames-order": "error",
     "no-use-before-define": "off",
     "no-useless-constructor": "off"
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {
-        "no-undef": "off"
-      }
-    }
-  ]
+  }
 }

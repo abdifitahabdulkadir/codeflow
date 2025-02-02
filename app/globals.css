@@ -1,5 +1,7 @@
 @import "tailwindcss";
+@config "../tailwind.config.js";
 
+/*css variables inside (@them directive) */
 @theme {
   /* colors  */
   --color-100: #fff1e6;
@@ -40,6 +42,182 @@
   --radius-sm: calc(0.5rem - 4px);
 }
 
+/* Background Utilities */
+@utility background-light900_dark200 {
+  background: var(--color-light-900);
+  @variant dark {
+    background: var(--color-dark-200);
+  }
+}
+
+@utility background-light900_dark300 {
+  background: var(--color-light-900);
+  @variant dark {
+    background: var(--color-dark-300);
+  }
+}
+
+@utility background-light800_darkgradient {
+  background: var(--color-light-800);
+
+  @variant dark {
+    background: var(--dark-gradient);
+  }
+}
+
+@utility background-light800_dark400 {
+  background: var(--color-light-800);
+  @variant dark {
+    background: var(--color-dark-400);
+  }
+}
+
+@utility background-light700_dark400 {
+  background: var(--color-light-700);
+
+  @variant dark {
+    background: var(--color-dark-400);
+  }
+}
+
+@utility background-light700_dark300 {
+  background: var(--color-light-700);
+  @variant dark {
+    background: var(--color-dark-300);
+  }
+}
+
+@utility background-light800_dark300 {
+  background: var(--color-light-800);
+  @variant dark {
+    background: var(--color-dark-300);
+  }
+}
+
+@utility background-light800_dark200 {
+  background: var(--color-light-800);
+
+  @variant dark {
+    background: var(--color-dark-200);
+  }
+}
+
+@utility background-dark400_light900 {
+  background: var(--color-light-900);
+  @variant dark {
+    background: var(--color-dark-400);
+  }
+}
+
+@utility background-light850_dark100 {
+  background: var(--color-light-850);
+  @variant dark {
+    background: var(--color-dark-100);
+  }
+}
+
+/* Text Utilities */
+@utility text-dark100_light900 {
+  color: var(--color-dark-100);
+  @variant dark {
+    color: var(--color-light-900);
+  }
+}
+
+@utility text-dark200_light900 {
+  color: var(--color-dark-200);
+  @variant dark {
+    color: var(--color-light-900);
+  }
+}
+
+@utility text-dark200_light800 {
+  color: var(--color-dark-200);
+
+  @variant dark {
+    color: var(--color-light-800);
+  }
+}
+
+@utility text-dark300_light700 {
+  color: var(--color-dark-300);
+  @variant dark {
+    color: var(--color-light-700);
+  }
+}
+
+@utility text-dark400_light700 {
+  color: var(--color-dark-400);
+  @variant dark {
+    color: var(--color-light-700);
+  }
+}
+
+@utility text-dark500_light700 {
+  color: var(--color-dark-500);
+  @variant dark {
+    color: var(--color-light-700);
+  }
+}
+
+@utility text-dark500_light500 {
+  color: var(--color-dark-500);
+  @variant dark {
+    color: var(--color-light-500);
+  }
+}
+
+@utility text-dark500_light400 {
+  color: var(--color-dark-500);
+  @variant dark {
+    color: var(--color-light-400);
+  }
+}
+
+@utility text-dark300_light900 {
+  color: var(--color-dark-300);
+  @variant dark {
+    color: var(--color-light-900);
+  }
+}
+
+@utility text-dark400_light800 {
+  color: var(--color-dark-400);
+  @variant dark {
+    color: var(--color-light-800);
+  }
+}
+
+@utility text-dark400_light500 {
+  color: var(--color-dark-400);
+  @variant dark {
+    color: var(--color-light-500);
+  }
+}
+
+@utility text-dark400_light900 {
+  color: var(--color-dark-400);
+  @variant dark {
+    color: var(--color-light-900);
+  }
+}
+
+/* Border Utilities */
+@utility light-border {
+  border-color: var(--color-light-800);
+  @variant dark {
+    border-color: var(--color-dark-300);
+  }
+}
+
+@utility light-border-2 {
+  border-color: var(--color-light-700);
+  @variant dark {
+    border-color: var(--color-dark-400);
+  }
+}
+
+/* topography utilities */
 @utility h1-bold {
   font-size: 30px;
   font-weight: bold;
@@ -191,18 +369,73 @@
   -webkit-text-fill-color: transparent;
 }
 
+/* other utitlies we have  */
+@utility flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@utility flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@utility flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Card Wrapper */
+@utility card-wrapper {
+  background: var(--color-light-900);
+  box-shadow: var(--shadow-light-100);
+  @variant dark {
+    background: var(--dark-gradient);
+    box-shadow: var(--shadow-dark-100);
+  }
+}
+
+/* Button Utilities */
+@utility btn {
+  background: var(--color-light-800) !important;
+  @variant dark {
+    background: var(--color-dark-300) !important;
+  }
+}
+
+@utility btn-secondary {
+  background: var(--color-light-800) !important;
+  @variant dark {
+    background: var(--color-dark-400) !important;
+  }
+}
+
+@utility btn-tertiary {
+  background: var(--color-light-700) !important;
+  @variant dark {
+    background: var(--color-dark-300) !important;
+  }
+}
+
+/* Focus Utility */
+@utility no-focus {
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+}
+/* Basic utitlies like scroll and mdx editor */
 @layer utilities {
   body {
     font-family: "Inter", sans-serif;
   }
-
-  :root {
-    --radius: 8px;
+  mdxeditor-toolbar {
+    background: #ffffff !important;
   }
-}
 
-@layer utilities {
-  /* custom csss for scrolls */
   .custom-scrollbar::-webkit-scrollbar {
     width: 3px;
     height: 3px;

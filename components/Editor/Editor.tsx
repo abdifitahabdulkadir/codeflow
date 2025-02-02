@@ -54,7 +54,7 @@ const Editor = ({ value, editorRef, fieldChange }: Props) => {
       ref={editorRef}
       placeholder="Write the content here.."
       onChange={fieldChange}
-      className="bg-light-800 dark:bg-dark-200 border-light-800 dark:border-dark-300-2 markdown-editor dark-editor custom-scrollbar grid w-full border"
+      className="background-light800_dark200 light-border markdown-editor dark-editor custom-scrollbar grid w-full border"
       plugins={[
         headingsPlugin(),
         listsPlugin(),

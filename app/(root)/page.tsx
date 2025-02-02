@@ -26,9 +26,7 @@ export default async function Home({ searchParams }: HomeProps) {
   return (
     <>
       <section className="flex   w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
-        <h1 className="h1-bold  !text-dark-100 dark:!text-light-900">
-          All Quesions
-        </h1>
+        <h1 className="h1-bold  text-dark100_light900">All Quesions</h1>
         <Button
           className="primary-gradient rounded  min-h-[46px] w-fit self-end px-4 py-3 text-light-900!"
           asChild

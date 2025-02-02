@@ -29,7 +29,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/Filters/HomeFilters.tsx"
+    "components/Filters/HomeFilters.tsx",
+    "tailwind.config.js"
   ],
   "exclude": ["node_modules"]
 }

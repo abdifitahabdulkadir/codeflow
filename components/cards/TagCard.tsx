@@ -33,8 +33,8 @@ export default function TagCard({
   const description = getTechDescription(name);
   const contnet = (
     <>
-      <Badge className="subtle-medium !bg-light-800 dark:!bg-dark-300  rounded-md border-none px-4 py-2 uppercase">
-        <div className="text-dark-500 dark:text-light-500 flex items-center gap-x-2">
+      <Badge className="subtle-medium  !background-light800_dark300 rounded-md border-none px-4 py-2 uppercase">
+        <div className="text-dark500_light500 flex items-center gap-x-2">
           <i className={className + " text-xs"}></i>
           {name}
           {hasRemoveIcon && (
@@ -52,7 +52,7 @@ export default function TagCard({
         </div>
       </Badge>
       {showCount && (
-        <p className="small-medium !text-dark-500 dark:!text-light-700  font-bold">
+        <p className="small-medium text-dark500_light700   font-bold">
           {quesionsCount + "+"}
         </p>
       )}
@@ -70,18 +70,18 @@ export default function TagCard({
 
   return (
     <Link href={ROUTES.TAG(_id)}>
-      <article className="background-light900_dark200 border-light-800 dark:border-dark-300 flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px] ">
+      <article className="background-light900_dark200 light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px] ">
         <div className="flex items-center justify-between gap-3">
-          <div className="!bg-light-800 dark:!bg-dark-400 w-fit rounded-sm px-5 py-1.5 ">
+          <div className="background-light800_dark400  w-fit rounded-sm px-5 py-1.5 ">
             <p className="paragraph-semibold text-dark300_light900">{name}</p>
           </div>
           <i className={className} aria-hidden={true} />
         </div>
-        <p className="small-regular !text-dark-500 dark:!text-light-700  mt-5 line-clamp-3  w-full">
+        <p className="small-regular text-dark500_light700  mt-5 line-clamp-3  w-full">
           {description}
         </p>
 
-        <p className="small-medium text-dark-400 dark:text-light-500 mt-3.5">
+        <p className="small-medium text-dark400_light500 mt-3.5">
           <span className="body-semibold  primary-text-gradient  mr-2.5">
             {usage}+
           </span>

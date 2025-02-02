@@ -42,9 +42,7 @@ export default function Metric({
       <p className={`${textStyles} flex items-center gap-1`}>
         {title}
         {isAuthor && (
-          <span className="text-dark-400 dark:text-light-700 max-sm:hidden">
-            •
-          </span>
+          <span className="text-dark400_light700 max-sm:hidden">•</span>
         )}
         <span
           className={cn(

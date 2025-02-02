@@ -8,7 +8,7 @@ export default async function AskQuesionPage() {
   if (!session) return redirect(ROUTES.SIGN_IN);
   return (
     <>
-      <h1 className="h1-bold !text-dark-100 dark:!text-light-900">
+      <h1 className="h1-bold text-dark100_light900">
         Ask a Question To the Public
       </h1>
       <div className="mt-10">

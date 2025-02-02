@@ -10,7 +10,7 @@ export default async function Navbar() {
   const session = await auth();
 
   return (
-    <nav className="flex items-center justify-between bg-light-900 dark:bg-dark-200 fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12">
+    <nav className="flex items-center justify-between  background-light900_dark200  fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12">
       <Link href={"/"} className="flex items-center gap-1">
         <Image
           src={"/images/site-logo.svg"}
@@ -20,7 +20,7 @@ export default async function Navbar() {
           loading="eager"
           priority
         />
-        <p className="h2-bold font-space-grotesk text-dark-200 dark:text-light-900">
+        <p className="h2-bold font-space-grotesk text-dark200_light900">
           Code
           <span className="text-primary-400">Flow</span>
         </p>

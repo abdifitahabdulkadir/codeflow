@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 interface CustomAvatorProps {
   name: string;
   userId: string | undefined;
-  userImage: string | undefined;
+  userImage?: string | undefined;
 }
 
 export default function CustomAvator({

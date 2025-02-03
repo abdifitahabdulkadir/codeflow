@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @config "../tailwind.config.js";
+@import "tailwindcss";
 
 /*css variables inside (@them directive) */
 @theme {
@@ -432,9 +432,6 @@
   body {
     font-family: "Inter", sans-serif;
   }
-  mdxeditor-toolbar {
-    background: #ffffff !important;
-  }
 
   .custom-scrollbar::-webkit-scrollbar {
     width: 3px;
@@ -469,6 +466,14 @@
   .active-theme {
     filter: invert(53%) sepia(98%) saturate(3332%) hue-rotate(0deg)
       brightness(104%) contrast(106%) !important;
+  }
+
+  .dark-gradient {
+    background: linear-gradient(
+      232deg,
+      rgba(23, 28, 35, 0.41) 0%,
+      rgba(19, 22, 28, 0.7) 100%
+    );
   }
 
   .hash-span {
@@ -534,10 +539,5 @@
     overflow-x: auto;
 
     color: inherit !important;
-  }
-
-  [data-lexical-editor="true"] {
-    height: 350px !important;
-    overflow-y: auto !important;
   }
 }

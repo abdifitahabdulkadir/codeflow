@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,13 +13,14 @@ import {
 } from "@/components/ui/sheet";
 import { ROUTES } from "@/constants/routes";
 
-import { auth, signOut } from "@/auth";
+import { signOut } from "@/auth";
 import { LogOut } from "lucide-react";
+import { useSession } from "next-auth/react";
 import NavLinks from "./NavLinks";
 
-export default async function MobileNavigation() {
-  const session = await auth();
-  const userId = session?.user?.id;
+export default function MobileNavigation() {
+  const session = useSession();
+  const userId = session?.data?.user?.id;
   return (
     <Sheet>
       <SheetTrigger asChild className="cursor-pointer">

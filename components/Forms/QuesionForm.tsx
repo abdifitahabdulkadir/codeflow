@@ -1,11 +1,8 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
 import { AskQuestionSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MDXEditorMethods } from "@mdxeditor/editor";
-import { useRef, useTransition } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -15,6 +12,7 @@ import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import TagCard from "../cards/TagCard";
+import ContentEditor from "../Editor/Editor";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import {
@@ -23,10 +21,6 @@ import {
   FromDescription,
   FromErrorElement,
 } from "./FormElements";
-
-const Editor = dynamic(() => import("@/components/Editor/Editor"), {
-  ssr: false,
-});
 
 interface QuestionFormProps {
   content?: string;
@@ -43,8 +37,6 @@ export default function QuesionForm({
   title,
   isEdit = false,
 }: QuestionFormProps) {
-  const editorRef = useRef<MDXEditorMethods>(null);
-
   const {
     register,
     handleSubmit,
@@ -108,6 +100,7 @@ export default function QuesionForm({
     const newTags = getValues("tags").filter((tag) => tag !== tagToRemove);
     setValue("tags", newTags, { shouldValidate: true, shouldDirty: true });
   };
+
   const handleAskQuesion = async (data: z.infer<typeof AskQuestionSchema>) => {
     startTransition(async () => {
       if (isEdit && (title || content || tags)) {
@@ -157,13 +150,13 @@ export default function QuesionForm({
   return (
     <form
       onSubmit={handleSubmit(handleAskQuesion)}
-      className="flex w-full flex-col gap-10"
+      className="flex  flex-col gap-6 w-full mt-5"
     >
       {/* title */}
       <FormFieldItem>
         <FormLabel>
           Question Title
-          <span className="text-primary-400">*</span>
+          <span className="text-400">*</span>
         </FormLabel>
         <Input
           {...register("title")}
@@ -179,17 +172,11 @@ export default function QuesionForm({
       <FormFieldItem>
         <FormLabel>
           Describe your problem
-          <span className="text-primary-400">*</span>
+          <span className="text-400">*</span>
         </FormLabel>
-        <Editor
-          value={getValues("content")}
-          fieldChange={(value: string) => {
-            if (value.length > 1) {
-              clearErrors("content");
-            }
-            setValue("content", value);
-          }}
-          editorRef={editorRef}
+        <ContentEditor
+          content={getValues("content").toString()}
+          onChangeHandle={(value) => setValue("content", value)}
         />
         <FromDescription>
           Introduce your problem and expand what you have put in the title. be
@@ -199,12 +186,11 @@ export default function QuesionForm({
           <FromErrorElement>{errors.content.message}</FromErrorElement>
         )}
       </FormFieldItem>
-
       {/* tags */}
       <FormFieldItem>
         <FormLabel>
           Tags
-          <span className="text-primary-400">*</span>
+          <span className="text-400">*</span>
         </FormLabel>
         <Input
           onKeyDown={(e) => handleInputKeyDown(e, getValues("tags"))}
@@ -253,7 +239,6 @@ export default function QuesionForm({
           <FromErrorElement>{errors.tags.message}</FromErrorElement>
         )}
       </FormFieldItem>
-
       <div className="flex w-full items-center justify-end">
         <Button
           disabled={isPending}

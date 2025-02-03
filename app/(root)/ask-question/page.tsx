@@ -11,8 +11,15 @@ export default async function AskQuesionPage() {
       <h1 className="h1-bold text-dark100_light900">
         Ask a Question To the Public
       </h1>
-      <div className="mt-10">
+      <div className=" max-w-full ">
         <QuesionForm />
+        {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => {
+          return (
+            <div key={item} className=" w-full h-[10rem]">
+              {item}
+            </div>
+          );
+        })} */}
       </div>
     </>
   );

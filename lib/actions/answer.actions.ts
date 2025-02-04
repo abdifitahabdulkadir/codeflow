@@ -1,0 +1,65 @@
+"use server";
+
+import { AnswerModel, QuestionModel } from "@/database";
+import { AnswerI, CreateAnswerParams } from "@/types/action";
+import { ActionResponse, ErrorResponse } from "@/types/glabal";
+import mongoose from "mongoose";
+import { revalidatePath } from "next/cache";
+import { actionHandler } from "../handlers/action";
+import handleError from "../handlers/error";
+import { CreateAnswerSchema } from "../validations";
+
+export async function createAnswer(
+  params: CreateAnswerParams,
+): Promise<ActionResponse<AnswerI>> {
+  const validationResult = await actionHandler({
+    params,
+    schema: CreateAnswerSchema,
+    authorize: true,
+  });
+
+  if (validationResult instanceof Error)
+    return handleError("server", validationResult.message) as ErrorResponse;
+
+  const { content, questionId } = validationResult.params!;
+  const userId = validationResult.session?.user?.id;
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const question = await QuestionModel.findById(questionId).session(session);
+
+    if (!question) throw new Error("Quesion not found");
+
+    const [newAnswer] = await AnswerModel.create(
+      [
+        {
+          authorId: userId,
+          questionId,
+          content,
+        },
+      ],
+      { session },
+    );
+
+    if (!newAnswer) throw new Error("Failed to post answer");
+
+    // update number of answer associate with current question
+    question.answers += 1;
+
+    await question.save({ session });
+
+    await session.commitTransaction();
+
+    revalidatePath(`/questions/${questionId}`);
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(newAnswer)),
+    };
+  } catch (error) {
+    if (!session.commitTransaction) await session.abortTransaction();
+    return handleError("server", error) as ErrorResponse;
+  } finally {
+    await session.endSession();
+  }
+}

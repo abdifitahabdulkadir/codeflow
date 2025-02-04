@@ -18,7 +18,7 @@ export default function ContentEditor({
     editorProps: {
       attributes: {
         class:
-          "outline-hidden prose max-w-none [&_ol]:list-decimal [&_ul]:list-disc text-md px-3 py-2  min-h-[14rem] !text-dark-300 font-medium dark:!text-light-800 markdown grid prose-xs  focus:outline-hidden rounded-2 ",
+          "outline-hidden prose prose-strong:text-current dark:prose-invert max-w-none [&_ol]:list-decimal [&_ul]:list-disc text-md px-3 py-2 min-h-[14rem] !text-dark-300 font-medium dark:!text-light-800 markdown grid prose-xs focus:outline-hidden rounded-2",
       },
     },
     onUpdate: ({ editor }) => {
@@ -27,13 +27,13 @@ export default function ContentEditor({
   });
 
   return (
-    <div className="flex focus-within:ring-1  focus-within:ring-light-800    flex-col gap-2 w-full rounded-2 background-light900_dark300  py-6 px-2 ">
+    <div className="flex focus-within:ring-1  focus-within:ring-light-800    flex-col gap-2 w-full rounded-2  background-light900_dark300  py-6 px-2 ">
       <EditorToolbar content={content} editor={editor} />
       <EditorContent
         style={{
           whiteSpace: "pre-line",
         }}
-        className=" overflow-y-auto grow w-full max-h-[16rem]   min-h-[15rem]"
+        className=" overflow-y-auto grow w-full max-h-[16rem] max-w-3xl   min-h-[15rem]"
         editor={editor}
       />
     </div>

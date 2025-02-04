@@ -76,6 +76,7 @@ export async function createQuestion(
     //  $push: { tags: { $each: tagIds } }, adds all given tagId to the
     // array obejct [tags] in the question document.
     // each means iterativing.
+
     await QuestionModel.findOneAndUpdate(
       question._id,
       {

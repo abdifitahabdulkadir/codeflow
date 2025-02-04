@@ -1,13 +1,16 @@
 import TagCard from "@/components/cards/TagCard";
 import CustomAvator from "@/components/customAvator";
 import Preview from "@/components/Editor/Preview";
+import AnswerForm from "@/components/Forms/AnswerForm";
 import Metric from "@/components/Metric";
 import { ROUTES } from "@/constants/routes";
 import {
   getQuestionDetail,
   incrementViews,
 } from "@/lib/actions/action.question";
+
 import { formatNumber, formatTimeAgo } from "@/lib/utils";
+import { TagI } from "@/types/action";
 import { RouteParams } from "@/types/glabal";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -42,7 +45,7 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
             </Link>
           </div>
           <div className="flex items-center justify-end">
-            <p> {views}</p>
+            <p>Votes</p>
           </div>
         </div>
 
@@ -89,6 +92,10 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
           );
         })}
       </div>
+
+      <section className="mt-6">
+        <AnswerForm questionId={question._id} />
+      </section>
     </>
   );
 }

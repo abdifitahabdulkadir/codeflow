@@ -427,6 +427,7 @@
     box-shadow: none;
   }
 }
+
 /* Basic utitlies like scroll and mdx editor */
 @layer utilities {
   body {

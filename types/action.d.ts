@@ -28,6 +28,15 @@ interface QuestionI {
   createdAt: Date;
 }
 
+export interface AnswerI {
+  _id?: Types.ObjectId;
+  authorId: Types.ObjectId;
+  questionId: Types.ObjectId;
+  content: string;
+  upVotes: number;
+  downVotes: number;
+}
+
 interface SigninWithOAuthProps {
   user: {
     name?: string;
@@ -67,4 +76,9 @@ interface GetTagQuestionParams extends Omit<PaginatedSearchParams, "filter"> {
 
 interface IncrementViewsParams {
   questionId: string;
+}
+
+interface CreateAnswerParams {
+  questionId: string;
+  content: string;
 }

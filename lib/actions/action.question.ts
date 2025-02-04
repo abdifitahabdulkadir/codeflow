@@ -244,7 +244,9 @@ export async function getQuestionDetail(params: GetQuestionParams) {
     const { questionId } = validateParams.params!;
     const question = await QuestionModel.findOne({
       _id: questionId,
-    }).populate("tags");
+    })
+      .populate("tags")
+      .populate("authorId", "_id image name");
 
     if (!question) throw new Error("Not Found Question");
 

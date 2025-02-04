@@ -5,12 +5,14 @@ import TagQuestionModel from "@/database/tag-quesition.model";
 import TagModel, { TagDoc } from "@/database/tags.model";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import mongoose, { FilterQuery } from "mongoose";
+import { revalidatePath } from "next/cache";
 import { actionHandler } from "../handlers/action";
 import handleError from "../handlers/error";
 import {
   AskQuestionSchema,
   EditQuestionSchema,
   GetQuestionDetailSchema,
+  IncrementViewsParamsSchema,
   PaginatedSearchParamsSchema,
 } from "../validations";
 
@@ -345,5 +347,41 @@ export async function getQuestions(params: PaginatedSearchParams): Promise<
     };
   } catch (error) {
     return handleError("server", error) as ErrorResponse;
+  }
+}
+
+// server action for increasing the views of question (incrementing)
+export async function incrementViews(
+  params: IncrementViewsParams,
+): Promise<ActionResponse<{ success: boolean; views: number }>> {
+  const validatedResult = await actionHandler({
+    authorize: true,
+    schema: IncrementViewsParamsSchema,
+    params,
+  });
+
+  if (validatedResult instanceof Error)
+    return handleError("server", validatedResult) as ErrorResponse;
+
+  try {
+    const { questionId } = validatedResult.params!;
+
+    const question = await QuestionModel.findById(questionId);
+
+    if (!question) throw new Error("Question not found");
+
+    question.views += 1;
+    await question.save();
+
+    revalidatePath(`/questions/${question._id}`);
+    return {
+      success: true,
+      data: {
+        views: question.views,
+        success: true,
+      },
+    };
+  } catch (error) {
+    return handleError("server", validatedResult) as ErrorResponse;
   }
 }

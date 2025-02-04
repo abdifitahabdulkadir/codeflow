@@ -8,6 +8,7 @@ import { formatNumber, formatTimeAgo } from "@/lib/utils";
 import { RouteParams } from "@/types/glabal";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import View from "./View";
 
 // component of question Details.
 export default async function QuestionDetailPage({ params }: RouteParams) {
@@ -21,6 +22,7 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
     question;
   return (
     <>
+      <View questionId={id} />
       <div className="flex-start  w-full flex-col ">
         <div className="flex w-full flex-col-reverse justify-between">
           <div className="flex items-center justify-start gap-1">
@@ -32,7 +34,7 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
             </Link>
           </div>
           <div className="flex items-center justify-end">
-            <p> Votes</p>
+            <p> {views}</p>
           </div>
         </div>
 

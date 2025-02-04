@@ -3,26 +3,34 @@ import CustomAvator from "@/components/customAvator";
 import Preview from "@/components/Editor/Preview";
 import Metric from "@/components/Metric";
 import { ROUTES } from "@/constants/routes";
-import { getQuestionDetail } from "@/lib/actions/action.question";
+import {
+  getQuestionDetail,
+  incrementViews,
+} from "@/lib/actions/action.question";
 import { formatNumber, formatTimeAgo } from "@/lib/utils";
 import { RouteParams } from "@/types/glabal";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import View from "./View";
+import { after } from "next/server";
 
 // component of question Details.
 export default async function QuestionDetailPage({ params }: RouteParams) {
   const { id } = await params;
+
   const { data: question, success } = await getQuestionDetail({
     questionId: id,
+  });
+
+  after(async () => {
+    await incrementViews({ questionId: id });
   });
 
   if (!success) redirect("/404");
   const { authorId, createdAt, answers, views, tags, title, content } =
     question;
+
   return (
     <>
-      <View questionId={id} />
       <div className="flex-start  w-full flex-col ">
         <div className="flex w-full flex-col-reverse justify-between">
           <div className="flex items-center justify-start gap-1">

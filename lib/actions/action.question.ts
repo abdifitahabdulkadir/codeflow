@@ -5,7 +5,6 @@ import TagQuestionModel from "@/database/tag-quesition.model";
 import TagModel, { TagDoc } from "@/database/tags.model";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import mongoose, { FilterQuery } from "mongoose";
-import { revalidatePath } from "next/cache";
 import { actionHandler } from "../handlers/action";
 import handleError from "../handlers/error";
 import {
@@ -355,7 +354,7 @@ export async function incrementViews(
   params: IncrementViewsParams,
 ): Promise<ActionResponse<{ success: boolean; views: number }>> {
   const validatedResult = await actionHandler({
-    authorize: true,
+    authorize: false,
     schema: IncrementViewsParamsSchema,
     params,
   });
@@ -373,7 +372,6 @@ export async function incrementViews(
     question.views += 1;
     await question.save();
 
-    revalidatePath(`/questions/${question._id}`);
     return {
       success: true,
       data: {

@@ -17,7 +17,6 @@
   --color-light-800: #f4f6f8;
   --color-light-850: #fdfdfd;
   --color-light-900: #ffffff;
-
   /* box shows using '--shadow-*' theme namesapce */
   --shadow-light-100: 0px 12px 20px 0px rgba(184, 184, 184, 0.03),
     0px 6px 12px 0px rgba(184, 184, 184, 0.02),
@@ -61,7 +60,7 @@
   background: var(--color-light-800);
 
   @variant dark {
-    background: var(--dark-gradient);
+    background: var(--color-dark-300);
   }
 }
 

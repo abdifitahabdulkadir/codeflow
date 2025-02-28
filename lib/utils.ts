@@ -49,8 +49,9 @@ export function getDevCLass(techName: string) {
 }
 
 export function formatTimeAgo(date: Date): string {
-  const now = new Date();
-  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+  const seconds = Math.floor(
+    (new Date().getTime() - new Date(date).getTime()) / 1000,
+  );
 
   let interval = Math.floor(seconds / 31536000);
   if (interval > 1) return `${interval} years ago`;

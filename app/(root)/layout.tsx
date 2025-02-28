@@ -7,7 +7,7 @@ import RightSidebar from "@/components/navigation/RightSidebar";
 export default function RootLayout({ children }: { children: ReactNode }) {
   //
   return (
-    <main className=" bg-light-850 dark:bg-dark-200/10  min-h-screen   w-full">
+    <main className=" bg-light-850 dark:bg-dark-200/5  min-h-screen   w-full">
       <Navbar />
       <section className="flex justify-between ">
         <LeftSidebar />

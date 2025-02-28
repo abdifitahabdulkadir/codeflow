@@ -17,6 +17,6 @@ const TagSchema = new Schema<TagDoc>({
   },
 });
 
-const TagModel = models?.TagModel || model<TagDoc>("TagModel", TagSchema);
+const TagModel = models?.Tag || model<TagDoc>("Tag", TagSchema);
 
 export default TagModel;

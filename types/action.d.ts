@@ -30,11 +30,12 @@ interface QuestionI {
 
 export interface AnswerI {
   _id?: Types.ObjectId;
-  authorId: Types.ObjectId;
+  authorId: AuthorI;
   questionId: Types.ObjectId;
   content: string;
   upVotes: number;
   downVotes: number;
+  createdAt: Date;
 }
 
 interface SigninWithOAuthProps {
@@ -59,7 +60,6 @@ interface PaginatedSearchParams {
   pageSize?: number;
   query?: string;
   filter?: string;
-  sort?: string;
 }
 
 interface EditQuestionParams extends CreateQuestionParams {
@@ -81,4 +81,8 @@ interface IncrementViewsParams {
 interface CreateAnswerParams {
   questionId: string;
   content: string;
+}
+
+interface GetAnswersParams extends PaginatedSearchParams {
+  questionId: string;
 }

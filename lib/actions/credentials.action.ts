@@ -30,7 +30,6 @@ export async function signUpWithCrendentials(
   session.startTransaction();
 
   try {
-    console.log("I am inside here1");
     const existedUer = await UserModel.findOne({ email }).session(session);
 
     if (existedUer) throw new Error("User is already existed");
@@ -68,7 +67,6 @@ export async function signUpWithCrendentials(
       { session },
     );
 
-    console.log("I am inside here2");
     await session.commitTransaction();
     await signIn("credentials", { email, password, redirect: false });
 

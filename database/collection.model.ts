@@ -1,4 +1,6 @@
 import { model, models, Schema, Types } from "mongoose";
+import QuestionModel from "./question.model";
+import UserModel from "./user.model";
 
 export interface CollectionDoc {
   _id: Types.ObjectId;
@@ -10,19 +12,18 @@ const CollectionSchema = new Schema<CollectionDoc>(
     author: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: "UserModel",
+      ref: UserModel,
     },
     question: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: "QuestionModel",
+      ref: QuestionModel,
     },
   },
   { timestamps: true },
 );
 
 const CollectionModel =
-  models?.CollectionModel ||
-  model<CollectionDoc>("CollectionModel", CollectionSchema);
+  models?.Collection || model<CollectionDoc>("Collection", CollectionSchema);
 
 export default CollectionModel;

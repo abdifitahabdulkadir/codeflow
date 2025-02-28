@@ -34,13 +34,13 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
         content: data.content,
         questionId,
       });
-
-      if (result.success)
+      setValue("content", "");
+      if (result.success) {
         toast({
           title: "Success",
           description: "Answer has been posted successfully",
         });
-      else {
+      } else {
         toast({
           title: "Error",
           description: result.errors?.message,
@@ -81,6 +81,7 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
       >
         <FormFieldItem>
           <ContentEditor
+            isSubmitting={isPosting}
             content={getValues("content")}
             onChangeHandle={(e) => setValue("content", e)}
           />

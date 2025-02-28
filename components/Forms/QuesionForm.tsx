@@ -175,6 +175,7 @@ export default function QuesionForm({
           <span className="text-400">*</span>
         </FormLabel>
         <ContentEditor
+          isSubmitting={isPending}
           content={getValues("content").toString()}
           onChangeHandle={(value) => setValue("content", value)}
         />

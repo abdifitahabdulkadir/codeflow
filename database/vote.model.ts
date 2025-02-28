@@ -1,11 +1,11 @@
-import { model, models, Schema, Types } from "mongoose"
+import { model, models, Schema, Types } from "mongoose";
 
 export interface VoteDoc {
-  _id?: Types.ObjectId
-  author: Types.ObjectId
-  contentId: Types.ObjectId
-  contentType: "question" | "answer"
-  voteType: "upvote" | "downvote"
+  _id?: Types.ObjectId;
+  author: Types.ObjectId;
+  contentId: Types.ObjectId;
+  contentType: "question" | "answer";
+  voteType: "upvote" | "downvote";
 }
 const VoteSchema = new Schema<VoteDoc>(
   {
@@ -31,8 +31,8 @@ const VoteSchema = new Schema<VoteDoc>(
   {
     timestamps: true,
   },
-)
+);
 
-const VoteModel = models?.VoteModel || model<VoteDoc>("VoteModel", VoteSchema)
+const VoteModel = models?.Vote || model<VoteDoc>("Vote", VoteSchema);
 
-export default VoteModel
+export default VoteModel;

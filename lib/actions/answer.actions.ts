@@ -1,13 +1,13 @@
 "use server";
 
 import { AnswerModel, QuestionModel } from "@/database";
-import { AnswerI, CreateAnswerParams } from "@/types/action";
+import { AnswerI, CreateAnswerParams, GetAnswersParams } from "@/types/action";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 import { actionHandler } from "../handlers/action";
 import handleError from "../handlers/error";
-import { CreateAnswerSchema } from "../validations";
+import { CreateAnswerSchema, GetAnswersSchema } from "../validations";
 
 export async function createAnswer(
   params: CreateAnswerParams,
@@ -61,5 +61,63 @@ export async function createAnswer(
     return handleError("server", error) as ErrorResponse;
   } finally {
     await session.endSession();
+  }
+}
+
+export async function getAnswers(params: GetAnswersParams): Promise<
+  ActionResponse<{
+    isNext: boolean;
+    answers: AnswerI[];
+    totalAnswers: number;
+  }>
+> {
+  const validationResult = await actionHandler({
+    params,
+    authorize: true,
+    schema: GetAnswersSchema,
+  });
+
+  if (validationResult instanceof Error)
+    return handleError("server", validationResult) as ErrorResponse;
+
+  const { page = 1, filter, pageSize = 10, query, questionId } = params;
+  const skip = (Number(page) - 1) * pageSize;
+
+  let sortedCriteria = {};
+  switch (filter) {
+    case "latest":
+      sortedCriteria = { createdAt: -1 };
+      break;
+    case "oldest":
+      sortedCriteria = { createdAt: 1 };
+      break;
+    case "popular":
+      sortedCriteria = { upVotes: -1 };
+      break;
+    default:
+      sortedCriteria = { createdAt: -1 };
+      break;
+  }
+
+  try {
+    const totalAnswers = await AnswerModel.countDocuments({
+      questionId: questionId,
+    });
+    const answers = await AnswerModel.find({ questionId: questionId })
+      .populate("authorId", "_id name image")
+      .sort(sortedCriteria)
+      .skip(skip)
+      .limit(pageSize);
+
+    return {
+      success: true,
+      data: {
+        answers: JSON.parse(JSON.stringify(answers)),
+        isNext: totalAnswers > skip + answers.length,
+        totalAnswers,
+      },
+    };
+  } catch (error) {
+    return handleError("server", error) as ErrorResponse;
   }
 }

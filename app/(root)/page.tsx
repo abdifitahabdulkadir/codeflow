@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
 import { getQuestions } from "@/lib/actions/question.action";
+import { QuestionI } from "@/types/action";
 
 interface HomeProps {
   searchParams: Promise<{ [key: string]: string }>;

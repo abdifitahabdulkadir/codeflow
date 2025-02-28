@@ -7,9 +7,11 @@ import "./dark-editor.css";
 export default function ContentEditor({
   content,
   onChangeHandle,
+  isSubmitting,
 }: {
   content: string;
   onChangeHandle: (input: string) => void;
+  isSubmitting: boolean;
 }) {
   const editor = useEditor({
     extensions: [StarterKit, BulletList, ListItem],
@@ -30,6 +32,7 @@ export default function ContentEditor({
     <div className="flex focus-within:ring-1  focus-within:ring-light-800    flex-col gap-2 w-full rounded-2  background-light900_dark300  py-6 px-2 ">
       <EditorToolbar content={content} editor={editor} />
       <EditorContent
+        disabled={isSubmitting}
         style={{
           whiteSpace: "pre-line",
         }}

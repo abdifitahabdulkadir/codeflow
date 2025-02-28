@@ -1,3 +1,4 @@
+import AllAnswers from "@/components/answers/AllAnswers";
 import TagCard from "@/components/cards/TagCard";
 import CustomAvator from "@/components/customAvator";
 import Preview from "@/components/Editor/Preview";
@@ -8,6 +9,7 @@ import {
   getQuestionDetail,
   incrementViews,
 } from "@/lib/actions/action.question";
+import { getAnswers } from "@/lib/actions/answer.actions";
 
 import { formatNumber, formatTimeAgo } from "@/lib/utils";
 import { TagI } from "@/types/action";
@@ -29,8 +31,24 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
   });
 
   if (!success) redirect("/404");
-  const { authorId, createdAt, answers, views, tags, title, content } =
-    question;
+  const {
+    authorId,
+    createdAt,
+    answers: numberOfAnswers,
+    views,
+    tags,
+    title,
+    content,
+  } = question;
+
+  const {
+    success: areAnswersLoaded,
+    data: answers,
+    errors: answerError,
+  } = await getAnswers({
+    questionId: id,
+    filter: "latest",
+  });
 
   return (
     <>
@@ -67,7 +85,7 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
           imageUrl={"/icons/message.svg"}
           alt="message icon"
           value={""}
-          title={formatNumber(answers)}
+          title={formatNumber(numberOfAnswers)}
         />
         <Metric
           textStyles="small-reguar text-dark400_light700"
@@ -92,6 +110,15 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
           );
         })}
       </div>
+
+      <section className="my-5">
+        <AllAnswers
+          data={answers?.answers}
+          totalAnswers={answers?.totalAnswers || 0}
+          success={areAnswersLoaded}
+          errors={answerError}
+        />
+      </section>
 
       <section className="mt-6">
         <AnswerForm questionId={question._id} />

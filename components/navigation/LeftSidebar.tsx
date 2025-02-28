@@ -34,7 +34,7 @@ export default async function LeftSidebar() {
           </form>
         ) : (
           <>
-            <Button className="background-light800_dark400 small-medium min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
+            <Button className="!background-light800_dark400 small-medium min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
               <Link href={ROUTES.SIGN_IN} className="flex items-center gap-2">
                 <Image
                   src={"/icons/account.svg"}
@@ -50,7 +50,7 @@ export default async function LeftSidebar() {
                 </span>
               </Link>
             </Button>
-            <Button className="background-light700_dark300  dark:border-dark-300 text-dark400_light900 min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none">
+            <Button className="!background-light700_dark300  dark:border-dark-300 text-dark400_light900 min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none">
               <Link href={ROUTES.SIGN_UP} className="flex items-center gap-2">
                 <Image
                   src={"/icons/sign-up.svg"}

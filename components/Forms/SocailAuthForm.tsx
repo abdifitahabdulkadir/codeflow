@@ -6,10 +6,8 @@ import Image from "next/image";
 
 import { toast } from "@/hooks/use-toast";
 
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-
-const buttonClass =
-  "body-meduium min-h-12 flex-1 rounded-2 px-4 py-3.5 text-dark200_light800 !bg-light-900 dark:!bg-dark-400 body-meduium min-h-12  transition-colors duration-300 hover:opacity-80    flex-1 rounded-2 px-4 py-3.5";
 
 export default function SocailAuthForm() {
   // hanlde form submit
@@ -32,7 +30,12 @@ export default function SocailAuthForm() {
   };
   return (
     <div className=" mt-10 flex flex-wrap items-start gap-2.5">
-      <Button className={buttonClass} onClick={() => handleAuth("github")}>
+      <Button
+        className={cn(
+          "body-meduium min-h-12 flex-1 rounded-2 !text-dark200_light800 !bg-light-900 dark:!bg-dark-400 body-meduium  transition-colors duration-300 hover:opacity-80  px-4 py-3.5",
+        )}
+        onClick={() => handleAuth("github")}
+      >
         <Image
           src={"/icons/github.svg"}
           alt="github logo"
@@ -44,7 +47,12 @@ export default function SocailAuthForm() {
         />
         <span>Log in with GitHub</span>
       </Button>
-      <Button className={buttonClass} onClick={() => handleAuth("google")}>
+      <Button
+        className={cn(
+          "body-meduium min-h-12 flex-1 rounded-2 !text-dark200_light800 !bg-light-900 dark:!bg-dark-400 body-meduium  transition-colors duration-300 hover:opacity-80  px-4 py-3.5",
+        )}
+        onClick={() => handleAuth("google")}
+      >
         <Image
           src={"/icons/google.svg"}
           alt="github logo"

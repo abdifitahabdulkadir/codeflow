@@ -1,5 +1,6 @@
 import { AccountDoc } from "@/database/account.model";
 import { UserDoc } from "@/database/user.model";
+import { SigninWithOAuthProps } from "@/types/action";
 import { fetchHandler } from "./handlers/fetch";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;

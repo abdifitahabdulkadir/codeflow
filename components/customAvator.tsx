@@ -30,7 +30,7 @@ export default function CustomAvator({
           height={40}
           width={40}
           quality={100}
-          className="object-cover"
+          className="object-cover "
         />
       ) : (
         <AvatarFallback>

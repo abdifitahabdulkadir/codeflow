@@ -1,4 +1,5 @@
 import { model, models, Schema, Types } from "mongoose";
+import UserModel from "./user.model";
 
 export interface InteractionDoc {
   _id?: Types.ObjectId;
@@ -12,7 +13,7 @@ const InteractionSchema = new Schema<InteractionDoc>(
     user: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: "UserModel",
+      ref: UserModel,
     },
     action: {
       type: String,
@@ -34,7 +35,7 @@ const InteractionSchema = new Schema<InteractionDoc>(
 );
 
 const InteractionModel =
-  models?.InteractionModel ||
-  model<InteractionDoc>("InteractionModel", InteractionSchema);
+  models?.Interaction ||
+  model<InteractionDoc>("Interaction", InteractionSchema);
 
 export default InteractionModel;

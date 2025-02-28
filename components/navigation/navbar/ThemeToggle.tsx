@@ -21,7 +21,6 @@ export function ThemeToggle() {
   }, []);
   if (!render) return null;
 
-  console.log(currentTheme);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="bg-transparent">

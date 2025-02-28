@@ -3,6 +3,14 @@
 import QuestionModel, { QuestionDoc } from "@/database/question.model";
 import TagQuestionModel from "@/database/tag-quesition.model";
 import TagModel, { TagDoc } from "@/database/tags.model";
+import {
+  CreateQuestionParams,
+  EditQuestionParams,
+  GetQuestionParams,
+  IncrementViewsParams,
+  PaginatedSearchParams,
+  QuestionI,
+} from "@/types/action";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import mongoose, { FilterQuery } from "mongoose";
 import { actionHandler } from "../handlers/action";

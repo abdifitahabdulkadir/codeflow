@@ -1,4 +1,5 @@
 import { model, models, Schema, Types } from "mongoose";
+import UserModel from "./user.model";
 
 export interface AccountDoc {
   _id?: Types.ObjectId;
@@ -10,7 +11,7 @@ export interface AccountDoc {
   providerAccountId: string;
 }
 const AccountSchema = new Schema<AccountDoc>({
-  userId: { type: Schema.Types.ObjectId, required: true, ref: "UserModel" },
+  userId: { type: Schema.Types.ObjectId, required: true, ref: UserModel },
   name: { type: String, required: true },
   image: { type: String },
   password: String,
@@ -23,6 +24,6 @@ const AccountSchema = new Schema<AccountDoc>({
 });
 
 const AccountModel =
-  models?.AccountModel || model<AccountDoc>("AccountModel", AccountSchema);
+  models?.Account || model<AccountDoc>("Account", AccountSchema);
 
 export default AccountModel;

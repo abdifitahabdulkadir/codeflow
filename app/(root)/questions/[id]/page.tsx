@@ -121,7 +121,11 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
       </section>
 
       <section className="mt-6">
-        <AnswerForm questionId={question._id} />
+        <AnswerForm
+          question={question.title}
+          content={question.content}
+          questionId={question._id}
+        />
       </section>
     </>
   );

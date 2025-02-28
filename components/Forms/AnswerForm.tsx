@@ -10,11 +10,17 @@ import Image from "next/image";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
 import ContentEditor from "../Editor/Editor";
 import { Button } from "../ui/button";
 import { FormFieldItem, FromErrorElement } from "./FormElements";
 
-export default function AnswerForm({ questionId }: { questionId: string }) {
+interface Props {
+  questionId: string;
+  question: string;
+  content: string;
+}
+export default function AnswerForm({ questionId, content, question }: Props) {
   const {
     handleSubmit,
     setValue,
@@ -26,15 +32,15 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
       content: "",
     },
   });
+
   const [isPosting, startPostingTranstion] = useTransition();
-  const [isAISubmitting, setisAISubmitting] = useState(false);
+  const [isAIGenerating, setIsAIGenerating] = useState();
   const handleOnFormSubmit = async (data: z.infer<typeof AnswerFormSchema>) => {
     startPostingTranstion(async () => {
       const result = await createAnswer({
         content: data.content,
         questionId,
       });
-      setValue("content", "");
       if (result.success) {
         toast({
           title: "Success",
@@ -49,14 +55,18 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
       }
     });
   };
+
   return (
     <div>
       <div className="flex w-full flex-col gap-2 sm:flex-row justify-between sm:items-center">
         <p className="paragraph-semibold text-dark400_light500">
           Put your Answer contnet down in the form
         </p>
-        <Button className="btn light-border-2 gap-1.5 border rounded-md px-4 py-2.5 text-400 dark:text-400 ">
-          {isAISubmitting ? (
+        <Button
+          type="submit"
+          className="btn light-border-2 gap-1.5 border rounded-md px-4 py-2.5 text-400 dark:text-400 "
+        >
+          {isAIGenerating ? (
             <>
               <ReloadIcon className="animate-spin  mr-2 size-4" />
               Generating...
@@ -85,6 +95,7 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
             content={getValues("content")}
             onChangeHandle={(e) => setValue("content", e)}
           />
+
           {errors.content && (
             <FromErrorElement>
               {errors.content?.message?.toString()}

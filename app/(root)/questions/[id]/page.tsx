@@ -11,6 +11,7 @@ import {
   incrementViews,
 } from "@/lib/actions/action.question";
 import { getAnswers } from "@/lib/actions/answer.actions";
+import { hasVoted } from "@/lib/actions/vote.actions";
 
 import { formatNumber, formatTimeAgo } from "@/lib/utils";
 import { TagI } from "@/types/action";
@@ -18,6 +19,7 @@ import { RouteParams } from "@/types/glabal";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { after } from "next/server";
+import { Suspense } from "react";
 
 // component of question Details.
 export default async function QuestionDetailPage({ params }: RouteParams) {
@@ -32,8 +34,10 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
   });
 
   if (!success) redirect("/404");
+
   const {
     authorId,
+    _id,
     createdAt,
     answers: numberOfAnswers,
     views,
@@ -53,6 +57,11 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
     filter: "latest",
   });
 
+  const votePromise = hasVoted({
+    targetId: _id,
+    targetType: "question",
+  });
+
   return (
     <>
       <div className="flex-start  w-full flex-col ">
@@ -66,12 +75,15 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
             </Link>
           </div>
           <div className="flex items-center justify-end">
-            <Vote
-              downVotes={downVotes}
-              upVotes={upVotes}
-              hasUpVoted={true}
-              hasDownVoted={false}
-            />
+            <Suspense fallback={<div> loading...</div>}>
+              <Vote
+                targetId={_id}
+                targetType="question"
+                votePromise={votePromise}
+                downVotes={downVotes}
+                upVotes={upVotes}
+              />
+            </Suspense>
           </div>
         </div>
 

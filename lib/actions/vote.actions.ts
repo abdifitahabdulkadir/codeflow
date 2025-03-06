@@ -10,6 +10,7 @@ import {
 } from "@/types/action";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import mongoose, { ClientSession } from "mongoose";
+import { revalidatePath } from "next/cache";
 import { actionHandler } from "../handlers/action";
 import handleError from "../handlers/error";
 import {
@@ -68,7 +69,7 @@ export async function createVoteCount(
 
   const { targetId, targetType, voteType } = params;
   const userId = validationResult?.session?.user?.id;
-  if (userId)
+  if (!userId)
     return handleError("server", new Error("User not found")) as ErrorResponse;
 
   const session = await mongoose.startSession();
@@ -79,7 +80,7 @@ export async function createVoteCount(
       author: userId,
       voteType,
     }).session(session);
-
+    console.log(existingVote);
     if (existingVote) {
       if (existingVote.voteType === voteType) {
         await VoteModel.deleteOne({
@@ -114,6 +115,8 @@ export async function createVoteCount(
     }
 
     await session.commitTransaction();
+
+    revalidatePath(`questions/${targetId}`);
     return { success: true };
   } catch (error) {
     await session.abortTransaction();

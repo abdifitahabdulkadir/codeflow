@@ -167,3 +167,7 @@ export const UpdateVotecountSchema = CreateVoteCountSchema.extend({
     .min(-1, "Chnage value should be -1 at minimum")
     .max(1, "Chnage value should be 1 at maximum"),
 });
+
+export const HasVotedResponseSchema = CreateVoteCountSchema.omit({
+  voteType: true,
+});

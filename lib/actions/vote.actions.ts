@@ -2,12 +2,21 @@
 
 import { AnswerModel, QuestionModel, VoteModel } from "@/database";
 import { VoteDoc } from "@/database/vote.model";
-import { CreateVoteCountParams, UpdateVotecountParams } from "@/types/action";
+import {
+  CreateVoteCountParams,
+  HasVotedParams,
+  HasVotedResponse,
+  UpdateVotecountParams,
+} from "@/types/action";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import mongoose, { ClientSession } from "mongoose";
 import { actionHandler } from "../handlers/action";
 import handleError from "../handlers/error";
-import { CreateVoteCountSchema, UpdateVotecountSchema } from "../validations";
+import {
+  CreateVoteCountSchema,
+  HasVotedResponseSchema,
+  UpdateVotecountSchema,
+} from "../validations";
 
 // updating the vote of answer or question as user downvote or upvote
 export async function updateVoteCount(
@@ -111,5 +120,56 @@ export async function createVoteCount(
     return handleError("server", error) as ErrorResponse;
   } finally {
     await session.endSession();
+  }
+}
+
+// get weather current user is upvoted or
+// downvoted on specific question or anwwer
+
+export async function hasVoted(
+  params: HasVotedParams,
+): Promise<ActionResponse<HasVotedResponse>> {
+  const validationResult = await actionHandler({
+    params,
+    schema: HasVotedResponseSchema,
+    authorize: true,
+  });
+
+  if (validationResult instanceof Error)
+    return handleError("server", validationResult) as ErrorResponse;
+
+  const userId = validationResult.session?.user?.id;
+  if (!userId)
+    return handleError(
+      "server",
+      new Error("Only logged in user can do "),
+    ) as ErrorResponse;
+  const { targetId, targetType } = params;
+
+  try {
+    const vote = await VoteModel.findOne<VoteDoc>({
+      contentId: targetId,
+      contentType: targetType,
+      author: userId,
+    });
+
+    if (!vote)
+      return {
+        success: false,
+        data: {
+          hasDownVoted: false,
+          hasUpvoted: false,
+        },
+      };
+
+    return {
+      success: true,
+      data: {
+        hasDownVoted: vote.voteType === "downvote",
+        hasUpvoted: vote.voteType === "upvote",
+      },
+    };
+  } catch (error) {
+    return handleError("server", error) as ErrorResponse;
   }
 }

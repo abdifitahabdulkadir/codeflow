@@ -96,3 +96,10 @@ interface CreateVoteCountParams {
 interface UpdateVotecountParams extends CreateVoteCountParams {
   change: -1 | 1;
 }
+
+type HasVotedParams = Omit<CreateVoteCountParams, "voteType">;
+
+interface HasVotedResponse {
+  hasUpvoted: boolean;
+  hasDownVoted: boolean;
+}

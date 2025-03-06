@@ -139,6 +139,7 @@ export const GetTagQuestionsSchema = PaginatedSearchParamsSchema.omit({
 export const IncrementViewsParamsSchema = z.object({
   questionId: z.string().min(1, { message: "Question ID is required." }),
 });
+
 export const AnswerFormSchema = z.object({
   content: z
     .string()
@@ -151,4 +152,18 @@ export const CreateAnswerSchema = AnswerFormSchema.extend({
 
 export const GetAnswersSchema = PaginatedSearchParamsSchema.extend({
   questionId: z.string().min(1, { message: "Question Id is required" }),
+});
+
+export const CreateVoteCountSchema = z.object({
+  targetId: z.string().min(1, "Target Id is required"),
+  targetType: z.enum(["question", "answer"]),
+  voteType: z.enum(["upvote", "downvote"]),
+});
+
+export const UpdateVotecountSchema = CreateVoteCountSchema.extend({
+  change: z
+    .number()
+    .int()
+    .min(-1, "Chnage value should be -1 at minimum")
+    .max(1, "Chnage value should be 1 at maximum"),
 });

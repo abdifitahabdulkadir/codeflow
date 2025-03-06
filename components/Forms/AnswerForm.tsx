@@ -32,7 +32,7 @@ export default function AnswerForm({ questionId, content, question }: Props) {
       content: "",
     },
   });
-
+  const [isDone, setIsDone] = useState(false);
   const [isPosting, startPostingTranstion] = useTransition();
   const [isAIGenerating, setIsAIGenerating] = useState();
   const handleOnFormSubmit = async (data: z.infer<typeof AnswerFormSchema>) => {

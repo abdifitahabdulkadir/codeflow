@@ -13,7 +13,6 @@ export default function ContentEditor({
   onChangeHandle: (input: string) => void;
   isSubmitting: boolean;
 }) {
-  console.log(content);
   const editor = useEditor({
     extensions: [StarterKit, BulletList, ListItem],
     immediatelyRender: false,

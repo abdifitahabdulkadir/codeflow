@@ -4,6 +4,7 @@ import CustomAvator from "@/components/customAvator";
 import Preview from "@/components/Editor/Preview";
 import AnswerForm from "@/components/Forms/AnswerForm";
 import Metric from "@/components/Metric";
+import Vote from "@/components/Votes/Vote";
 import { ROUTES } from "@/constants/routes";
 import {
   getQuestionDetail,
@@ -39,6 +40,8 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
     tags,
     title,
     content,
+    upVotes,
+    downVotes,
   } = question;
 
   const {
@@ -63,7 +66,12 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
             </Link>
           </div>
           <div className="flex items-center justify-end">
-            <p>Votes</p>
+            <Vote
+              downVotes={downVotes}
+              upVotes={upVotes}
+              hasUpVoted={true}
+              hasDownVoted={false}
+            />
           </div>
         </div>
 

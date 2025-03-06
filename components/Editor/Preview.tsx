@@ -9,7 +9,9 @@ Code.theme = {
 };
 
 export default function Preview({ content }: { content: string }) {
-  const formattedContent = content.replace(/\\/g, "").replace(/&#x20;/g, "");
+  const formattedContent = content
+    .replaceAll(/\\/g, "")
+    .replaceAll(/&#x20;/g, "");
   return (
     <section className={cn("mt-6 prose  markdown grid break-words", markddown)}>
       <MDXRemote

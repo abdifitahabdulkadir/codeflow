@@ -1,14 +1,24 @@
 import { formatTimeAgo } from "@/lib/utils";
 import { AnswerI } from "@/types/action";
+
+import { hasVoted } from "@/lib/actions/vote.actions";
+import { Suspense } from "react";
 import CustomAvator from "../customAvator";
 import Preview from "../Editor/Preview";
+import Vote from "../Votes/Vote";
 
 export default function AnswerCard({
   _id,
   authorId,
   content,
   createdAt,
+  upVotes,
+  downVotes,
 }: AnswerI) {
+  const votePromise = hasVoted({
+    targetId: _id,
+    targetType: "answer",
+  });
   return (
     <article className="light-border py-10 border-b">
       <span id={JSON.stringify(_id)} className="hash-span" />
@@ -31,7 +41,17 @@ export default function AnswerCard({
           </div>
         </div>
 
-        <div className="mt-5 ">Votes</div>
+        <div className="flex items-center justify-end">
+          <Suspense fallback={<div> loading...</div>}>
+            <Vote
+              targetId={_id}
+              targetType="answer"
+              votePromise={votePromise}
+              downVotes={downVotes}
+              upVotes={upVotes}
+            />
+          </Suspense>
+        </div>
       </div>
 
       <Preview content={content} />

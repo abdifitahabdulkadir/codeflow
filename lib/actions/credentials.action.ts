@@ -7,7 +7,7 @@ import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import bcrpt from "bcryptjs";
 import mongoose from "mongoose";
 import { z } from "zod";
-import { actionHandler } from "../handlers/action";
+import { actionHandler } from "../handlers/action.handler";
 import handleError from "../handlers/error";
 import { SignInSchema, SignUpSchema } from "../validations";
 

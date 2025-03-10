@@ -7,6 +7,7 @@ import { HasVotedResponse } from "@/types/action";
 import { ActionResponse } from "@/types/glabal";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import { use, useTransition } from "react";
 
 interface Props {
@@ -25,8 +26,9 @@ export default function Vote({
 }: Props) {
   const [isVoting, startTranstion] = useTransition();
   const session = useSession();
+  const params = useParams();
 
-  const { success, data } = use(votePromise);
+  const { data } = use(votePromise);
   const { hasDownVoted, hasUpvoted } = data ?? {};
 
   // creating the vote
@@ -40,11 +42,14 @@ export default function Vote({
       });
     startTranstion(async () => {
       try {
-        const result = await createVoteCount({
-          targetId,
-          targetType,
-          voteType: vote,
-        });
+        const result = await createVoteCount(
+          {
+            targetId,
+            targetType,
+            voteType: vote,
+          },
+          String(params.id),
+        );
         if (result.success) {
           toast({
             title: "Voted Succesfully",

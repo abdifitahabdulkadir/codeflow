@@ -12,7 +12,7 @@ import {
 } from "@/types/action";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import mongoose, { FilterQuery } from "mongoose";
-import { actionHandler } from "../handlers/action";
+import { actionHandler } from "../handlers/action.handler";
 import handleError from "../handlers/error";
 import {
   AskQuestionSchema,

@@ -12,7 +12,7 @@ import {
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import mongoose, { ClientSession } from "mongoose";
 import { revalidatePath } from "next/cache";
-import { actionHandler } from "../handlers/action";
+import { actionHandler } from "../handlers/action.handler";
 import handleError from "../handlers/error";
 import {
   CreateVoteCountSchema,
@@ -58,6 +58,7 @@ export async function updateVoteCount(
 // creating the vote
 export async function createVoteCount(
   params: CreateVoteCountParams,
+  pathId: string,
 ): Promise<ActionResponse> {
   const validationResult = await actionHandler({
     params,
@@ -144,7 +145,7 @@ export async function createVoteCount(
 
     await session.commitTransaction();
 
-    revalidatePath(ROUTES.QUESIONS(targetId));
+    revalidatePath(ROUTES.QUESIONS(pathId));
     return { success: true };
   } catch (error) {
     await session.abortTransaction();

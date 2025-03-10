@@ -3,7 +3,7 @@
 import { QuestionModel, TagModel } from "@/database";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import { Error, FilterQuery } from "mongoose";
-import { actionHandler } from "../handlers/action";
+import { actionHandler } from "../handlers/action.handler";
 import handleError from "../handlers/error";
 import {
   GetTagQuestionsSchema,

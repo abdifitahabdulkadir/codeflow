@@ -5,7 +5,7 @@ import { AnswerI, CreateAnswerParams, GetAnswersParams } from "@/types/action";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
-import { actionHandler } from "../handlers/action";
+import { actionHandler } from "../handlers/action.handler";
 import handleError from "../handlers/error";
 import { CreateAnswerSchema, GetAnswersSchema } from "../validations";
 

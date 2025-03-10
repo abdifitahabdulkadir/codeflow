@@ -3,14 +3,20 @@
 import { toast } from "@/hooks/use-toast";
 import { toggleSaveToCollection } from "@/lib/actions/collection.action";
 import { cn } from "@/lib/utils";
+import { ActionResponse } from "@/types/glabal";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useTransition } from "react";
+import { use, useTransition } from "react";
 interface Props {
   questionId: string;
+  hasSavePromise: Promise<ActionResponse<{ saved: boolean }>>;
 }
-export default function SaveQuestion({ questionId }: Props) {
+export default function SaveQuestion({ questionId, hasSavePromise }: Props) {
   const [isSaving, startTranstion] = useTransition();
+  const { data } = use(hasSavePromise);
+
+  const image = data?.saved ? "/icons/star-filled.svg" : "/icons/star-red.svg";
+
   const user = useSession();
   function handleSaveQuestion() {
     if (!user.data?.user?.id)
@@ -25,7 +31,6 @@ export default function SaveQuestion({ questionId }: Props) {
         const { success, data, errors } = await toggleSaveToCollection({
           questionId,
         });
-        console.log(data);
         if (!success) throw new Error(errors?.message);
         toast({
           title: `Question ${data?.saved ? "Saved" : "UnSaved"} Succesffully `,
@@ -43,13 +48,13 @@ export default function SaveQuestion({ questionId }: Props) {
   }
   return (
     <Image
-      src={"/icons/star-filled.svg"}
+      src={image}
       width={18}
       height={18}
       alt="save image"
       className={cn(
-        "ms-1.5",
-        isSaving && "animate-spin duration-300 opacity-80",
+        "ms-1.5 object-cover cursor-pointer",
+        isSaving && " opacity-80",
       )}
       aria-label="save question"
       onClick={handleSaveQuestion}

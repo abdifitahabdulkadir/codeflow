@@ -42,7 +42,7 @@ export async function toggleSaveToCollection(
         author,
         question: questionId,
       });
-
+      revalidatePath(ROUTES.QUESIONS(questionId));
       return {
         success: true,
         data: {
@@ -62,6 +62,38 @@ export async function toggleSaveToCollection(
       success: true,
       data: {
         saved: true,
+      },
+    };
+  } catch (error) {
+    return handleError("server", error) as ErrorResponse;
+  }
+}
+
+export async function hasSavedQuestion(
+  params: CollectionBasedParams,
+): Promise<ActionResponse<{ saved: boolean }>> {
+  const validationResult = await actionHandler({
+    params,
+    schema: CollectionBasedSchema,
+    authorize: true,
+  });
+
+  if (validationResult instanceof Error)
+    return handleError("server", validationResult) as ErrorResponse;
+
+  const { questionId } = params;
+  const author = validationResult.session?.user?.id;
+
+  try {
+    const collectionExisted = await CollectionModel.findOne({
+      author,
+      question: questionId,
+    });
+
+    return {
+      success: true,
+      data: {
+        saved: !!collectionExisted,
       },
     };
   } catch (error) {

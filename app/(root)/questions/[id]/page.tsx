@@ -12,6 +12,7 @@ import {
   incrementViews,
 } from "@/lib/actions/action.question";
 import { getAnswers } from "@/lib/actions/answer.actions";
+import { hasSavedQuestion } from "@/lib/actions/collection.action";
 import { hasVoted } from "@/lib/actions/vote.actions";
 
 import { formatNumber, formatTimeAgo } from "@/lib/utils";
@@ -62,6 +63,9 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
     targetId: _id,
     targetType: "question",
   });
+  const hasSavedPromise = hasSavedQuestion({
+    questionId: _id,
+  });
 
   return (
     <>
@@ -86,7 +90,7 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
               />
             </Suspense>
             <Suspense fallback={<div> loading...</div>}>
-              <SaveQuestion questionId={_id} />
+              <SaveQuestion questionId={_id} hasSavePromise={hasSavedPromise} />
             </Suspense>
           </div>
         </div>

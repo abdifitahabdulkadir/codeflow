@@ -29,10 +29,10 @@ export async function toggleSaveToCollection(
       _id: questionId,
       authorId: author,
     });
-
+    console.log(question);
     if (!question) throw new Error("Question not found");
 
-    const collectionExisted = await CollectionModel.find({
+    const collectionExisted = await CollectionModel.findOne({
       author,
       question: questionId,
     });

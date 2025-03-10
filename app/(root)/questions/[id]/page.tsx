@@ -4,6 +4,7 @@ import CustomAvator from "@/components/customAvator";
 import Preview from "@/components/Editor/Preview";
 import AnswerForm from "@/components/Forms/AnswerForm";
 import Metric from "@/components/Metric";
+import SaveQuestion from "@/components/questions/SaveQuestion";
 import Vote from "@/components/Votes/Vote";
 import { ROUTES } from "@/constants/routes";
 import {
@@ -83,6 +84,9 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
                 downVotes={downVotes}
                 upVotes={upVotes}
               />
+            </Suspense>
+            <Suspense fallback={<div> loading...</div>}>
+              <SaveQuestion questionId={_id} />
             </Suspense>
           </div>
         </div>

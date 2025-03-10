@@ -10,18 +10,14 @@ import { ROUTES } from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
 import { getQuestions } from "@/lib/actions/question.action";
 import { QuestionI } from "@/types/action";
+import { PageParams } from "@/types/glabal";
 
-interface HomeProps {
-  searchParams: Promise<{ [key: string]: string }>;
-}
-
-export default async function Home({ searchParams }: HomeProps) {
+export default async function Home({ searchParams }: PageParams) {
   const { query = "", page, pageSize, filter } = await searchParams;
   const { success, data, errors } = await getQuestions({
     query,
     page: Number(page) || 1,
     pageSize: Number(pageSize) || 10,
-    sort: "",
     filter,
   });
   return (

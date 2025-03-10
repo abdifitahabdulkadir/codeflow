@@ -41,7 +41,7 @@ export interface AnswerI {
 
 export interface CollectionI {
   _id: string;
-  author: string | AuthorI;
+  author: AuthorI;
   question: QuestionI;
 }
 interface SigninWithOAuthProps {

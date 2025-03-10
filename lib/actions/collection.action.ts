@@ -38,7 +38,6 @@ export async function toggleSaveToCollection(
       _id: questionId,
       authorId: author,
     });
-    console.log(question);
     if (!question) throw new Error("Question not found");
 
     const collectionExisted = await CollectionModel.findOne({
@@ -111,7 +110,7 @@ export async function hasSavedQuestion(
 }
 
 // get all questions saved in the collection.
-export async function getQuestions(params: PaginatedSearchParams): Promise<
+export async function getSaveQuestions(params: PaginatedSearchParams): Promise<
   ActionResponse<{
     collection: CollectionI[];
     isNext: boolean;

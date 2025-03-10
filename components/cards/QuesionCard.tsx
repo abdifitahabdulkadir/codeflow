@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { formatTimeAgo } from "@/lib/utils";
 
+import { QuestionI, TagI } from "@/types/action";
 import Metric from "../Metric";
 import TagCard from "./TagCard";
 

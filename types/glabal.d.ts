@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 
+interface PageParams {
+  searchParams: Promise<Record<string, stirng>>;
+  params: Promise<Record<string, stirng>>;
+}
 type ActionResponse<T = null> = {
   success: boolean;
   data?: T;

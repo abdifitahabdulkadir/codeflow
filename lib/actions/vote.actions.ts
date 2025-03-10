@@ -1,5 +1,6 @@
 "use server";
 
+import { ROUTES } from "@/constants/routes";
 import { AnswerModel, QuestionModel, VoteModel } from "@/database";
 import { VoteDoc } from "@/database/vote.model";
 import {
@@ -35,7 +36,7 @@ export async function updateVoteCount(
   const { targetId, targetType, voteType, change } = params;
 
   const model = targetType === "question" ? QuestionModel : AnswerModel;
-  const upvoteFiled = voteType == "downvote" ? "downVotes" : "upVotes";
+  const upvoteFiled = voteType === "downvote" ? "downVotes" : "upVotes";
 
   try {
     const result = await model.findByIdAndUpdate(
@@ -54,7 +55,7 @@ export async function updateVoteCount(
   }
 }
 
-//creating the vote
+// creating the vote
 export async function createVoteCount(
   params: CreateVoteCountParams,
 ): Promise<ActionResponse> {
@@ -78,27 +79,52 @@ export async function createVoteCount(
     const existingVote = await VoteModel.findOne<VoteDoc>({
       contentId: targetId,
       author: userId,
-      voteType,
+      contentType: targetType,
     }).session(session);
-    console.log(existingVote);
+
     if (existingVote) {
+      // if user has already voted with same vote e.g upvtote
+      // and trying to vote same one again then toggle the value
       if (existingVote.voteType === voteType) {
         await VoteModel.deleteOne({
           _id: existingVote._id,
-          author: existingVote.author,
         }).session(session);
-        await updateVoteCount({ ...params, change: -1 }, session);
-      } else {
+
+        await updateVoteCount(
+          {
+            ...params,
+            change: -1,
+          },
+          session,
+        );
+      }
+
+      // otherwise change the vote type
+      // (if previous was 'upvote' now to 'downvote')
+      else {
         await VoteModel.findByIdAndUpdate(
-          targetId,
+          existingVote._id,
           {
             voteType,
           },
           { new: true, session },
         );
-        await updateVoteCount({ ...params, change: 1 }, session);
+
+        // decrement count of previos vote by one as we changed it
+        await updateVoteCount(
+          { ...params, voteType: existingVote.voteType, change: -1 },
+          session,
+        ),
+          //increment count of curretn vote type by one
+          await updateVoteCount(
+            { ...params, voteType: voteType, change: 1 },
+            session,
+          );
       }
-    } else {
+    }
+
+    //create new one
+    else {
       await VoteModel.create<VoteDoc>(
         [
           {
@@ -110,13 +136,15 @@ export async function createVoteCount(
         ],
         { session },
       );
-
-      await updateVoteCount({ ...params, change: 1 }, session);
+      await updateVoteCount(
+        { targetType, targetId, voteType, change: 1 },
+        session,
+      );
     }
 
     await session.commitTransaction();
 
-    revalidatePath(`questions/${targetId}`);
+    revalidatePath(ROUTES.QUESIONS(targetId));
     return { success: true };
   } catch (error) {
     await session.abortTransaction();

@@ -91,13 +91,13 @@ export default function Vote({
 
       <div className="flex-center gap-1.5">
         <Image
-          src={hasDownVoted ? "/icons/downavoted.svg" : "/icons/downvote.svg"}
+          src={hasDownVoted ? "/icons/downvoted.svg" : "/icons/downvote.svg"}
           alt="voting icons"
           width={18}
           height={18}
           aria-label="donwvote"
           className={cn(" cursor-pointer", isVoting && "opacity-50")}
-          onClick={() => handleVotes("upvote")}
+          onClick={() => handleVotes("downvote")}
         />
         <div className="background-light700_dark400 flex-center min-w-5 rounded-sm p-1">
           <p className="subtle-medium text400_light900">

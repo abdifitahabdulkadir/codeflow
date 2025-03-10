@@ -2,12 +2,21 @@
 
 import { ROUTES } from "@/constants/routes";
 import { CollectionModel, QuestionModel } from "@/database";
-import { CollectionBasedParams } from "@/types/action";
+import { QuestionDoc } from "@/database/question.model";
+import {
+  CollectionBasedParams,
+  CollectionI,
+  PaginatedSearchParams,
+} from "@/types/action";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
+import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { actionHandler } from "../handlers/action.handler";
 import handleError from "../handlers/error";
-import { CollectionBasedSchema } from "../validations";
+import {
+  CollectionBasedSchema,
+  PaginatedSearchParamsSchema,
+} from "../validations";
 
 export async function toggleSaveToCollection(
   params: CollectionBasedParams,
@@ -94,6 +103,100 @@ export async function hasSavedQuestion(
       success: true,
       data: {
         saved: !!collectionExisted,
+      },
+    };
+  } catch (error) {
+    return handleError("server", error) as ErrorResponse;
+  }
+}
+
+// get all questions saved in the collection.
+export async function getQuestions(params: PaginatedSearchParams): Promise<
+  ActionResponse<{
+    collection: CollectionI[];
+    isNext: boolean;
+  }>
+> {
+  const validatedResult = await actionHandler({
+    schema: PaginatedSearchParamsSchema,
+    params,
+    authorize: true,
+  });
+
+  if (validatedResult instanceof Error)
+    return handleError("server", validatedResult) as ErrorResponse;
+
+  const { page = 1, pageSize = 10, query, filter } = params;
+
+  const skip = (page - 1) * pageSize;
+  const userId = validatedResult.session?.user?.id;
+
+  const filterQuery: FilterQuery<QuestionDoc> = { author: userId };
+
+  if (query) {
+    filterQuery.$or = [
+      {
+        title: {
+          $regex: new RegExp(query, "i"),
+        },
+      },
+      {
+        content: {
+          $regex: new RegExp(query, "i"),
+        },
+      },
+    ];
+  }
+
+  let sortCriteria = {};
+  switch (filter) {
+    case "mostrecent":
+      sortCriteria = { createdAt: -1 };
+      break;
+    case "oldest":
+      sortCriteria = { createdAt: -1 };
+      break;
+
+    case "mostvoted":
+      sortCriteria = { upVotes: -1 };
+      break;
+    case "mostanswered":
+      sortCriteria = { answers: -1 };
+      break;
+
+    default:
+      sortCriteria = { createdAt: -1 };
+      break;
+  }
+
+  try {
+    const totalQuestions = await QuestionModel.countDocuments(filterQuery);
+    const saveQuestions = await CollectionModel.find(filterQuery)
+      .populate({
+        path: "question",
+        populate: [
+          {
+            path: "tags",
+            select: "name",
+          },
+          {
+            path: "authorId",
+            select: "name image",
+          },
+        ],
+      })
+      .lean()
+      .sort(sortCriteria)
+      .skip(skip)
+      .limit(pageSize);
+
+    const isNext = totalQuestions > skip + saveQuestions.length;
+
+    return {
+      success: true,
+      data: {
+        collection: JSON.parse(JSON.stringify(saveQuestions)),
+        isNext,
       },
     };
   } catch (error) {

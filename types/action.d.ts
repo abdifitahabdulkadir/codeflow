@@ -39,6 +39,11 @@ export interface AnswerI {
   createdAt: Date;
 }
 
+export interface CollectionI {
+  _id: string;
+  author: string | AuthorI;
+  question: QuestionI;
+}
 interface SigninWithOAuthProps {
   user: {
     name?: string;

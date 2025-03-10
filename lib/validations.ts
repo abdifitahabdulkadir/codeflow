@@ -164,10 +164,14 @@ export const UpdateVotecountSchema = CreateVoteCountSchema.extend({
   change: z
     .number()
     .int()
-    .min(-1, "Chnage value should be -1 at minimum")
-    .max(1, "Chnage value should be 1 at maximum"),
+    .min(-1, "Change value should be -1 at minimum")
+    .max(1, "Change value should be 1 at maximum"),
 });
 
 export const HasVotedResponseSchema = CreateVoteCountSchema.omit({
   voteType: true,
+});
+
+export const CollectionBasedSchema = z.object({
+  questionId: z.string().min(1, "Question Id is required"),
 });

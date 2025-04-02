@@ -2,6 +2,7 @@ import { FadeInWithSlideAnimation } from "@/components/animations";
 import QuesionCard from "@/components/cards/QuesionCard";
 import DataRenderer from "@/components/DataRenderer";
 import CommonFilter from "@/components/Filters/CommonFilter";
+import Pagination from "@/components/Pagination";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { CollectionFilters } from "@/constants/filters";
 import { ROUTES } from "@/constants/routes";
@@ -18,7 +19,7 @@ export default async function CollectionPage({ searchParams }: PageParams) {
     pageSize: Number(pageSize) || 10,
     filter,
   });
-
+  console.log(data);
   return (
     <>
       <section className="flex  w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -30,11 +31,13 @@ export default async function CollectionPage({ searchParams }: PageParams) {
           imageSrc="/icons/search.svg"
           placeholder="Search quesions.."
         />
-        <CommonFilter
-          filters={CollectionFilters}
-          otherClasses="min-h-[56px] sm:min-w-[170px]"
-          containerClasses="max-md:flex"
-        />
+        {data && data?.collection.length !== 0 && (
+          <CommonFilter
+            filters={CollectionFilters}
+            otherClasses="min-h-[56px] sm:min-w-[170px]"
+            containerClasses="max-md:flex"
+          />
+        )}
       </section>
       <div className="mt-10 flex w-full flex-col gap-3">
         <DataRenderer
@@ -53,6 +56,15 @@ export default async function CollectionPage({ searchParams }: PageParams) {
             ));
           }}
         />
+
+        {data?.collection !== undefined ||
+          (!data?.collection && (
+            <Pagination
+              containerClasses="mt-6"
+              page={page || 1}
+              isNext={data?.isNext || false}
+            />
+          ))}
       </div>
     </>
   );

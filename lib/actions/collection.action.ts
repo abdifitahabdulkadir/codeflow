@@ -169,7 +169,7 @@ export async function getSaveQuestions(params: PaginatedSearchParams): Promise<
   }
 
   try {
-    const totalQuestions = await QuestionModel.countDocuments(filterQuery);
+    const totalQuestions = await CollectionModel.countDocuments(filterQuery);
     const saveQuestions = await CollectionModel.find(filterQuery)
       .populate({
         path: "question",

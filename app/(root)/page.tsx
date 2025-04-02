@@ -5,6 +5,7 @@ import QuesionCard from "@/components/cards/QuesionCard";
 import DataRenderer from "@/components/DataRenderer";
 import CommonFilter from "@/components/Filters/CommonFilter";
 import HomeFilters from "@/components/Filters/HomeFilters";
+import Pagination from "@/components/Pagination";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
@@ -60,6 +61,8 @@ export default async function Home({ searchParams }: PageParams) {
             ));
           }}
         />
+
+        <Pagination page={page || 1} isNext={data?.isNext || false} />
       </div>
     </>
   );

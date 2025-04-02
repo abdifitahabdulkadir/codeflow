@@ -2,6 +2,7 @@ import { FadeInWithSlideAnimation } from "@/components/animations";
 import TagCard from "@/components/cards/TagCard";
 import DataRenderer from "@/components/DataRenderer";
 import CommonFilter from "@/components/Filters/CommonFilter";
+import Pagination from "@/components/Pagination";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { TagFilters } from "@/constants/filters";
 import { ROUTES } from "@/constants/routes";
@@ -30,11 +31,13 @@ export default async function TagsPage({ searchParams }: RouteParams) {
             imageSrc="/icons/search.svg"
             placeholder="Search Tags.."
           />
-          <CommonFilter
-            filters={TagFilters}
-            otherClasses="min-h-[56px] w-full sm:min-w-[170px]"
-            containerClasses=""
-          />
+          {data?.tags.length && (
+            <CommonFilter
+              filters={TagFilters}
+              otherClasses="min-h-[56px] w-full sm:min-w-[170px]"
+              containerClasses=""
+            />
+          )}
         </div>
         <DataRenderer
           success={success}
@@ -60,6 +63,12 @@ export default async function TagsPage({ searchParams }: RouteParams) {
               </div>
             );
           }}
+        />
+
+        <Pagination
+          containerClasses="mt-6"
+          page={page || 1}
+          isNext={data?.isNext || false}
         />
       </section>
     </>

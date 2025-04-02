@@ -1,9 +1,11 @@
 import QuesionCard from "@/components/cards/QuesionCard";
 import DataRenderer from "@/components/DataRenderer";
+import Pagination from "@/components/Pagination";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { ROUTES } from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
 import { getTagQuestions } from "@/lib/actions/tags.action";
+import { QuestionI } from "@/types/action";
 import { RouteParams } from "@/types/glabal";
 
 export default async function TagPage({ searchParams, params }: RouteParams) {
@@ -13,7 +15,7 @@ export default async function TagPage({ searchParams, params }: RouteParams) {
   const { data, errors, success } = await getTagQuestions({
     tagId: id,
     page: Number(page) || 1,
-    pageSize: Number(pageSize) || 10,
+    pageSize: Number(pageSize) || 2,
     query,
   });
   const { questions, tag } = data || {};
@@ -23,7 +25,7 @@ export default async function TagPage({ searchParams, params }: RouteParams) {
         <h1 className="h1-bold text-dark100_light900">{tag?.name}</h1>
       </section>
 
-      <section className="mt-10">
+      <section className="mt-10 ">
         <LocalSeachBar
           route={ROUTES.TAG(tag?._id)}
           imageSrc="/icons/search.svg"
@@ -41,6 +43,12 @@ export default async function TagPage({ searchParams, params }: RouteParams) {
               <QuesionCard key={String(question._id)} question={question} />
             ));
           }}
+        />
+
+        <Pagination
+          containerClasses="mt-6"
+          page={page || 1}
+          isNext={data?.isNext || false}
         />
       </div>
     </>

@@ -49,6 +49,7 @@ export default async function QuestionDetailPage({
     tags,
     title,
     content,
+
     upVotes,
     downVotes,
   } = question;
@@ -56,6 +57,7 @@ export default async function QuestionDetailPage({
   const {
     success: areAnswersLoaded,
     data: answers,
+
     errors: answerError,
   } = await getAnswers({
     questionId: id,
@@ -146,6 +148,8 @@ export default async function QuestionDetailPage({
 
       <section className="my-5">
         <AllAnswers
+          isNext={answers?.isNext || false}
+          page={Number(page) || 1}
           data={answers?.answers}
           totalAnswers={answers?.totalAnswers || 0}
           success={areAnswersLoaded}

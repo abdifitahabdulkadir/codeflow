@@ -1,6 +1,12 @@
 "use server";
 
 import { QuestionModel, TagModel } from "@/database";
+import {
+  GetTagQuestionParams,
+  PaginatedSearchParams,
+  QuestionI,
+  TagI,
+} from "@/types/action";
 import { ActionResponse, ErrorResponse } from "@/types/glabal";
 import { Error, FilterQuery } from "mongoose";
 import { actionHandler } from "../handlers/action.handler";

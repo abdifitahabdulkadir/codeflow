@@ -1,3 +1,5 @@
+import { UserDoc } from "@/database/user.model";
+
 interface TagI {
   _id?: Types.ObjectId | string;
   name: string;
@@ -113,3 +115,5 @@ interface HasVotedResponse {
 interface CollectionBasedParams {
   questionId: string;
 }
+
+interface UserParams extends UserDoc {}

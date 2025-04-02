@@ -56,9 +56,9 @@ export default function HomeFilters() {
       router.push(newUrl, { scroll: false });
     }
   };
-  // background-light800_dark300;
+
   return (
-    <div className="mt-6 flex w-full flex-wrap gap-3 ">
+    <div className="mt-6  w-full flex-wrap gap-3 hidden min-md:flex">
       {filters.map((filter) => (
         <Button
           key={filter.name}

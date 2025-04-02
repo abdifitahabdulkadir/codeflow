@@ -3,9 +3,11 @@ import Link from "next/link";
 import { FadeInWithSlideAnimation } from "@/components/animations";
 import QuesionCard from "@/components/cards/QuesionCard";
 import DataRenderer from "@/components/DataRenderer";
+import CommonFilter from "@/components/Filters/CommonFilter";
 import HomeFilters from "@/components/Filters/HomeFilters";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
 import { Button } from "@/components/ui/button";
+import { HomePageFilters } from "@/constants/filters";
 import { ROUTES } from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
 import { getQuestions } from "@/lib/actions/question.action";
@@ -31,11 +33,17 @@ export default async function Home({ searchParams }: PageParams) {
           <Link href={ROUTES.ASK_QUEISION}>Ask a question</Link>
         </Button>
       </section>
-      <section className="mt-10">
+      <section className="mt-10 flex flex-col justify-between lg:flex-row  ">
         <LocalSeachBar
           route="/"
           imageSrc="/icons/search.svg"
           placeholder="Search quesions.."
+        />
+        <CommonFilter
+          filters={HomePageFilters}
+          otherClasses="min-h-[56px] sm:min-w-[170px] w-full"
+          containerClasses="hidden max-md:flex"
+          route="/"
         />
       </section>
       <HomeFilters />

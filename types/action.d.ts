@@ -116,4 +116,6 @@ interface CollectionBasedParams {
   questionId: string;
 }
 
-interface UserParams extends UserDoc {}
+interface UserParams extends UserDoc {
+  _id: string;
+}

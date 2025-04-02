@@ -20,9 +20,8 @@ export async function getUsers(
   if (validationResult instanceof Error)
     return handleError("server", validationResult) as ErrorResponse;
 
-  const { page, filter, query, pageSize = 10 } = params;
-  const skip = Number(page) - 1 * pageSize;
-  const userId = validationResult.session?.user?.id;
+  const { page = 1, filter, query, pageSize = 10 } = params;
+  const skip = (page - 1) * pageSize;
 
   const filterQuery: FilterQuery<UserParams> = {};
   if (query) {
@@ -49,6 +48,7 @@ export async function getUsers(
     case "popular":
       sortCriteria = { repuation: -1 };
       break;
+
     default:
       sortCriteria = { createdAt: -1 };
       break;

@@ -20,7 +20,6 @@ interface Props {
   }[];
   otherClasses: string;
   containerClasses: string;
-  route: string;
 }
 export default function CommonFilter({
   otherClasses,
@@ -38,7 +37,7 @@ export default function CommonFilter({
     router.push(newUrl, { scroll: false });
   };
   return (
-    <div className={cn("mt-6 relative ", containerClasses)}>
+    <div className={cn("relative ", containerClasses)}>
       <Select
         onValueChange={hanldeFilterUpdate}
         defaultValue={activeFilter || undefined}

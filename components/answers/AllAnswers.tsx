@@ -1,8 +1,10 @@
+import { AnswerFilters } from "@/constants/filters";
 import { EMPTY_ANSWERS } from "@/constants/states";
 import { AnswerI } from "@/types/action";
 import { ActionResponse } from "@/types/glabal";
-import DataRenderer from "../DataRenderer";
 import AnswerCard from "../cards/AnswerCard";
+import DataRenderer from "../DataRenderer";
+import CommonFilter from "../Filters/CommonFilter";
 
 interface Props extends ActionResponse<AnswerI[]> {
   totalAnswers: number;
@@ -19,7 +21,11 @@ export default function AllAnswers({
         <h3 className="primary-text-gradient">
           {totalAnswers} {totalAnswers === 1 ? "Answer" : "Answers"}{" "}
         </h3>
-        <span>Filter</span>
+        <CommonFilter
+          filters={AnswerFilters}
+          otherClasses="sm:win-32"
+          containerClasses="mx-xs:w-full"
+        />
       </div>
 
       <DataRenderer

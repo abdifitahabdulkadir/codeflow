@@ -1,6 +1,8 @@
 import UserCard from "@/components/cards/UserCard";
 import DataRenderer from "@/components/DataRenderer";
+import CommonFilter from "@/components/Filters/CommonFilter";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
+import { UserFilters } from "@/constants/filters";
 import { ROUTES } from "@/constants/routes";
 import { EMPTY_USERS } from "@/constants/states";
 import { getUsers } from "@/lib/actions/action.user";
@@ -20,13 +22,19 @@ export default async function CommunityPage({ searchParams }: PageParams) {
     <div>
       <h1 className="h1-bold text-dark400_light700">All Users</h1>
       <div className="mt-11">
-        <LocalSeachBar
-          placeholder="There are great devs here"
-          imageSrc="/icons/search.svg"
-          iconPositon="left"
-          route={ROUTES.COMMUNITY}
-          otherClasses="flex-1"
-        />
+        <div className="w-full flex  justify-between gap-3 flex-wrap">
+          <LocalSeachBar
+            placeholder="There are great devs here"
+            imageSrc="/icons/search.svg"
+            iconPositon="left"
+            route={ROUTES.COMMUNITY}
+          />
+          <CommonFilter
+            filters={UserFilters}
+            otherClasses="min-h-[56px] sm:min-w-[170px]"
+            containerClasses=""
+          />
+        </div>
 
         <DataRenderer
           success={success}

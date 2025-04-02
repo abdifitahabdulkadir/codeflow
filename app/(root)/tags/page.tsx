@@ -1,10 +1,13 @@
 import { FadeInWithSlideAnimation } from "@/components/animations";
 import TagCard from "@/components/cards/TagCard";
 import DataRenderer from "@/components/DataRenderer";
+import CommonFilter from "@/components/Filters/CommonFilter";
 import LocalSeachBar from "@/components/search/LocalSeachBar";
+import { TagFilters } from "@/constants/filters";
 import { ROUTES } from "@/constants/routes";
 import { EMPTY_TAGS } from "@/constants/states";
 import { getTags } from "@/lib/actions/tags.action";
+import { TagI } from "@/types/action";
 import { RouteParams } from "@/types/glabal";
 
 export default async function TagsPage({ searchParams }: RouteParams) {
@@ -20,12 +23,19 @@ export default async function TagsPage({ searchParams }: RouteParams) {
   return (
     <>
       <h1 className="h1-bold text-dark100_light900 text-3xl">Tags</h1>
-      <section className="mt-11">
-        <LocalSeachBar
-          route={ROUTES.TAGS}
-          imageSrc="/icons/search.svg"
-          placeholder="Search Tags.."
-        />
+      <section className="mt-11 ">
+        <div className="flex w-full items-center justify-between flex-wrap gap-3">
+          <LocalSeachBar
+            route={ROUTES.TAGS}
+            imageSrc="/icons/search.svg"
+            placeholder="Search Tags.."
+          />
+          <CommonFilter
+            filters={TagFilters}
+            otherClasses="min-h-[56px] w-full sm:min-w-[170px]"
+            containerClasses=""
+          />
+        </div>
         <DataRenderer
           success={success}
           data={tags}

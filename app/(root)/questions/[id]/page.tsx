@@ -24,9 +24,12 @@ import { after } from "next/server";
 import { Suspense } from "react";
 
 // component of question Details.
-export default async function QuestionDetailPage({ params }: RouteParams) {
+export default async function QuestionDetailPage({
+  params,
+  searchParams,
+}: RouteParams) {
   const { id } = await params;
-
+  const { page, pageSize, filter } = await searchParams;
   const { data: question, success } = await getQuestionDetail({
     questionId: id,
   });
@@ -56,7 +59,9 @@ export default async function QuestionDetailPage({ params }: RouteParams) {
     errors: answerError,
   } = await getAnswers({
     questionId: id,
-    filter: "latest",
+    filter: filter,
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
   });
 
   const votePromise = hasVoted({
